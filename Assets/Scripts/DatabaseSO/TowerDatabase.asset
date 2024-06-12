@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 494b0a3607146ee4e949f2c9ccdfde37, type: 3}
   m_Name: TowerDatabase
   m_EditorClassIdentifier: 
-  objectsData:
+  objectsPlacementData:
   - <Name>k__BackingField: Turret1
     <ID>k__BackingField: 0
     <Size>k__BackingField: {x: 1, y: 1}
@@ -25,3 +25,25 @@ MonoBehaviour:
     <ID>k__BackingField: 2
     <Size>k__BackingField: {x: 1, y: 1}
     <Prefab>k__BackingField: {fileID: 8395472790530977830, guid: e8ebba43fb561f94fb7ee3a0b88a8091, type: 3}
+  turretsData:
+  - <Name>k__BackingField: Turret1
+    <ID>k__BackingField: 0
+    <Damage>k__BackingField: 5
+    <Firerate>k__BackingField: 0.5
+    <Range>k__BackingField: 10
+    <HasInvisibleDetection>k__BackingField: 1
+    <HasFlyingDetection>k__BackingField: 0
+  - <Name>k__BackingField: Turret2
+    <ID>k__BackingField: 1
+    <Damage>k__BackingField: 10
+    <Firerate>k__BackingField: 1
+    <Range>k__BackingField: 30
+    <HasInvisibleDetection>k__BackingField: 0
+    <HasFlyingDetection>k__BackingField: 1
+  - <Name>k__BackingField: Turret3
+    <ID>k__BackingField: 2
+    <Damage>k__BackingField: 1
+    <Firerate>k__BackingField: 0.1
+    <Range>k__BackingField: 5
+    <HasInvisibleDetection>k__BackingField: 0
+    <HasFlyingDetection>k__BackingField: 0

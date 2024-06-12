@@ -21,10 +21,10 @@ public class PlacementState : IBuildingState
         this.objectsData = objectData;
         this.objectPlacer = objectPlacer;
 
-        selectedObjectIndex = towersDatabase.objectsData.FindIndex(data => data.ID == ID);
+        selectedObjectIndex = towersDatabase.objectsPlacementData.FindIndex(data => data.ID == ID);
         if (selectedObjectIndex > -1)
         {
-            previewSystem.StartShowingPlacementPreview(towersDatabase.objectsData[selectedObjectIndex].Prefab, towersDatabase.objectsData[selectedObjectIndex].Size);
+            previewSystem.StartShowingPlacementPreview(towersDatabase.objectsPlacementData[selectedObjectIndex].Prefab, towersDatabase.objectsPlacementData[selectedObjectIndex].Size);
         }
         else
         {
@@ -42,10 +42,10 @@ public class PlacementState : IBuildingState
         bool placementValidity = CheckPlacementValidity(gridPosition, selectedObjectIndex);
         if (placementValidity == false)
             return;
-        int index = objectPlacer.PlaceObject(towersDatabase.objectsData[selectedObjectIndex].Prefab, grid.CellToWorld(gridPosition));
+        int index = objectPlacer.PlaceObject(towersDatabase.objectsPlacementData[selectedObjectIndex].Prefab, grid.CellToWorld(gridPosition));
 
         GridData selectedData = objectsData;
-        selectedData.AddObjectAt(gridPosition, towersDatabase.objectsData[selectedObjectIndex].Size, towersDatabase.objectsData[selectedObjectIndex].ID, index);
+        selectedData.AddObjectAt(gridPosition, towersDatabase.objectsPlacementData[selectedObjectIndex].Size, towersDatabase.objectsPlacementData[selectedObjectIndex].ID, index);
         previewSystem.UpdatePosition(grid.CellToWorld(gridPosition), false);
     }
 
@@ -54,7 +54,7 @@ public class PlacementState : IBuildingState
         //como por ahora solo esta el gridData de las torres, aca solo igualamos
         GridData selectedData = objectsData;
 
-        return selectedData.CanPlaceObjectAt(gridPosition, towersDatabase.objectsData[selectedObjectIndex].Size);
+        return selectedData.CanPlaceObjectAt(gridPosition, towersDatabase.objectsPlacementData[selectedObjectIndex].Size);
     }
 
     public void UpdateState(Vector3Int gridPosition)

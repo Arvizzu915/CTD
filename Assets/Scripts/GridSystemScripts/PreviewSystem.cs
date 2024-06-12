@@ -25,7 +25,7 @@ public class PreviewSystem : MonoBehaviour
         cellIndicatorRenderer = cellIndicator.GetComponentInChildren<Renderer>();
     }
 
-    internal void StartShowingRemovePreview()
+    public void StartShowingRemovePreview()
     {
         PrepareCellIndicator(Vector2Int.one);
         ApplyFeedbackToCellIndicator(false);
@@ -37,6 +37,12 @@ public class PreviewSystem : MonoBehaviour
         previewObject = Instantiate(prefab);
         PreparePreview(previewObject);
         PrepareCellIndicator(size);
+        cellIndicator.SetActive(true);
+    }
+
+    public void StartShowingDefaultPreview()
+    {
+        PrepareCellIndicator(Vector2Int.one);
         cellIndicator.SetActive(true);
     }
 
