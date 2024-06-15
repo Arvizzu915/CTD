@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87961e7edcd459f408cd79ed6b4650ee, type: 3}
+  m_Name: PlaceableObjectsDatabase
+  m_EditorClassIdentifier: 
+  objectsPlacementData:
+  - <Name>k__BackingField: Spoon
+    <ID>k__BackingField: 0
+    <Size>k__BackingField: {x: 1, y: 1}
+    <Prefab>k__BackingField: {fileID: 2210663633836781453, guid: 7c873191795ff7b46b1f2c3dd308a7d1, type: 3}
+  - <Name>k__BackingField: FlatPlate
+    <ID>k__BackingField: 100
+    <Size>k__BackingField: {x: 1, y: 1}
+    <Prefab>k__BackingField: {fileID: 1326499916210567707, guid: 9fb992d7505485e4a846f9495db4eb97, type: 3}
+  - <Name>k__BackingField: Beans
+    <ID>k__BackingField: 200
+    <Size>k__BackingField: {x: 1, y: 1}
+    <Prefab>k__BackingField: {fileID: 634031749865195618, guid: 4ef6b9272d64c564eafaff744d71f479, type: 3}
+  - <Name>k__BackingField: OrangeFruit
+    <ID>k__BackingField: 300
+    <Size>k__BackingField: {x: 1, y: 1}
+    <Prefab>k__BackingField: {fileID: 7719610114591466590, guid: 83c3531cd8ae8ef4ab279d64e0831778, type: 3}
+  - <Name>k__BackingField: Turret1
+    <ID>k__BackingField: 400
+    <Size>k__BackingField: {x: 1, y: 1}
+    <Prefab>k__BackingField: {fileID: 2763793584465411644, guid: 6fbfffd0d6af8cb43a7c391413ff8bd5, type: 3}
+  - <Name>k__BackingField: Turret2
+    <ID>k__BackingField: 401
+    <Size>k__BackingField: {x: 1, y: 1}
+    <Prefab>k__BackingField: {fileID: 7020992961545584751, guid: 80c21c79f48643c4cae61683b7ed0e8e, type: 3}
+  - <Name>k__BackingField: Turret3
+    <ID>k__BackingField: 402
+    <Size>k__BackingField: {x: 1, y: 1}
+    <Prefab>k__BackingField: {fileID: 8395472790530977830, guid: e8ebba43fb561f94fb7ee3a0b88a8091, type: 3}
