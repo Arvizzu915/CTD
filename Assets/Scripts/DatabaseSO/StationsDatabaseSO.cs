@@ -6,7 +6,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Stations Objects Database SO", menuName = "Stations Objects Database SO")]
 public class StationsDatabaseSO : ScriptableObject
 {
-    public List<ObjectPlacementData> objectsPlacementData;
     public List<StationData> stationsData;
 }
 

@@ -6,7 +6,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Cooking Objects Database SO", menuName = "Cooking Objects Database SO")]
 public class CookingObjectsDatabaseSO : ScriptableObject
 {
-    public List<ObjectPlacementData> objectsPlacementData;
     public List<CookingObjectData> cookingObjectsData;
 }
 

@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Base Objects Database SO", menuName = "Base Objects Database SO")]
-public class BaseObjectsDatabaseSO : ScriptableObject
+[CreateAssetMenu(fileName = "New Placeable Objects Database SO", menuName = "Placeable Objects Database SO")]
+public class PlaceableObjectsDatabaseSO : ScriptableObject
 {
     public List<ObjectPlacementData> objectsPlacementData;
 }
