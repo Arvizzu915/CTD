@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
 
     private float horizontalInput, verticalInput, PlayerRunSpeedFake = 1;
     private bool canMove = true;
+    public bool inKitchen = true;
     Vector3 playerVelocity, movementInput;
 
     private void Start()
@@ -86,6 +87,23 @@ public class PlayerMovement : MonoBehaviour
             PlayerRunSpeedFake = 1;
         }
 
+    }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("Door"))
+        {
+            Debug.Log("door");
+            inKitchen = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Door"))
+        {
+            Debug.Log("door");
+            inKitchen = false;
+        }
     }
 }

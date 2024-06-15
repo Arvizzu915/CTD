@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Point
   - Route
+  - Door
   layers:
   - Default
   - TransparentFX
