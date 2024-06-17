@@ -32,11 +32,18 @@ public class GridData
         return returnVal;
     }
 
-    internal int GetRepresentationIndex(Vector3Int gridPosition)
+    public int GetRepresentationIndex(Vector3Int gridPosition)
     {
         if (placedObjects.ContainsKey(gridPosition) == false)
             return -1;
         return placedObjects[gridPosition].PlacedObjectIndex;
+    }
+
+    public int GetObjectIDAt(Vector3Int gridPosition)
+    {
+        if (placedObjects.ContainsKey(gridPosition) == false)
+            return -1;
+        return placedObjects[gridPosition].ID;
     }
 
     internal void RemoveObjectAt(Vector3Int gridPosition)

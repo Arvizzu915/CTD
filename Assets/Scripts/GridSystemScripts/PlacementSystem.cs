@@ -10,12 +10,14 @@ public class PlacementSystem : MonoBehaviour
     private Grid grid;
 
     [SerializeField]
-    private TowersDatabaseSO towersDatabase;
+    private PlaceableObjectsDatabaseSO placeableObjectsDatabase;
 
-    private GridData towersData;
+    private GridData placeableObjectsData, mapObjectsData;
 
     [SerializeField]
     private PreviewSystem previewSystem;
+    [SerializeField]
+    private InventorySystem inventorySystem;
 
     private Vector3Int lastDetectedPosition = Vector3Int.zero;
 
@@ -27,29 +29,23 @@ public class PlacementSystem : MonoBehaviour
     private void Start()
     {
         StopSystem();
-        towersData = new();
+        placeableObjectsData = new();
+        mapObjectsData = new();
     }
 
     public void StartDefault()
     {
-
+        StopSystem();
+        buildingState = new DefaultState(grid, previewSystem, placeableObjectsData, mapObjectsData, objectPlacer);
+        playerActions.OnPressed += SystemAction;
     }
 
     public void StartPlacement(int ID)
     {
         StopSystem();
-        buildingState = new PlacementState(ID, grid, previewSystem, towersDatabase, towersData, objectPlacer);
+        buildingState = new PlacementState(ID, grid, previewSystem, inventorySystem, placeableObjectsDatabase, placeableObjectsData, mapObjectsData, objectPlacer);
         playerActions.OnPressed += SystemAction;
-        playerActions.OnExit += StopSystem;
         //aca podria entrar un evento de OnRotated o algo asi, para rotar la torre quiza eso tilin
-    }
-
-    public void StartRemoving()
-    {
-        StopSystem();
-        buildingState = new RemovingState(grid, previewSystem, towersData, objectPlacer);
-        playerActions.OnPressed += SystemAction;
-        playerActions.OnExit += StopSystem;
     }
 
     private void SystemAction()
@@ -58,14 +54,6 @@ public class PlacementSystem : MonoBehaviour
         Vector3Int gridPosition = grid.WorldToCell(playerPointerPosition);
         buildingState.OnAction(gridPosition);
     }
-
-    //private bool CheckPlacementValidity(Vector3Int gridPosition, int selectedObjectIndex)
-    //{
-    //    //como por ahora solo esta el gridData de las torres, aca solo igualamos
-    //    GridData selectedData = towersData;
-
-    //    return selectedData.CanPlaceObjectAt(gridPosition, towersDatabase.objectsData[selectedObjectIndex].Size);
-    //}
 
     private void StopSystem()
     {

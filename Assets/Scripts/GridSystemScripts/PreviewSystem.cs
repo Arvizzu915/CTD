@@ -21,29 +21,21 @@ public class PreviewSystem : MonoBehaviour
     private void Start()
     {
         previewMaterialInstance = new Material(previewMaterialPrefab);
+        previewMaterialInstance.color = Color.white;
         cellIndicator.SetActive(false);
         cellIndicatorRenderer = cellIndicator.GetComponentInChildren<Renderer>();
     }
 
-    public void StartShowingRemovePreview()
+    public void StartShowingDefaultPreview(Vector2Int size)
     {
-        PrepareCellIndicator(Vector2Int.one);
-        ApplyFeedbackToCellIndicator(false);
-        cellIndicator.SetActive(true);
-    }
-
-    public void StartShowingPlacementPreview(GameObject prefab, Vector2Int size)
-    {
-        previewObject = Instantiate(prefab);
-        PreparePreview(previewObject);
         PrepareCellIndicator(size);
         cellIndicator.SetActive(true);
     }
 
-    public void StartShowingDefaultPreview()
+    public void StartShowingObjectPreview(GameObject prefab)
     {
-        PrepareCellIndicator(Vector2Int.one);
-        cellIndicator.SetActive(true);
+        previewObject = Instantiate(prefab);
+        PreparePreview(previewObject);
     }
 
     private void PrepareCellIndicator(Vector2Int size)
@@ -69,36 +61,68 @@ public class PreviewSystem : MonoBehaviour
         }
     }
 
-    public void StopShowingPlacementPreview()
+    public void StopShowingDefaultPreview()
     {
         cellIndicator.SetActive(false);
-        if (previewObject != null)
-            Destroy(previewObject);
     }
 
-    public void UpdatePosition(Vector3 position, bool validity)
+    public void StopShowingObjectPreview()
     {
-        if(previewObject != null)
-        {
-            MovePreview(position);
-            ApplyFeedbackToPreview(validity);
-        }
+        if (previewObject == null)
+            return;
+        Destroy(previewObject);
+        previewObject = null;
+    }
+
+    public void UpdateDefaultPreviewPosition(Vector3 position, int validity)
+    {
         MoveCellIndicator(position);
         ApplyFeedbackToCellIndicator(validity);
     }
 
-    private void ApplyFeedbackToPreview(bool validity)
+    public void UpdateObjectPreviewPosition(Vector3 position, int validity, int mapObjectID)
     {
-        Color c = validity ? Color.green : Color.red;
-        c.a = 0.392f;
-        previewMaterialInstance.color = c;
+        if (previewObject != null)
+        {
+            MovePreview(position);
+            ApplyFeedbackToObjectPreview(validity, mapObjectID);
+        }
     }
 
-    private void ApplyFeedbackToCellIndicator(bool validity)
+    private void ApplyFeedbackToCellIndicator(int validity)
     {
-        Color c = validity ? Color.green : Color.red;
+        Color c;
+        if (validity == 0)
+        {
+            c = Color.red;
+        }
+        else
+        {
+            c = Color.green;
+        }
         c.a = 0.392f;
         cellIndicatorRenderer.material.color = c;
+    }
+
+    private void ApplyFeedbackToObjectPreview(int validity, int mapObjectID)
+    {
+        if(validity == 0)
+        {
+            previewObject.SetActive(false);
+        }
+        else
+        {
+            previewObject.SetActive(true);
+            if(mapObjectID == -1)
+            {
+                previewYOffSet = 0.05f;
+            }
+            else if(mapObjectID == 0)
+            {
+                previewYOffSet = 1.05f;
+            }
+        }
+        
     }
 
     private void MoveCellIndicator(Vector3 position)

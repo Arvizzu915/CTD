@@ -9,6 +9,14 @@ public class InventorySystem : MonoBehaviour
     [SerializeField]
     PlaceableObjectsDatabaseSO placeableObjectsDatabase;
 
+    [SerializeField]
+    PlacementSystem placementSystem;
+
+    private void Start()
+    {
+        RemoveObject();
+    }
+
     public void GetObject(int ID)
     {
         if (selectedObjectIndex > -1)
@@ -16,7 +24,7 @@ public class InventorySystem : MonoBehaviour
         selectedObjectIndex = placeableObjectsDatabase.objectsPlacementData.FindIndex(data => data.ID == ID);
         if (selectedObjectIndex > -1)
         {
-            //previewSystem.StartShowingPlacementPreview(towersDatabase.objectsPlacementData[selectedObjectIndex].Prefab, towersDatabase.objectsPlacementData[selectedObjectIndex].Size);
+            placementSystem.StartPlacement(selectedObjectIndex);
         }
         else
         {
@@ -27,5 +35,6 @@ public class InventorySystem : MonoBehaviour
     public void RemoveObject()
     {
         selectedObjectIndex = -1;
+        placementSystem.StartDefault();
     }
 }
