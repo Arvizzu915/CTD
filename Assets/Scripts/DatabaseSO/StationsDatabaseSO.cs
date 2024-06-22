@@ -17,9 +17,7 @@ public class StationData
     [field: SerializeField]
     public int ID { get; private set; }
     [field: SerializeField]
-    public CookingObjectData.Type[] AcceptedCookingObjects { get; private set; }
+    public Vector2Int Size { get; private set; } = Vector2Int.one;
     [field: SerializeField]
-    public bool givesObject { get; private set; }
-    [field: SerializeField]
-    public bool removesObject { get; private set; }
+    public GameObject Prefab { get; private set; }
 }
