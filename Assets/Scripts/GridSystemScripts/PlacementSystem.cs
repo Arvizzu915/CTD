@@ -12,12 +12,14 @@ public class PlacementSystem : MonoBehaviour
     [SerializeField]
     private PlaceableObjectsDatabaseSO placeableObjectsDatabase;
 
-    private GridData placeableObjectsData, mapObjectsData;
+    public GridData placeableObjectsData, mapObjectsData;
 
     [SerializeField]
     private PreviewSystem previewSystem;
     [SerializeField]
     private InventorySystem inventorySystem;
+    [SerializeField]
+    private MapSystem mapSystem;
 
     private Vector3Int lastDetectedPosition = Vector3Int.zero;
 
@@ -31,19 +33,20 @@ public class PlacementSystem : MonoBehaviour
         StopSystem();
         placeableObjectsData = new();
         mapObjectsData = new();
+        mapSystem.SetGridData(placeableObjectsData, mapObjectsData);
     }
 
     public void StartDefault()
     {
         StopSystem();
-        buildingState = new DefaultState(grid, previewSystem, placeableObjectsData, mapObjectsData, objectPlacer);
+        buildingState = new DefaultState(grid, previewSystem, inventorySystem, placeableObjectsData, mapObjectsData, objectPlacer);
         playerActions.OnPressed += SystemAction;
     }
 
-    public void StartPlacement(int ID)
+    public void StartPlacement(int ID, int index)
     {
         StopSystem();
-        buildingState = new PlacementState(ID, grid, previewSystem, inventorySystem, placeableObjectsDatabase, placeableObjectsData, mapObjectsData, objectPlacer);
+        buildingState = new PlacementState(ID, index, grid, previewSystem, inventorySystem, placeableObjectsDatabase, placeableObjectsData, mapObjectsData, objectPlacer);
         playerActions.OnPressed += SystemAction;
         //aca podria entrar un evento de OnRotated o algo asi, para rotar la torre quiza eso tilin
     }

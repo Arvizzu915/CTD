@@ -319,6 +319,7 @@ MonoBehaviour:
   placeableObjectsDatabase: {fileID: 11400000, guid: e08f01dfa233aa34986a0ee5c78dc705, type: 2}
   previewSystem: {fileID: 986842125}
   inventorySystem: {fileID: 1831030759}
+  mapSystem: {fileID: 1236511104}
   objectPlacer: {fileID: 740902795}
 --- !u!1 &549388425
 GameObject:
@@ -352,6 +353,7 @@ Transform:
   - {fileID: 429956304}
   - {fileID: 986842124}
   - {fileID: 1831030760}
+  - {fileID: 1236511103}
   - {fileID: 1087679590}
   - {fileID: 1798124269}
   - {fileID: 740902794}
@@ -556,6 +558,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   placedGameObjects: []
+  placedStations: []
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -1006,6 +1009,59 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1106659787}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1236511102
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1236511103}
+  - component: {fileID: 1236511104}
+  m_Layer: 0
+  m_Name: MapSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1236511103
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1236511102}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 549388426}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1236511104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1236511102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 931d292abe650914d8920dc97227be27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minMapPos: {x: 0, y: 0, z: 0}
+  maxMapPos: {x: 0, y: 0, z: 0}
+  mapObjectsID: 
+  mapObjectsAmmount: 
+  mapObjectsPositions: []
+  objectPlacer: {fileID: 740902795}
+  grid: {fileID: 123025831}
+  placeableObjectsDatabase: {fileID: 11400000, guid: e08f01dfa233aa34986a0ee5c78dc705, type: 2}
+  stationsDatabase: {fileID: 11400000, guid: fc3e665e4e94f8c41b91837a83354c4d, type: 2}
 --- !u!1 &1537720897
 GameObject:
   m_ObjectHideFlags: 0

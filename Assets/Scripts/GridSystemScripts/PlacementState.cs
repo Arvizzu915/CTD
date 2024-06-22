@@ -5,7 +5,9 @@ using UnityEngine;
 public class PlacementState : IBuildingState
 {
     private int selectedObjectIndex = -1;
+    private float yOffSet = 0f;
     int ID;
+    int index;
     Grid grid;
     PreviewSystem previewSystem;
     InventorySystem inventorySystem;
@@ -14,9 +16,10 @@ public class PlacementState : IBuildingState
     GridData mapObjectsData;
     ObjectPlacer objectPlacer;
 
-    public PlacementState(int iD, Grid grid, PreviewSystem previewSystem, InventorySystem inventorySystem, PlaceableObjectsDatabaseSO placeableObjectsDatabase, GridData placeableObjectsData, GridData mapObjectsData, ObjectPlacer objectPlacer)
+    public PlacementState(int iD, int index, Grid grid, PreviewSystem previewSystem, InventorySystem inventorySystem, PlaceableObjectsDatabaseSO placeableObjectsDatabase, GridData placeableObjectsData, GridData mapObjectsData, ObjectPlacer objectPlacer)
     {
         ID = iD;
+        this.index = index;
         this.grid = grid;
         this.previewSystem = previewSystem;
         this.inventorySystem = inventorySystem;
@@ -60,12 +63,23 @@ public class PlacementState : IBuildingState
         else if(placementValidity == 2)
         {
             inventorySystem.RemoveObject();
+            objectPlacer.PermaRemoveObjectAt(index);
+            //en teoria no hace falta eliminar del grid data, porque ya se elimina en todo remove object
+            //placeableObjectsData.RemoveObjectAt(gridPosition);
         }
         else if(placementValidity == 3)
         {
             inventorySystem.RemoveObject();
-            int index = objectPlacer.PlaceObject(placeableObjectsDatabase.objectsPlacementData[selectedObjectIndex].Prefab, grid.CellToWorld(gridPosition));
-            placeableObjectsData.AddObjectAt(gridPosition, placeableObjectsDatabase.objectsPlacementData[selectedObjectIndex].Size, placeableObjectsDatabase.objectsPlacementData[selectedObjectIndex].ID, index);
+            if(mapObjectsData.GetObjectIDAt(gridPosition) == 0)
+            {
+                yOffSet = 1f;
+            }
+            else if(mapObjectsData.GetObjectIDAt(gridPosition) == -1)
+            {
+                yOffSet = 0f;
+            }
+            int newIndex = objectPlacer.PlaceObject(placeableObjectsDatabase.objectsPlacementData[selectedObjectIndex].Prefab, grid.CellToWorld(gridPosition), yOffSet, index);
+            placeableObjectsData.AddObjectAt(gridPosition, placeableObjectsDatabase.objectsPlacementData[selectedObjectIndex].Size, placeableObjectsDatabase.objectsPlacementData[selectedObjectIndex].ID, newIndex);
             Vector3 cellPosition = grid.CellToWorld(gridPosition);
             previewSystem.UpdateDefaultPreviewPosition(cellPosition, 0);
             previewSystem.UpdateObjectPreviewPosition(cellPosition, 0, mapObjectsData.GetRepresentationIndex(gridPosition));
@@ -73,7 +87,25 @@ public class PlacementState : IBuildingState
         else if(placementValidity == 4)
         {
             inventorySystem.RemoveObject();
-            //modifica
+            objectPlacer.PermaRemoveObjectAt(placeableObjectsData.GetRepresentationIndex(gridPosition));
+            placeableObjectsData.RemoveObjectAt(gridPosition);
+            if (mapObjectsData.GetObjectIDAt(gridPosition) == 0)
+            {
+                yOffSet = 1f;
+            }
+            else if (mapObjectsData.GetObjectIDAt(gridPosition) == -1)
+            {
+                yOffSet = 0f;
+            }
+            int newIndex = objectPlacer.PlaceObject(placeableObjectsDatabase.objectsPlacementData[selectedObjectIndex].Prefab, grid.CellToWorld(gridPosition), yOffSet, index);
+            placeableObjectsData.AddObjectAt(gridPosition, placeableObjectsDatabase.objectsPlacementData[selectedObjectIndex].Size, placeableObjectsDatabase.objectsPlacementData[selectedObjectIndex].ID, newIndex);
+            Vector3 cellPosition = grid.CellToWorld(gridPosition);
+            previewSystem.UpdateDefaultPreviewPosition(cellPosition, 0);
+            previewSystem.UpdateObjectPreviewPosition(cellPosition, 0, mapObjectsData.GetRepresentationIndex(gridPosition));
+        }
+        else if(placementValidity == 5)
+        {
+            //lo hare luego tengo sueño xd
         }
     }
 
@@ -82,13 +114,14 @@ public class PlacementState : IBuildingState
     // 1 - Conserva objeto en mano, y quita objeto en mapa
     // 2 - Pierde objeto en mano, y no afecta objeto en mapa
     // 3 - Pierde objeto en mano, y pone objeto en mapa
-    // 4 - Pierde objeto en mano, y modifica objeto en mapa
+    // 4 - Pierde objeto en mani y sustituye objeto en mapa (quita el que está y pone otro)
+    // 5 - Pierde objeto en mano, y modifica objeto en mapa
     private int CheckPlacementValidity(Vector3Int gridPosition, int selectedObjectIndex)
     {
         //No queria hacer esto de puro if else, pero la verdad despues de 4 dias no se me ocurre otra opcion
         int selectedObjectID = placeableObjectsDatabase.objectsPlacementData[selectedObjectIndex].ID;
         int placeableObjectID = placeableObjectsData.GetObjectIDAt(gridPosition);
-        int mapObjectID = mapObjectsData.GetRepresentationIndex(gridPosition);
+        int mapObjectID = mapObjectsData.GetObjectIDAt(gridPosition);
 
         //A menos que sea la pala, puede tirarse a la basura
         if (selectedObjectID != 0 && mapObjectID == 1)
@@ -105,24 +138,31 @@ public class PlacementState : IBuildingState
                 return 3;
             }
         }
-        else if ((selectedObjectID >= 100 && selectedObjectID < 400) && (mapObjectID != -1 && mapObjectID != 2))
+        else if (selectedObjectID >= 100 && selectedObjectID < 400)
         {
-            //Si es recipiente, ingrediente, o especia, y no esta en el piso o en un dispensador...
-
-            //Si esta vacio el lugar, adelante
-            if (placeableObjectID == -1)
+            //Si es recipiente, ingrediente, o especia, y esta en una mesa basica
+            if(mapObjectID == 0)
             {
-                return 3;
+                //Si esta vacio el lugar, adelante
+                if (placeableObjectID == -1)
+                {
+                    return 3;
+                }
+                //si es un recipiente puede ponerse en un ingrediente o especia
+                else if ((selectedObjectID >= 100 && selectedObjectID < 200) && (placeableObjectID >= 200 && placeableObjectID < 400))
+                {
+                    return 4;
+                }
+                //si es un ingrediente o especia puede ponerse en un recipiente
+                else if ((selectedObjectID >= 200 && selectedObjectID < 400) && (placeableObjectID >= 100 && placeableObjectID < 200))
+                {
+                    return 5;
+                }
             }
-            //si es un recipiente puede ponerse en un ingrediente o especia
-            else if ((selectedObjectID >= 100 && selectedObjectID < 200) && (placeableObjectID >= 200 && placeableObjectID < 400))
+            else if(mapObjectID >= 3)
             {
-                return 3;
-            }
-            //si es un ingrediente o especia puede ponerse en un recipiente
-            else if ((selectedObjectID >= 200 && selectedObjectID < 400) && (placeableObjectID >= 100 && placeableObjectID < 200))
-            {
-                return 4;
+                //si lo pone en una estación que no sea piso, ni mesa basica, ni dispensador, ni basura
+                return 5;
             }
         }
         else if (selectedObjectID >= 400)
@@ -131,7 +171,7 @@ public class PlacementState : IBuildingState
             if (placeableObjectID == selectedObjectID)
             {
                 //aca podria agregarse que no este en una mesa, pero por ahora tiene permitido mejorar torretas aunque esten inactivas en la mesa
-                return 4;
+                return 5;
             }
             else if (placeableObjectID == -1 && (mapObjectID == -1 || mapObjectID == 0))
             {
@@ -145,7 +185,8 @@ public class PlacementState : IBuildingState
     public void UpdateState(Vector3Int gridPosition)
     {
         int placementValidity = CheckPlacementValidity(gridPosition, selectedObjectIndex);
+        //Debug.Log(placementValidity);
         previewSystem.UpdateDefaultPreviewPosition(grid.CellToWorld(gridPosition), placementValidity);
-        previewSystem.UpdateObjectPreviewPosition(grid.CellToWorld(gridPosition), placementValidity, mapObjectsData.GetRepresentationIndex(gridPosition));
+        previewSystem.UpdateObjectPreviewPosition(grid.CellToWorld(gridPosition), placementValidity, mapObjectsData.GetObjectIDAt(gridPosition));
     }
 }

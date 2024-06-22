@@ -22,31 +22,31 @@ public class PlayerActions : MonoBehaviour
         //Esto tambien nomas esta de mientras{
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            inventorySystem.GetObject(400);
+            inventorySystem.GetObject(400, -1);
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            inventorySystem.GetObject(401);
+            inventorySystem.GetObject(401, -1);
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            inventorySystem.GetObject(402);
+            inventorySystem.GetObject(402, -1);
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            inventorySystem.GetObject(0);
+            inventorySystem.GetObject(0, -1);
         }
         if (Input.GetKeyDown(KeyCode.Alpha5))
         {
-            inventorySystem.GetObject(100);
+            inventorySystem.GetObject(100, -1);
         }
         if (Input.GetKeyDown(KeyCode.Alpha6))
         {
-            inventorySystem.GetObject(200);
+            inventorySystem.GetObject(200, -1);
         }
         if (Input.GetKeyDown(KeyCode.Alpha7))
         {
-            inventorySystem.GetObject(300);
+            inventorySystem.GetObject(300, -1);
         }
         //}
 

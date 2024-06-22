@@ -76,16 +76,16 @@ public class PreviewSystem : MonoBehaviour
 
     public void UpdateDefaultPreviewPosition(Vector3 position, int validity)
     {
-        MoveCellIndicator(position);
         ApplyFeedbackToCellIndicator(validity);
+        MoveCellIndicator(position);
     }
 
     public void UpdateObjectPreviewPosition(Vector3 position, int validity, int mapObjectID)
     {
         if (previewObject != null)
         {
-            MovePreview(position);
             ApplyFeedbackToObjectPreview(validity, mapObjectID);
+            MovePreview(position);
         }
     }
 
