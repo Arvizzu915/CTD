@@ -41,7 +41,28 @@ public class DefaultState : IBuildingState
         }
         else if (validity == 2)
         {
-            //tambien lo hare luego tengo sueño xd
+            GameObject stationGameObject = objectPlacer.GetStationWithIndex(mapObjectsData.GetRepresentationIndex(gridPosition));
+            if (stationGameObject != null)
+            {
+                int stationReturnedObject = stationGameObject.GetComponent<BaseStationScript>().OnAccessEmpty();
+                if (stationReturnedObject != -1)
+                {
+                    inventorySystem.GetObject(stationReturnedObject, -1);
+                }
+                else if(stationReturnedObject == -1)
+                {
+                    //Esto es mas especifico para las estaciones que solo aceptan platos, aqui pues si ya dio su item, entonces ya nomas tomas el plato vacio
+                    if (placeableObjectsData.GetObjectIDAt(gridPosition) >= 100 && placeableObjectsData.GetObjectIDAt(gridPosition) < 200) 
+                    {
+                        objectPlacer.GetGameObjectWithIndex(placeableObjectsData.GetRepresentationIndex(gridPosition)).GetComponent<PlateModelScript>().EmptyPlate();
+                        inventorySystem.GetObject(placeableObjectsData.GetObjectIDAt(gridPosition), placeableObjectsData.GetRepresentationIndex(gridPosition));
+                        objectPlacer.RemoveObjectAt(placeableObjectsData.GetRepresentationIndex(gridPosition));
+                        placeableObjectsData.RemoveObjectAt(gridPosition);
+                    }
+                    //Aca despues podria ir uno que cheque que sea un ingrediente/especia, y si la estacion devuelve que simon o algo asi, etnonces que cambie ese ingrediente/especia a su version cortada
+                }
+
+            }
         }
     }
 
@@ -59,9 +80,9 @@ public class DefaultState : IBuildingState
             // Puede agarrar cualquier objeto que esté en una mesa basica
             return 1;
         }
-        else if (placeableObjectID == -1 && (mapObjectID == 2 || mapObjectID > 2)) 
+        else if (mapObjectID >= 2) 
         {
-            //Se vale si apunta a un dispensador o estacion con las manos vacias
+            //Se vale si apunta a un dispensador o estacion (no piso, mesa vacia, ni bote de basura)
             return 2;
         }
 

@@ -46,8 +46,12 @@ public class MapSystem : MonoBehaviour
         PlaceStation(0, new Vector3Int(5, 0, 5), -1);
         PlaceStation(0, new Vector3Int(5, 0, 6), -1);
         PlaceStation(0, new Vector3Int(5, 0, 7), -1);
+        PlaceStation(0, new Vector3Int(5, 0, 8), -1);
+        PlaceStation(0, new Vector3Int(5, 0, 9), -1);
 
         PlaceObject(0, new Vector3Int(5, 0, 7), 1f, -1);
+        PlaceObject(100, new Vector3Int(5, 0, 6), 1f, -1);
+        PlaceObject(100, new Vector3Int(5, 0, 5), 1f, -1);
 
         PlaceStation(1, new Vector3Int(7, 0, 5), -1);
         PlaceStation(2, new Vector3Int(7, 0, 7), -1);
