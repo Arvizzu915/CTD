@@ -72,7 +72,8 @@ public class PlacementState : IBuildingState
             return;
         if(placementValidity == 1)
         {
-            objectPlacer.RemoveObjectAt(placeableObjectsData.GetRepresentationIndex(gridPosition));
+            //como por ahora este es solo para espatula, no checare si esta apuntando a una torre, solo hare el permaRemove directmante
+            objectPlacer.PermaRemoveObjectAt(placeableObjectsData.GetRepresentationIndex(gridPosition));
             placeableObjectsData.RemoveObjectAt(gridPosition);
             Vector3 cellPosition = grid.CellToWorld(gridPosition);
             previewSystem.UpdateDefaultPreviewPosition(cellPosition, 0);
@@ -169,6 +170,10 @@ public class PlacementState : IBuildingState
                 else if(selectedObjectID >= 400)
                 {
                     //Aca es lo de mejorar la torre
+                    if (objectPlacer.GetGameObjectWithIndex(placeableObjectsData.GetRepresentationIndex(gridPosition)).GetComponent<BaseTurretScript>().CanUpgradeTurret() == true)
+                    {
+                        inventorySystem.RemoveObject();
+                    }
                 }
             }
             else if(mapObjectID >= 3)
