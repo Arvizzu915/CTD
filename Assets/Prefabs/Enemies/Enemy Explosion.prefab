@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 4665660551513272227}
   m_Layer: 0
   m_Name: Enemy Explosion
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -151,4 +151,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 0
+  armour: 0
   speed: 600
