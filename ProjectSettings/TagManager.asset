@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Point
   - Route
+  - Door
+  - Kitchen
   layers:
   - Default
   - TransparentFX
