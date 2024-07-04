@@ -28,7 +28,7 @@ public class DefaultState : IBuildingState
         previewSystem.StopShowingDefaultPreview();
     }
 
-    public void OnAction(Vector3Int gridPosition)
+    public void OnAction1(Vector3Int gridPosition)
     {
         int validity = CheckSelectionValidity(gridPosition);
         if (validity == 0)
@@ -54,7 +54,9 @@ public class DefaultState : IBuildingState
                     //Esto es mas especifico para las estaciones que solo aceptan platos, aqui pues si ya dio su item, entonces ya nomas tomas el plato vacio
                     if (placeableObjectsData.GetObjectIDAt(gridPosition) >= 100 && placeableObjectsData.GetObjectIDAt(gridPosition) < 200) 
                     {
+                        /*
                         objectPlacer.GetGameObjectWithIndex(placeableObjectsData.GetRepresentationIndex(gridPosition)).GetComponent<PlateModelScript>().EmptyPlate();
+                        */
                         inventorySystem.GetObject(placeableObjectsData.GetObjectIDAt(gridPosition), placeableObjectsData.GetRepresentationIndex(gridPosition));
                         objectPlacer.RemoveObjectAt(placeableObjectsData.GetRepresentationIndex(gridPosition));
                         placeableObjectsData.RemoveObjectAt(gridPosition);
@@ -64,6 +66,11 @@ public class DefaultState : IBuildingState
 
             }
         }
+    }
+
+    public void OnAction2(Vector3Int gridPosition)
+    {
+
     }
 
     //Esta funcion solia retornar bool, pero para reutilizar codigo, ahora retorna un int que significa:

@@ -32,6 +32,7 @@ public class FurnaceState : IStationState
         //para este ejemplo, digamos que solo acepta el plato basico, y debe tener por lo menos un ingrediente o especia 
         if (containedItemID == -1 && (ID >= 100 && ID < 200) && gameObject != null)
         {
+            /*
             if(gameObject.GetComponent<PlateModelScript>().GetIngredientID() != -1 || gameObject.GetComponent<PlateModelScript>().GetSpiceID() != -1)
             {
                 containedItemID = ChangeItem(gameObject.GetComponent<PlateModelScript>().GetIngredientID(), gameObject.GetComponent<PlateModelScript>().GetSpiceID());
@@ -39,8 +40,14 @@ public class FurnaceState : IStationState
                 timeCount = furnaceTime;
                 return true;
             }
+            */
         }
         return false;
+    }
+
+    public void OnAccess2()
+    {
+        //Nada xd
     }
 
     private int ChangeItem(int ingredient, int spice)

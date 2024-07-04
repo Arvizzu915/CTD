@@ -65,7 +65,7 @@ public class PlacementState : IBuildingState
         previewSystem.UpdateObjectPreviewPosition(grid.CellToWorld(gridPosition), placementValidity, mapObjectsData.GetObjectIDAt(gridPosition));
     }
 
-    public void OnAction(Vector3Int gridPosition)
+    public void OnAction1(Vector3Int gridPosition)
     {
         int placementValidity = CheckPlacementValidity(gridPosition, selectedObjectIndex);
         if (placementValidity == 0)
@@ -85,7 +85,9 @@ public class PlacementState : IBuildingState
             int selectedObjectID = placeableObjectsDatabase.objectsPlacementData[selectedObjectIndex].ID;
             if ((selectedObjectID >= 100 && selectedObjectID < 200) && objectPlacer.GetGameObjectWithIndex(index) != null)
             {
+                /*
                 objectPlacer.GetGameObjectWithIndex(index).GetComponent<PlateModelScript>().EmptyPlate();
+                */
                 RefreshObjectPreview(previewSystem, objectPlacer.GetGameObjectWithIndex(index), gridPosition, placementValidity);
                 //en teoria aqui lo unico que falta/esta mal, es que si es un plato nuevo, entonces lo va a borrar (pero esto quiza no sea necesario arreglar almenos que
                 //el jugador pueda obtener platos nuevos de alguna manera
@@ -121,6 +123,7 @@ public class PlacementState : IBuildingState
             if(objectPlacer.GetGameObjectWithIndex(index) != null)
             {
                 //Si el plato no es nuevo, osease que ya existe pero esta inactivo, entonces checamos que se pueda poner ingrediente ahi
+                /*
                 int cookingObjectToAddID = placeableObjectsData.GetObjectIDAt(gridPosition);
                 if (objectPlacer.GetGameObjectWithIndex(index).GetComponent<PlateModelScript>().CanPlaceObjectInPlate(cookingObjectToAddID) == true)
                 {
@@ -143,6 +146,7 @@ public class PlacementState : IBuildingState
                     previewSystem.UpdateDefaultPreviewPosition(cellPosition, 0);
                     previewSystem.UpdateObjectPreviewPosition(cellPosition, 0, mapObjectsData.GetRepresentationIndex(gridPosition));
                 }
+                */
             }
             else
             {
@@ -162,10 +166,12 @@ public class PlacementState : IBuildingState
                 if ((selectedObjectID >= 200 && selectedObjectID < 400) && placeableObjectsData.GetRepresentationIndex(gridPosition) != -1)
                 {
                     //aca es lo de poner un ingrediente o especia en plato
+                    /*
                     if (objectPlacer.GetGameObjectWithIndex(placeableObjectsData.GetRepresentationIndex(gridPosition)).GetComponent<PlateModelScript>().CanPlaceObjectInPlate(selectedObjectID) == true)
                     {
                         inventorySystem.RemoveObject();
                     }
+                    */
                 }
                 else if(selectedObjectID >= 400)
                 {
@@ -196,6 +202,11 @@ public class PlacementState : IBuildingState
                 }
             }
         }
+    }
+
+    public void OnAction2(Vector3Int gridPosition)
+    {
+        //Por ahora, si tiene un objeto, su accion secundaria no hace nada, pero pues aqui esta el hueco disponible por si se quiere hacer que lanze el objeto, o haga algo con el, como rotar o algo asi
     }
 
     //Esta funcion solia retornar bool, pero para reutilizar codigo, ahora retorna un int que significa:

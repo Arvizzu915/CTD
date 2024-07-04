@@ -8,7 +8,7 @@ public class PlayerActions : MonoBehaviour
     [SerializeField]
     private GameObject grabHitbox;
 
-    public event Action OnPressed, OnExit;
+    public event Action OnPressed1, OnPressed2;
 
     //Esto nomas esta de mientras{
     [SerializeField]
@@ -51,9 +51,9 @@ public class PlayerActions : MonoBehaviour
         //}
 
         if (Input.GetKeyDown(KeyCode.Space))
-            OnPressed?.Invoke();
-        if(Input.GetKeyUp(KeyCode.Space))
-            OnExit?.Invoke();
+            OnPressed1?.Invoke();
+        if(Input.GetKeyDown(KeyCode.K))
+            OnPressed2?.Invoke();
     }
 
     public Vector3 GetPointingPosition()
