@@ -49,7 +49,7 @@ public class EnemyBasic : MonoBehaviour
     {
         if (armour > 0)
         {
-            armour -= damage;
+            armour -= damage/2;
         }
         else
         {
