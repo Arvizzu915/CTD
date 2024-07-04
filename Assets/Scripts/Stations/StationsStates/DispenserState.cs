@@ -31,6 +31,11 @@ public class DispenserState : IStationState
         return false;
     }
 
+    public void OnAccess2()
+    {
+        //Nada xd
+    }
+
     public void UpdateState()
     {
         timeCount += Time.deltaTime;

@@ -40,22 +40,30 @@ public class PlacementSystem : MonoBehaviour
     {
         StopSystem();
         buildingState = new DefaultState(grid, previewSystem, inventorySystem, placeableObjectsData, mapObjectsData, objectPlacer);
-        playerActions.OnPressed += SystemAction;
+        playerActions.OnPressed1 += SystemAction1;
+        playerActions.OnPressed2 += SystemAction2;
     }
 
     public void StartPlacement(int ID, int index)
     {
         StopSystem();
         buildingState = new PlacementState(ID, index, grid, previewSystem, inventorySystem, placeableObjectsDatabase, placeableObjectsData, mapObjectsData, objectPlacer);
-        playerActions.OnPressed += SystemAction;
-        //aca podria entrar un evento de OnRotated o algo asi, para rotar la torre quiza eso tilin
+        playerActions.OnPressed1 += SystemAction1;
+        playerActions.OnPressed2 += SystemAction2;
     }
 
-    private void SystemAction()
+    private void SystemAction1()
     {
         Vector3 playerPointerPosition = playerActions.GetPointingPosition();
         Vector3Int gridPosition = grid.WorldToCell(playerPointerPosition);
-        buildingState.OnAction(gridPosition);
+        buildingState.OnAction1(gridPosition);
+    }
+
+    private void SystemAction2()
+    {
+        Vector3 playerPointerPosition = playerActions.GetPointingPosition();
+        Vector3Int gridPosition = grid.WorldToCell(playerPointerPosition);
+        buildingState.OnAction2(gridPosition);
     }
 
     private void StopSystem()
@@ -63,8 +71,8 @@ public class PlacementSystem : MonoBehaviour
         if (buildingState == null)
             return;
         buildingState.EndState();
-        playerActions.OnPressed -= SystemAction;
-        playerActions.OnExit -= StopSystem;
+        playerActions.OnPressed1 -= SystemAction1;
+        playerActions.OnPressed2 -= SystemAction2;
         lastDetectedPosition = Vector3Int.zero;
         buildingState = null;
     }
