@@ -5,21 +5,33 @@ using UnityEngine;
 
 public class TurretsBasicBehavior : MonoBehaviour
 {
-    private float turretDistance = 0f;
     public GameObject enemyObjective;
 
     public int enemiesInRange = 0;
     public List<GameObject> enemies = new List<GameObject>();
 
-    private EnemyBasic enemyScript, currentEnemyBeingCompared, enemyToCompare;
+    private EnemyBasic currentEnemyBeingCompared, enemyToCompare;
+    private BasicTurretShoot shootScript;
+
+    private void Start()
+    {
+        shootScript = GetComponent<BasicTurretShoot>();
+    }
 
     private void Update()
     {
+        if (enemyObjective != null)
+        {
+            transform.LookAt(new Vector3(enemyObjective.transform.position.x, transform.position.y, enemyObjective.transform.position.z));
+            shootScript.canShoot = true;
+        }
+
         FindNewEnemy();
 
         if (enemiesInRange == 0)
         {
             enemyObjective = null;
+            shootScript.canShoot = false;
         }
     }
 
