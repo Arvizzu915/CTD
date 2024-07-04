@@ -93,7 +93,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if(other.CompareTag("Door"))
         {
-            Debug.Log("door");
             inKitchen = true;
         }
     }
