@@ -7,8 +7,9 @@ public class EnemyBasic : MonoBehaviour
 {
     [SerializeField] float health, armour, speed;
     private Rigidbody rb;
-    private int currentPoint = 0;
-    private bool attacking = false;
+    public int currentPoint = 0;
+    public float distanceToNextPoint = 0;
+    private bool attacking = false, inPoint = false;
 
     GameObject route;
     Route routeScript;
@@ -38,8 +39,10 @@ public class EnemyBasic : MonoBehaviour
 
     void WalkToPoint()
     {
-        transform.LookAt(routeScript.pointsToFollow[currentPoint]);
+        transform.LookAt(new UnityEngine.Vector3(routeScript.pointsToFollow[currentPoint].transform.position.x, transform.position.y, routeScript.pointsToFollow[currentPoint].transform.position.z));
         rb.velocity = transform.forward * speed * Time.deltaTime;
+
+        distanceToNextPoint = UnityEngine.Vector3.Distance(transform.position, routeScript.pointsToFollow[currentPoint].position);
     }
 
     public void TakeDamage(float damage)
@@ -62,8 +65,9 @@ public class EnemyBasic : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Point"))
+        if(other.CompareTag("Point") && !inPoint)
         {
+            inPoint = true;
             currentPoint++;
         }
 
@@ -71,6 +75,14 @@ public class EnemyBasic : MonoBehaviour
         {
             kitchenLife = other.gameObject.GetComponent<KitchenLife>();
             attacking = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Point") && inPoint)
+        {
+            inPoint = false;
         }
     }
 }
