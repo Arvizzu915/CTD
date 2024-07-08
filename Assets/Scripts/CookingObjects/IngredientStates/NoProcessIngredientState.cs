@@ -12,9 +12,16 @@ public class NoProcessIngredientState : MonoBehaviour
     //Solo 1 de estas a la vez
     // 0 - default
 
+    [SerializeField]
+    private int defaultMixID;
+
     public int ShowState1()
     {
         return ingredientState1;
     }
 
+    public int ShowMixID()
+    {
+        return defaultMixID;
+    }
 }

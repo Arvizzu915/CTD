@@ -5,27 +5,55 @@ using UnityEngine;
 public class BasePlateState : MonoBehaviour
 {
     [SerializeField]
-    private GameObject[] dishModels;
+    private GameObject[] turretModels;
 
     private int containedItemID;
-    private int containedItemState;
+    private int containedItemState1;
+    private int containedItemState2;
+    private int containedItemState3;
+    private int containedItemMixID;
     private GameObject containedItemModel;
 
-    public bool CanPlaceObjectInContainer(int objectID, int objectState, GameObject objectModel)
+    public bool CanPlaceObjectInContainer(int objectID, int objectState1, int objectState2, int objectState3, int objectMixID, GameObject objectModel)
     {
         //solo se pueden meter ingredientes base, regulares, especias, platillos y torres al plato
         if (objectID < 200)
             return false;
         if(containedItemID == -1)
         {
+            //switch (objectID)
+            //{
+            //    case 300:
+            //        if (objectState1 == 0 && objectState2 == 1 && objectState3 == 2)
+            //        {
+            //            EmptyPlate();
+            //            containedItemID = 501;
+            //            containedItemModel = turretModels[containedItemID - 500];
+            //            containedItemModel.SetActive(true);
+            //        }
+            //        break;
+            //}
             containedItemID = objectID;
-            containedItemState = objectState;
+            containedItemState1 = objectState1;
+            containedItemState2 = objectState2;
+            containedItemState3 = objectState3;
             SetModelInPlate(objectModel);
             return true;
         }
-        else if((objectID >= 200 && objectID < 300) && (containedItemID >= 300 && containedItemID < 400))
+        else
         {
-
+            if(containedItemMixID == objectMixID && containedItemMixID != -1)
+            {
+                EmptyPlate();
+                switch (containedItemMixID)
+                {
+                    case 0:
+                        containedItemID = 500;
+                        break;
+                }
+                containedItemModel = turretModels[containedItemID - 500];
+                containedItemModel.SetActive(true);
+            }
         }
         //si no es un ingrediente base o regular, y ya hay algo en el plato, entonces no puede ya meter nada
         if (objectID >= 400 && containedItemID != -1)
@@ -77,12 +105,23 @@ public class BasePlateState : MonoBehaviour
                 {
                     case 300:
                         return true;
-                        break;
                 }
                 break;
             default:
                 return false;
         }
         return false;
+    }
+
+    private void EmptyPlate()
+    {
+        containedItemID = -1;
+        containedItemState1 = -1;
+        containedItemState2 = -1;
+        containedItemState3 = -1;
+        containedItemMixID = -1;
+        Destroy(containedItemModel);
+        containedItemModel = null;
+
     }
 }

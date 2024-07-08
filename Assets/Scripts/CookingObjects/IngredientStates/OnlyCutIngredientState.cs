@@ -16,16 +16,26 @@ public class OnlyCutIngredientState : MonoBehaviour
     // 0 - default / completo
     // 1 - cortado
 
+    [SerializeField]
+    private int defaultMixID;
+    private int currentMixID = -1;
+
     public void ChangeState3(int newState)
     {
         ingredientState1 = newState;
         lastModel.SetActive(false);
         ingredientModels[ingredientState1].SetActive(true);
         lastModel = ingredientModels[ingredientState1];
+        currentMixID = defaultMixID;
     }
 
     public int ShowState3()
     {
         return ingredientState1;
+    }
+
+    public int ShowMixID()
+    {
+        return currentMixID;
     }
 }

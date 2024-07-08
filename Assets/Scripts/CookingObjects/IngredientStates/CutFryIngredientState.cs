@@ -25,6 +25,8 @@ public class CutFryIngredientState : MonoBehaviour
     // 0 - default
     // 2 - freido
 
+    private int currentMixID = -1;
+
     public void ChangeState1(int newState)
     {
         ingredientState1 = newState;
@@ -47,6 +49,11 @@ public class CutFryIngredientState : MonoBehaviour
     public int ShowState3()
     {
         return ingredientState3;
+    }
+
+    public int ShowMixID()
+    {
+        return currentMixID;
     }
 
     private void ShowModel()
