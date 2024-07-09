@@ -18,7 +18,7 @@ public class ShotgunShoot : MonoBehaviour
     private void Start()
     {
         damage = damage1;
-        cadenceTime = Time.time - cadenceTime;
+        cadenceTime = Time.time - cadence;
         turretScript = gameObject.GetComponentInParent<TurretsBasicBehavior>();
     }
 
@@ -28,25 +28,19 @@ public class ShotgunShoot : MonoBehaviour
 
         if (Time.time - cadenceTime >= cadence && canShoot)
         {
+            Debug.Log("change");
             shoot = true;
-
-            cadence = Time.time;
-        }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Enemy"))
-        {
-            enemyScript = other.gameObject.GetComponent<EnemyBasic>();
+            cadenceTime = Time.time;
         }
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Enemy") && gameObject.CompareTag("ShotgunArea") && shoot)
+        if (other.CompareTag("Enemy") && shoot)
         {
-            enemyScript.TakeDamage(damage);
+            Debug.Log("shotgun");
+            other.gameObject.GetComponent<EnemyBasic>().TakeDamage(damage);
+            shoot = false;
         }
     }
 }
