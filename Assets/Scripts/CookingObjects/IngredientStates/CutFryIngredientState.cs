@@ -25,6 +25,8 @@ public class CutFryIngredientState : MonoBehaviour
     // 0 - default
     // 2 - freido
 
+    [SerializeField]
+    private int _102MixID;
     private int currentMixID = -1;
 
     public void ChangeState1(int newState)
@@ -32,6 +34,7 @@ public class CutFryIngredientState : MonoBehaviour
         ingredientState1 = newState;
         lastModel.SetActive(false);
         ShowModel();
+        ChangeMixID();
     }
 
     public void ChangeState3(int newState)
@@ -39,6 +42,19 @@ public class CutFryIngredientState : MonoBehaviour
         ingredientState3 = newState;
         lastModel.SetActive(false);
         ShowModel();
+        ChangeMixID();
+    }
+
+    private void ChangeMixID()
+    {
+        if (ingredientState1 == 1 && ingredientState3 == 2)
+        {
+            currentMixID = _102MixID;
+        }
+        else
+        {
+            currentMixID = -1;
+        }
     }
 
     public int ShowState1()
