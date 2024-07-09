@@ -8,6 +8,8 @@ public class TurretsBasicBehavior : MonoBehaviour
     public GameObject enemyObjective;
 
     public int enemiesInRange = 0;
+    public bool canShoot = false;
+
     public List<GameObject> enemies = new List<GameObject>();
 
     private EnemyBasic currentEnemyBeingCompared, enemyToCompare;
@@ -23,7 +25,7 @@ public class TurretsBasicBehavior : MonoBehaviour
         if (enemyObjective != null)
         {
             transform.LookAt(new Vector3(enemyObjective.transform.position.x, transform.position.y, enemyObjective.transform.position.z));
-            shootScript.canShoot = true;
+            canShoot = true;
         }
 
         FindNewEnemy();
@@ -31,7 +33,7 @@ public class TurretsBasicBehavior : MonoBehaviour
         if (enemiesInRange == 0)
         {
             enemyObjective = null;
-            shootScript.canShoot = false;
+            canShoot = false;
         }
     }
 
