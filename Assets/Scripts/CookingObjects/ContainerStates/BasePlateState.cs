@@ -19,8 +19,21 @@ public class BasePlateState : MonoBehaviour
         //solo se pueden meter ingredientes base, regulares, especias, platillos y torres al plato
         if (objectID < 200)
             return false;
+        //Por ahora esto solo se separa en plato vacio y plato con algo (para ver que hacer en 1 ingrediente o en 2, no mas)
         if(containedItemID == -1)
         {
+            if (objectMixID != -1)
+            {
+                EmptyPlate();
+                switch (containedItemMixID)
+                {
+                    case 0:
+                        containedItemID = 500;
+                        break;
+                }
+                containedItemModel = turretModels[containedItemID - 500];
+                containedItemModel.SetActive(true);
+            }
             //switch (objectID)
             //{
             //    case 300:
