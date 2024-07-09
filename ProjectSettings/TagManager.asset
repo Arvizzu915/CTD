@@ -9,6 +9,7 @@ TagManager:
   - Door
   - Kitchen
   - Enemy
+  - ShotgunArea
   layers:
   - Default
   - TransparentFX
