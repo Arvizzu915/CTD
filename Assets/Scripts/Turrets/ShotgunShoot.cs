@@ -29,6 +29,7 @@ public class ShotgunShoot : MonoBehaviour
         if (Time.time - cadenceTime >= cadence && canShoot)
         {
             shoot = true;
+
             cadence = Time.time;
         }
     }

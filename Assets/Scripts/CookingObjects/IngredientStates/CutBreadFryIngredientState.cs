@@ -2,39 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseIngredientScript : MonoBehaviour
+public class CutBreadFryIngredientState : MonoBehaviour
 {
-    //Esto es lo que se me hace HORRIBLE, pero no se me ocurre de otra... o quiza si?
     [SerializeField]
     private GameObject[] ingredientModels00;
     // 0 - default, default, default
-    // 1 - default, default, cocido
-    // 2 - default, default, freido
-    // 3 - default, default, quemado
+    // 1 - default, default, freido
     private GameObject[] ingredientModels01;
     // 0 - default, empanizado, default
-    // 1 - default, empanizado, cocido
-    // 2 - default, empanizado, freido
-    // 3 - default, empanizado, quemado
+    // 1 - default, empanizado, freido
     private GameObject[] ingredientModels10;
     // 0 - cortado, default, default
-    // 1 - cortado, default, cocido
-    // 2 - cortado, default, freido
-    // 3 - cortado, default, quemado
+    // 1 - cortado, default, freido
     private GameObject[] ingredientModels11;
     // 0 - cortado, empanizado, default
-    // 1 - cortado, empanizado, cocido
-    // 2 - cortado, empanizado, freido
-    // 3 - cortado, empanizado, quemado
+    // 1 - cortado, empanizado, freido
     private GameObject lastModel;
 
     [SerializeField]
     private int ingredientState1 = 0;
     private int ingredientState2 = 0;
     private int ingredientState3 = 0;
-    //Por ahora este será el int global para cada estado:
-
-    //decidi por ahora separarlos en 3 categorias
 
     //Solo 1 de estas a la vez
     // 0 - default / completo
@@ -46,15 +34,18 @@ public class BaseIngredientScript : MonoBehaviour
 
     //Solo 1 de estas a la vez
     // 0 - default
-    // 1 - cocido/cocinado (en olla)
     // 2 - freido
-    // 3 - quemado (este quiza no haga falta, pero lo dejare por si hay algun ingrediente que se pueda meter a un horno sin nada)
+
+    [SerializeField]
+    private int defaultMixID;
+    private int currentMixID = -1;
 
     public void ChangeState1(int newState)
     {
         ingredientState1 = newState;
         lastModel.SetActive(false);
         ShowModel();
+        currentMixID = defaultMixID;
     }
 
     public void ChangeState2(int newState)
@@ -62,6 +53,7 @@ public class BaseIngredientScript : MonoBehaviour
         ingredientState2 = newState;
         lastModel.SetActive(false);
         ShowModel();
+        currentMixID = -1;
     }
 
     public void ChangeState3(int newState)
@@ -69,6 +61,7 @@ public class BaseIngredientScript : MonoBehaviour
         ingredientState3 = newState;
         lastModel.SetActive(false);
         ShowModel();
+        currentMixID = -1;
     }
 
     public int ShowState1()
@@ -104,14 +97,6 @@ public class BaseIngredientScript : MonoBehaviour
                                 ingredientModels00[1].SetActive(true);
                                 lastModel = ingredientModels00[1];
                                 break;
-                            case 2:
-                                ingredientModels00[2].SetActive(true);
-                                lastModel = ingredientModels00[2];
-                                break;
-                            case 3:
-                                ingredientModels00[3].SetActive(true);
-                                lastModel = ingredientModels00[3];
-                                break;
                         }
                         break;
                     case 1:
@@ -124,14 +109,6 @@ public class BaseIngredientScript : MonoBehaviour
                             case 1:
                                 ingredientModels01[1].SetActive(true);
                                 lastModel = ingredientModels01[1];
-                                break;
-                            case 2:
-                                ingredientModels01[2].SetActive(true);
-                                lastModel = ingredientModels01[2];
-                                break;
-                            case 3:
-                                ingredientModels01[3].SetActive(true);
-                                lastModel = ingredientModels01[3];
                                 break;
                         }
                         break;
@@ -151,14 +128,6 @@ public class BaseIngredientScript : MonoBehaviour
                                 ingredientModels10[1].SetActive(true);
                                 lastModel = ingredientModels10[1];
                                 break;
-                            case 2:
-                                ingredientModels10[2].SetActive(true);
-                                lastModel = ingredientModels10[2];
-                                break;
-                            case 3:
-                                ingredientModels10[3].SetActive(true);
-                                lastModel = ingredientModels10[3];
-                                break;
                         }
                         break;
                     case 1:
@@ -171,14 +140,6 @@ public class BaseIngredientScript : MonoBehaviour
                             case 1:
                                 ingredientModels11[1].SetActive(true);
                                 lastModel = ingredientModels11[1];
-                                break;
-                            case 2:
-                                ingredientModels11[2].SetActive(true);
-                                lastModel = ingredientModels11[2];
-                                break;
-                            case 3:
-                                ingredientModels11[3].SetActive(true);
-                                lastModel = ingredientModels11[3];
                                 break;
                         }
                         break;
