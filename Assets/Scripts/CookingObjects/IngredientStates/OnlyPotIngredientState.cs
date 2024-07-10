@@ -17,8 +17,12 @@ public class OnlyPotIngredientState : MonoBehaviour
     // 1 - cocido/cocinado (en olla)
 
     [SerializeField]
-    private int _001MixID;
-    private int currentMixID = -1;
+    private int[] _001MixIDs;
+    private int[] currentMixIDs = new int[0];
+
+    [SerializeField]
+    private int _001MainContainerID;
+    private int currentMainContainerID = 0;
 
     public void ChangeState3(int newState)
     {
@@ -26,18 +30,31 @@ public class OnlyPotIngredientState : MonoBehaviour
         lastModel.SetActive(false);
         ingredientModels00[ingredientState3].SetActive(true);
         lastModel = ingredientModels00[ingredientState3];
-        ChangeMixID();
+        ChangeMixIDs();
+        ChangeMainContainerID();
     }
 
-    private void ChangeMixID()
+    private void ChangeMixIDs()
     {
         if (ingredientState3 == 1)
         {
-            currentMixID = _001MixID;
+            currentMixIDs = _001MixIDs;
         }
         else
         {
-            currentMixID = -1;
+            currentMixIDs = new int[0];
+        }
+    }
+
+    private void ChangeMainContainerID()
+    {
+        if (ingredientState3 == 1)
+        {
+            currentMainContainerID = _001MainContainerID;
+        }
+        else
+        {
+            currentMainContainerID = 0;
         }
     }
 
@@ -46,8 +63,13 @@ public class OnlyPotIngredientState : MonoBehaviour
         return ingredientState3;
     }
 
-    public int ShowMixID()
+    public int[] ShowMixIDs()
     {
-        return currentMixID;
+        return currentMixIDs;
+    }
+
+    public int ShowMainContainerID()
+    {
+        return currentMainContainerID;
     }
 }

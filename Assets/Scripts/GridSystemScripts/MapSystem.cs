@@ -28,10 +28,10 @@ public class MapSystem : MonoBehaviour
 
     private GridData placeableObjectsData, mapObjectsData;
 
-    
+
     void Start()
     {
-        
+
     }
 
     public void SetGridData(GridData placeableObjectsData, GridData mapObjectsData)
