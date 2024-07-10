@@ -37,15 +37,15 @@ public class CutBreadFryIngredientState : MonoBehaviour
     // 2 - freido
 
     [SerializeField]
-    private int _012MixID, _100MixID, _112MixID;
-    private int currentMixID = -1;
+    private int[] _012MixIDs, _100MixIDs, _112MixIDs;
+    private int[] currentMixIDs = new int[0];
 
     public void ChangeState1(int newState)
     {
         ingredientState1 = newState;
         lastModel.SetActive(false);
         ShowModel();
-        ChangeMixID();
+        ChangeMixIDs();
     }
 
     public void ChangeState2(int newState)
@@ -53,7 +53,7 @@ public class CutBreadFryIngredientState : MonoBehaviour
         ingredientState2 = newState;
         lastModel.SetActive(false);
         ShowModel();
-        ChangeMixID();
+        ChangeMixIDs();
     }
 
     public void ChangeState3(int newState)
@@ -61,26 +61,26 @@ public class CutBreadFryIngredientState : MonoBehaviour
         ingredientState3 = newState;
         lastModel.SetActive(false);
         ShowModel();
-        ChangeMixID();
+        ChangeMixIDs();
     }
 
-    private void ChangeMixID()
+    private void ChangeMixIDs()
     {
         if (ingredientState1 == 0 && ingredientState2 == 1 && ingredientState3 == 2)
         {
-            currentMixID = _012MixID;
+            currentMixIDs = _012MixIDs;
         }
         else if (ingredientState1 == 1 && ingredientState2 == 0 && ingredientState3 == 0)
         {
-            currentMixID = _100MixID;
+            currentMixIDs = _100MixIDs;
         }
         else if (ingredientState1 == 1 && ingredientState2 == 1 && ingredientState3 == 2)
         {
-            currentMixID = _112MixID;
+            currentMixIDs = _112MixIDs;
         }
         else
         {
-            currentMixID = -1;
+            currentMixIDs = new int[0];
         }
     }
 
@@ -99,9 +99,9 @@ public class CutBreadFryIngredientState : MonoBehaviour
         return ingredientState3;
     }
 
-    public int ShowMixID()
+    public int[] ShowMixIDs()
     {
-        return currentMixID;
+        return currentMixIDs;
     }
 
     private void ShowModel()

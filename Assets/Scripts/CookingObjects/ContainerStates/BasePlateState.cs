@@ -11,62 +11,59 @@ public class BasePlateState : MonoBehaviour
     private int containedItemState1;
     private int containedItemState2;
     private int containedItemState3;
-    private int containedItemMixID;
+    private int[] containedItemMixIDs;
     private GameObject containedItemModel;
 
-    public bool CanPlaceObjectInContainer(int objectID, int objectState1, int objectState2, int objectState3, int objectMixID, GameObject objectModel)
+    public bool CanPlaceObjectInContainer(int objectID, int objectState1, int objectState2, int objectState3, int[] objectMixIDs, int objectMainContainerID, GameObject objectModel)
     {
-        //solo se pueden meter ingredientes base, regulares, especias, platillos y torres al plato
-        if (objectID < 200)
+        //solo se pueden meter ingredientes base, regulares, especias, platillos y torres al plato, y solo cosas que se puedan poner en plato (no vasos o bowl)
+        if (objectID < 200 || objectMainContainerID != 0)
             return false;
         //Por ahora esto solo se separa en plato vacio y plato con algo (para ver que hacer en 1 ingrediente o en 2, no mas)
         if(containedItemID == -1)
         {
-            if (objectMixID != -1)
+            for (int i = 0; i < objectMixIDs.Length; i++)
             {
-                EmptyPlate();
-                switch (containedItemMixID)
+                switch (objectMixIDs[i])
                 {
-                    case 0:
-                        containedItemID = 500;
+                    case 1:
+                        containedItemID = 501;
                         break;
                 }
+            }
+            if(containedItemID == -1)
+            {
+                //Si no encontro nada que coincida en todo el arreglo de MixIDs, entonces hace lo basico
+                containedItemID = objectID;
+                containedItemState1 = objectState1;
+                containedItemState2 = objectState2;
+                containedItemState3 = objectState3;
+                containedItemMixIDs = objectMixIDs;
+                SetModelInPlate(objectModel);
+            }
+            else
+            {
+                //Si sí encontro, entonces nomas invoca a la torre
                 containedItemModel = turretModels[containedItemID - 500];
                 containedItemModel.SetActive(true);
             }
-            //switch (objectID)
-            //{
-            //    case 300:
-            //        if (objectState1 == 0 && objectState2 == 1 && objectState3 == 2)
-            //        {
-            //            EmptyPlate();
-            //            containedItemID = 501;
-            //            containedItemModel = turretModels[containedItemID - 500];
-            //            containedItemModel.SetActive(true);
-            //        }
-            //        break;
-            //}
-            containedItemID = objectID;
-            containedItemState1 = objectState1;
-            containedItemState2 = objectState2;
-            containedItemState3 = objectState3;
-            SetModelInPlate(objectModel);
             return true;
         }
         else
         {
-            if(containedItemMixID == objectMixID && containedItemMixID != -1)
-            {
-                EmptyPlate();
-                switch (containedItemMixID)
-                {
-                    case 0:
-                        containedItemID = 500;
-                        break;
-                }
-                containedItemModel = turretModels[containedItemID - 500];
-                containedItemModel.SetActive(true);
-            }
+            //Aca hay que hacer 2 fors
+            //if(containedItemMixIDs == objectMixID && containedItemMixIDs != -1)
+            //{
+            //    EmptyPlate();
+            //    switch (containedItemMixIDs)
+            //    {
+            //        case 0:
+            //            containedItemID = 500;
+            //            break;
+            //    }
+            //    containedItemModel = turretModels[containedItemID - 500];
+            //    containedItemModel.SetActive(true);
+            //}
         }
         //si no es un ingrediente base o regular, y ya hay algo en el plato, entonces no puede ya meter nada
         if (objectID >= 400 && containedItemID != -1)
@@ -132,7 +129,7 @@ public class BasePlateState : MonoBehaviour
         containedItemState1 = -1;
         containedItemState2 = -1;
         containedItemState3 = -1;
-        containedItemMixID = -1;
+        containedItemMixIDs = new int[0];
         Destroy(containedItemModel);
         containedItemModel = null;
 

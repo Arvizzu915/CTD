@@ -17,8 +17,8 @@ public class OnlyCutIngredientState : MonoBehaviour
     // 1 - cortado
 
     [SerializeField]
-    private int _100MixID;
-    private int currentMixID = -1;
+    private int[] _100MixIDs;
+    private int[] currentMixIDs = new int[0];
 
     public void ChangeState1(int newState)
     {
@@ -26,18 +26,18 @@ public class OnlyCutIngredientState : MonoBehaviour
         lastModel.SetActive(false);
         ingredientModels[ingredientState1].SetActive(true);
         lastModel = ingredientModels[ingredientState1];
-        ChangeMixID();
+        ChangeMixIDs();
     }
 
-    private void ChangeMixID()
+    private void ChangeMixIDs()
     {
         if (ingredientState1 == 1)
         {
-            currentMixID = _100MixID;
+            currentMixIDs = _100MixIDs;
         }
         else
         {
-            currentMixID = -1;
+            currentMixIDs = new int[0];
         }
     }
 
@@ -46,8 +46,8 @@ public class OnlyCutIngredientState : MonoBehaviour
         return ingredientState1;
     }
 
-    public int ShowMixID()
+    public int[] ShowMixIDs()
     {
-        return currentMixID;
+        return currentMixIDs;
     }
 }

@@ -8,10 +8,10 @@ public class NoProcessIngredientState : MonoBehaviour
     private GameObject ingredientModel;
 
     [SerializeField]
-    private int _000MixID;
+    private int[] _000MixIDs;
 
-    public int ShowMixID()
+    public int[] ShowMixIDs()
     {
-        return _000MixID;
+        return _000MixIDs;
     }
 }
