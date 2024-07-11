@@ -7,6 +7,7 @@ public class TurretsBasicBehavior : MonoBehaviour
 {
     public GameObject enemyObjective;
 
+    public float cadence;
     public int enemiesInRange = 0;
     public bool canShoot = false;
 

@@ -17,6 +17,7 @@ public class ShotgunShoot : MonoBehaviour
 
     private void Start()
     {
+        cadence = gameObject.GetComponentInParent<TurretsBasicBehavior>().cadence;
         damage = damage1;
         cadenceTime = Time.time - cadence;
         turretScript = gameObject.GetComponentInParent<TurretsBasicBehavior>();
@@ -24,6 +25,7 @@ public class ShotgunShoot : MonoBehaviour
 
     private void Update()
     {
+        cadence = gameObject.GetComponentInParent<TurretsBasicBehavior>().cadence;
         canShoot = turretScript.canShoot;
 
         if (Time.time - cadenceTime >= cadence && canShoot)
