@@ -16,11 +16,13 @@ public class BasicTurretBullet : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         timer = Time.time;
+        damage = gameObject.GetComponentInParent<BasicTurretShoot>().damage;
+        transform.parent = null;
     }
 
     private void Update()
     {
-        damage = gameObject.GetComponentInParent<BasicTurretShoot>().damage;
+        
         rb.velocity = transform.forward * speed * Time.deltaTime;
 
         if (Time.time - timer >= 15)

@@ -27,6 +27,10 @@ public class TurretsBasicBehavior : MonoBehaviour
             transform.LookAt(new Vector3(enemyObjective.transform.position.x, transform.position.y, enemyObjective.transform.position.z));
             canShoot = true;
         }
+        else
+        {
+            canShoot = false;
+        }
 
         FindNewEnemy();
 
@@ -47,7 +51,7 @@ public class TurretsBasicBehavior : MonoBehaviour
             {
                 currentEnemyBeingCompared = enemyObjective.GetComponent<EnemyBasic>();
                 enemyToCompare = item.gameObject.GetComponent<EnemyBasic>();
-                if ((enemyToCompare.distanceToNextPoint < currentEnemyBeingCompared.distanceToNextPoint) && (enemyToCompare.currentPoint >= currentEnemyBeingCompared.currentPoint) || (UnityEngine.Vector3.Distance(enemyObjective.transform.position, transform.position) > 5))
+                if ((enemyToCompare.distanceToNextPoint < currentEnemyBeingCompared.distanceToNextPoint) && (enemyToCompare.currentPoint >= currentEnemyBeingCompared.currentPoint) || (UnityEngine.Vector3.Distance(enemyObjective.transform.position, transform.position) > 7))
                 {
                     enemyObjective = item;
                 }
