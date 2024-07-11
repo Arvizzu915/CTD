@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BasicTurretBullet : MonoBehaviour
+public class Bombs : MonoBehaviour
 {
     [SerializeField] float speed;
 
-    private float damage, timer;
+    public float damage, timer;
+    public bool exploded = false;
+
+    public List<GameObject> enemies = new List<GameObject>();
 
     Rigidbody rb;
     EnemyBasic enemyScript;
@@ -22,7 +25,11 @@ public class BasicTurretBullet : MonoBehaviour
 
     private void Update()
     {
-        
+        if (exploded)
+        {
+            Explode();
+        }
+
         rb.velocity = transform.forward * speed * Time.deltaTime;
 
         if (Time.time - timer >= 15)
@@ -31,12 +38,28 @@ public class BasicTurretBullet : MonoBehaviour
         }
     }
 
+    private void Explode()
+    {
+        foreach (GameObject item in enemies)
+        {
+            item.gameObject.GetComponent<EnemyBasic>().TakeDamage(damage);
+            Destroy(gameObject);
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Enemy"))
         {
-            other.gameObject.GetComponent<EnemyBasic>().TakeDamage(damage);
-            Destroy(gameObject);
+            enemies.Add(other.gameObject);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Enemy"))
+        {
+            enemies.Remove(other.gameObject);
         }
     }
 }
