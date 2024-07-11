@@ -6,7 +6,7 @@ public class BasicTurretBullet : MonoBehaviour
 {
     [SerializeField] float speed;
 
-    public float damage, timer;
+    private float damage, timer;
 
     Rigidbody rb;
     EnemyBasic enemyScript;
@@ -20,6 +20,7 @@ public class BasicTurretBullet : MonoBehaviour
 
     private void Update()
     {
+        damage = gameObject.GetComponentInParent<BasicTurretShoot>().damage;
         rb.velocity = transform.forward * speed * Time.deltaTime;
 
         if (Time.time - timer >= 15)

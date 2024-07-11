@@ -7,7 +7,8 @@ public class BasicTurretShoot : MonoBehaviour
     [SerializeField] public float cadence, damage1, damage2, damage3;
     [SerializeField] GameObject projectile;
 
-    private float cadenceTime, damage;
+    private float cadenceTime;
+    public float damage;
 
     private EnemyBasic enemyScript;
     private BasicTurretBullet bulletScript;
@@ -37,8 +38,6 @@ public class BasicTurretShoot : MonoBehaviour
 
     private void Shoot()
     {
-
-        projectile.gameObject.GetComponent<BasicTurretBullet>().damage = damage;
-        Instantiate(projectile, transform.position, transform.rotation);
+        Instantiate(projectile, transform.position, transform.rotation, transform);
     }
 }

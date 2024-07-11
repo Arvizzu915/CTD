@@ -28,7 +28,6 @@ public class ShotgunShoot : MonoBehaviour
 
         if (Time.time - cadenceTime >= cadence && canShoot)
         {
-            Debug.Log("change");
             shoot = true;
             cadenceTime = Time.time;
         }
@@ -38,7 +37,6 @@ public class ShotgunShoot : MonoBehaviour
     {
         if (other.CompareTag("Enemy") && shoot)
         {
-            Debug.Log("shotgun");
             other.gameObject.GetComponent<EnemyBasic>().TakeDamage(damage);
             shoot = false;
         }
