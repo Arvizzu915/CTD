@@ -21,7 +21,7 @@ public class TurretsBasicBehavior : MonoBehaviour
         shootScript = GetComponent<BasicTurretShoot>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (enemyObjective != null)
         {
@@ -57,6 +57,11 @@ public class TurretsBasicBehavior : MonoBehaviour
                     enemyObjective = item;
                 }
             }
+        }
+
+        if(enemies.Count > 0 && enemyObjective == null)
+        {
+            enemyObjective = enemies[0];
         }
     }
 
