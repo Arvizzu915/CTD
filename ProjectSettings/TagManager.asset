@@ -10,6 +10,7 @@ TagManager:
   - Kitchen
   - Enemy
   - ShotgunArea
+  - Turret
   layers:
   - Default
   - TransparentFX

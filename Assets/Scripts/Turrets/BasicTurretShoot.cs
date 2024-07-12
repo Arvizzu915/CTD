@@ -17,6 +17,7 @@ public class BasicTurretShoot : MonoBehaviour
 
     private void Start()
     {
+        cadence = gameObject.GetComponent<TurretsBasicBehavior>().cadence;
         turretScript = GetComponent<TurretsBasicBehavior>();
         enemyScript = gameObject.GetComponent<EnemyBasic>();
         damage = damage1;
@@ -25,7 +26,7 @@ public class BasicTurretShoot : MonoBehaviour
 
     private void Update()
     {
-        //cuando mejore solo le asigna el damage que sigue al damage de la bala
+        cadence = gameObject.GetComponent<TurretsBasicBehavior>().cadence;
 
         canShoot = turretScript.canShoot;
 
