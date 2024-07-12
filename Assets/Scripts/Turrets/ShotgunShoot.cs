@@ -12,6 +12,8 @@ public class ShotgunShoot : MonoBehaviour
 
     private bool shoot = false, canShoot = false;
 
+    public List<GameObject> enemies = new List<GameObject>();
+
     EnemyBasic enemyScript;
     TurretsBasicBehavior turretScript;
 
@@ -33,14 +35,39 @@ public class ShotgunShoot : MonoBehaviour
             shoot = true;
             cadenceTime = Time.time;
         }
+
+        if(shoot && enemies.Count > 0) 
+        {
+            ShootEnemies();
+        }
     }
 
-    private void OnTriggerStay(Collider other)
+    private void ShootEnemies()
     {
-        if (other.CompareTag("Enemy") && shoot)
+        for (int i = 0; i < enemies.Count; i++)
         {
-            other.gameObject.GetComponent<EnemyBasic>().TakeDamage(damage);
-            shoot = false;
+            if (enemies[i] != null)
+            {
+                enemies[i].gameObject.GetComponent<EnemyBasic>().TakeDamage(damage);
+            }
+        }
+
+        shoot = false;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Enemy"))
+        {
+            enemies.Add(other.gameObject);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Enemy"))
+        {
+            enemies.Remove(other.gameObject);
         }
     }
 }
