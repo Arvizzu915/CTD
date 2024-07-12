@@ -32,29 +32,38 @@ public class BaseIngredientScript : MonoBehaviour
     private int ingredientState1 = 0;
     private int ingredientState2 = 0;
     private int ingredientState3 = 0;
-    //Por ahora este será el int global para cada estado:
-
-    //decidi por ahora separarlos en 3 categorias
-
-    //Solo 1 de estas a la vez
+    //State 1
     // 0 - default / completo
     // 1 - cortado
-
-    //Solo 1 de estas a la vez
+    //State 2
     // 0 - default
     // 1 - empanizado
-
-    //Solo 1 de estas a la vez
-    // 0 - default
+    //State 3
+    // 0 - default / crudo
     // 1 - cocido/cocinado (en olla)
     // 2 - freido
     // 3 - quemado (este quiza no haga falta, pero lo dejare por si hay algun ingrediente que se pueda meter a un horno sin nada)
+
+    [SerializeField]
+    private int[] _000MixIDs, _001MixIDs, _012MixIDs, _100MixIDs, _102MixIDs, _112MixIDs;
+    private int[] currentMixIDs = new int[0];
+
+    [SerializeField]
+    private int _001MainContainerID;
+    private int currentMainContainerID = 0;
+
+    [SerializeField]
+    private int _000ChangeState2ID, _100ChangeState2ID;
+    private int currentChangeState2ID = 0;
+    [SerializeField]
+    private bool isState2Changer;
 
     public void ChangeState1(int newState)
     {
         ingredientState1 = newState;
         lastModel.SetActive(false);
         ShowModel();
+        ChangeAttributesIDs();
     }
 
     public void ChangeState2(int newState)
@@ -62,6 +71,7 @@ public class BaseIngredientScript : MonoBehaviour
         ingredientState2 = newState;
         lastModel.SetActive(false);
         ShowModel();
+        ChangeAttributesIDs();
     }
 
     public void ChangeState3(int newState)
@@ -69,6 +79,53 @@ public class BaseIngredientScript : MonoBehaviour
         ingredientState3 = newState;
         lastModel.SetActive(false);
         ShowModel();
+        ChangeAttributesIDs();
+    }
+
+    private void ChangeAttributesIDs()
+    {
+        if (ingredientState1 == 0 && ingredientState2 == 0 && ingredientState3 == 0)
+        {
+            currentMixIDs = _000MixIDs;
+            currentMainContainerID = 0;
+            currentChangeState2ID = _000ChangeState2ID;
+        }
+        else if (ingredientState1 == 0 && ingredientState2 == 0 && ingredientState3 == 1)
+        {
+            currentMixIDs = _001MixIDs;
+            currentMainContainerID = _001MainContainerID;
+            currentChangeState2ID = 0;
+        }
+        else if (ingredientState1 == 0 && ingredientState2 == 1 && ingredientState3 == 2)
+        {
+            currentMixIDs = _012MixIDs;
+            currentMainContainerID = 0;
+            currentChangeState2ID = 0;
+        }
+        else if (ingredientState1 == 1 && ingredientState2 == 0 && ingredientState3 == 0)
+        {
+            currentMixIDs = _100MixIDs;
+            currentMainContainerID = 0;
+            currentChangeState2ID = _100ChangeState2ID;
+        }
+        else if (ingredientState1 == 1 && ingredientState2 == 0 && ingredientState3 == 2)
+        {
+            currentMixIDs = _102MixIDs;
+            currentMainContainerID = 0;
+            currentChangeState2ID = 0;
+        }
+        else if (ingredientState1 == 1 && ingredientState2 == 1 && ingredientState3 == 2)
+        {
+            currentMixIDs = _112MixIDs;
+            currentMainContainerID = 0;
+            currentChangeState2ID = 0;
+        }
+        else
+        {
+            currentMixIDs = new int[0];
+            currentMainContainerID = 0;
+            currentChangeState2ID = 0;
+        }
     }
 
     public int ShowState1()
@@ -86,6 +143,26 @@ public class BaseIngredientScript : MonoBehaviour
         return ingredientState3;
     }
 
+    public int[] ShowMixIDs()
+    {
+        return currentMixIDs;
+    }
+
+    public int ShowMainContainerID()
+    {
+        return currentMainContainerID;
+    }
+
+    public int ShowChangeState2ID()
+    {
+        return currentChangeState2ID;
+    }
+
+    public bool ShowIfIsState2Changer()
+    {
+        return isState2Changer;
+    }
+
     private void ShowModel()
     {
         switch (ingredientState1)
@@ -94,46 +171,12 @@ public class BaseIngredientScript : MonoBehaviour
                 switch (ingredientState2)
                 {
                     case 0:
-                        switch (ingredientState3)
-                        {
-                            case 0:
-                                ingredientModels00[0].SetActive(true);
-                                lastModel = ingredientModels00[0];
-                                break;
-                            case 1:
-                                ingredientModels00[1].SetActive(true);
-                                lastModel = ingredientModels00[1];
-                                break;
-                            case 2:
-                                ingredientModels00[2].SetActive(true);
-                                lastModel = ingredientModels00[2];
-                                break;
-                            case 3:
-                                ingredientModels00[3].SetActive(true);
-                                lastModel = ingredientModels00[3];
-                                break;
-                        }
+                        ingredientModels00[ingredientState3].SetActive(true);
+                        lastModel = ingredientModels00[ingredientState3];
                         break;
                     case 1:
-                        switch (ingredientState3)
-                        {
-                            case 0:
-                                ingredientModels01[0].SetActive(true);
-                                lastModel = ingredientModels01[0];
-                                break;
-                            case 1:
-                                ingredientModels01[1].SetActive(true);
-                                lastModel = ingredientModels01[1];
-                                break;
-                            case 2:
-                                ingredientModels01[2].SetActive(true);
-                                lastModel = ingredientModels01[2];
-                                break;
-                            case 3:
-                                ingredientModels01[3].SetActive(true);
-                                lastModel = ingredientModels01[3];
-                                break;
-                        }
+                        ingredientModels01[ingredientState3].SetActive(true);
+                        lastModel = ingredientModels01[ingredientState3];
                         break;
                 }
                 break;
@@ -141,46 +184,12 @@ public class BaseIngredientScript : MonoBehaviour
                 switch (ingredientState2)
                 {
                     case 0:
-                        switch (ingredientState3)
-                        {
-                            case 0:
-                                ingredientModels10[0].SetActive(true);
-                                lastModel = ingredientModels10[0];
-                                break;
-                            case 1:
-                                ingredientModels10[1].SetActive(true);
-                                lastModel = ingredientModels10[1];
-                                break;
-                            case 2:
-                                ingredientModels10[2].SetActive(true);
-                                lastModel = ingredientModels10[2];
-                                break;
-                            case 3:
-                                ingredientModels10[3].SetActive(true);
-                                lastModel = ingredientModels10[3];
-                                break;
-                        }
+                        ingredientModels10[ingredientState3].SetActive(true);
+                        lastModel = ingredientModels10[ingredientState3];
                         break;
                     case 1:
-                        switch (ingredientState3)
-                        {
-                            case 0:
-                                ingredientModels11[0].SetActive(true);
-                                lastModel = ingredientModels11[0];
-                                break;
-                            case 1:
-                                ingredientModels11[1].SetActive(true);
-                                lastModel = ingredientModels11[1];
-                                break;
-                            case 2:
-                                ingredientModels11[2].SetActive(true);
-                                lastModel = ingredientModels11[2];
-                                break;
-                            case 3:
-                                ingredientModels11[3].SetActive(true);
-                                lastModel = ingredientModels11[3];
-                                break;
-                        }
+                        ingredientModels11[ingredientState3].SetActive(true);
+                        lastModel = ingredientModels11[ingredientState3];
                         break;
                 }
                 break;
