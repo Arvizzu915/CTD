@@ -40,12 +40,17 @@ public class CutBreadFryIngredientState : MonoBehaviour
     private int[] _012MixIDs, _100MixIDs, _112MixIDs;
     private int[] currentMixIDs = new int[0];
 
+    [SerializeField]
+    private int _000ChangeState2ID, _100ChangeState2ID;
+    private int currentChangeState2ID = 0;
+
     public void ChangeState1(int newState)
     {
         ingredientState1 = newState;
         lastModel.SetActive(false);
         ShowModel();
         ChangeMixIDs();
+        ChangeChangeState2ID();
     }
 
     public void ChangeState2(int newState)
@@ -54,6 +59,7 @@ public class CutBreadFryIngredientState : MonoBehaviour
         lastModel.SetActive(false);
         ShowModel();
         ChangeMixIDs();
+        ChangeChangeState2ID();
     }
 
     public void ChangeState3(int newState)
@@ -62,6 +68,7 @@ public class CutBreadFryIngredientState : MonoBehaviour
         lastModel.SetActive(false);
         ShowModel();
         ChangeMixIDs();
+        ChangeChangeState2ID();
     }
 
     private void ChangeMixIDs()
@@ -84,6 +91,22 @@ public class CutBreadFryIngredientState : MonoBehaviour
         }
     }
 
+    private void ChangeChangeState2ID()
+    {
+        if (ingredientState1 == 0 && ingredientState2 == 0 && ingredientState3 == 0)
+        {
+            currentChangeState2ID = _000ChangeState2ID;
+        }
+        else if (ingredientState1 == 1 && ingredientState2 == 0 && ingredientState3 == 0)
+        {
+            currentChangeState2ID = _100ChangeState2ID;
+        }
+        else
+        {
+            currentChangeState2ID = 0;
+        }
+    }
+
     public int ShowState1()
     {
         return ingredientState1;
@@ -102,6 +125,11 @@ public class CutBreadFryIngredientState : MonoBehaviour
     public int[] ShowMixIDs()
     {
         return currentMixIDs;
+    }
+
+    public int ShowChangeState2ID()
+    {
+        return currentChangeState2ID;
     }
 
     private void ShowModel()
