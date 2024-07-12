@@ -48,6 +48,8 @@ public class ShotgunShoot : MonoBehaviour
         {
             if (enemies[i] != null)
             {
+                //daño es igual a la distancia máxima más la distancia del enemigo multiplicada por el daño sobre 100 por 2
+                //damage = radius + Vector3.Distance(transform.position, enemies[i].transform.position) * .8;
                 enemies[i].gameObject.GetComponent<EnemyBasic>().TakeDamage(damage);
             }
         }

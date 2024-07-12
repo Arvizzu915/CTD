@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3326513736680775207}
   - component: {fileID: 8308698956253067905}
   - component: {fileID: 1620926337557772964}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Enemy Invisible
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -101,9 +101,9 @@ CapsuleCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -130,7 +130,7 @@ Rigidbody:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
@@ -153,3 +153,7 @@ MonoBehaviour:
   health: 5
   armour: 0
   speed: 900
+  damageToDefense: 3
+  currentPoint: 0
+  distanceToNextPoint: 0
+  canAttackDefenseTimer: 1.5
