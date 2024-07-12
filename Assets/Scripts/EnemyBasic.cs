@@ -5,11 +5,12 @@ using UnityEngine;
 
 public class EnemyBasic : MonoBehaviour
 {
-    [SerializeField] float health, armour, speed;
+    [SerializeField] float health, armour, speed, damageToDefense;
     private Rigidbody rb;
     public int currentPoint = 0;
-    public float distanceToNextPoint = 0;
-    private bool attacking = false, inPoint = false;
+    public float distanceToNextPoint = 0, canAttackDefenseTimer;
+    private float canAttackDefenseTimerReference;
+    private bool attacking = false, inPoint = false, canAttackDefense = true;
 
     GameObject route;
     Route routeScript;
@@ -21,7 +22,7 @@ public class EnemyBasic : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         route = GameObject.FindGameObjectWithTag("Route");
         routeScript = route.GetComponent<Route>();
-
+        canAttackDefenseTimerReference = Time.time - canAttackDefenseTimer;
     }
 
     // Update is called once per frame
@@ -40,6 +41,12 @@ public class EnemyBasic : MonoBehaviour
         else
         {
             Attack();
+        }
+
+        if (Time.time - canAttackDefenseTimerReference >= canAttackDefenseTimer) 
+        {
+            canAttackDefense = true;
+            canAttackDefenseTimerReference = Time.time;
         }
     }
 
@@ -67,6 +74,15 @@ public class EnemyBasic : MonoBehaviour
     {
         kitchenLife.TakeDamage(health);
         Destroy(gameObject);
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Defense") && canAttackDefense)
+        {
+            collision.gameObject.GetComponent<Defense>().TakeDamage(damageToDefense);
+            canAttackDefense = false;
+        }
     }
 
     private void OnTriggerEnter(Collider other)

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4123903561162156365}
   - component: {fileID: 4756549842871752574}
   - component: {fileID: 2158996753732963689}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Enemy Fast
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -101,9 +101,9 @@ CapsuleCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -130,7 +130,7 @@ Rigidbody:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
@@ -153,3 +153,7 @@ MonoBehaviour:
   health: 5
   armour: 0
   speed: 1300
+  damageToDefense: 1.5
+  currentPoint: 0
+  distanceToNextPoint: 0
+  canAttackDefenseTimer: 1.5
