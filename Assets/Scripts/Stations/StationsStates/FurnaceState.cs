@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class FurnaceState : IStationState
 {
-    private int containedItemID;
+    private int containedItemID = -1;
+    private GameObject containedItemGameObject = null;
+
     private float furnaceTime = 10f;
     private float timeCount = 0f;
     private bool itemIsReady = false;

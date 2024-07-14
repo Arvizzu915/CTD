@@ -26,7 +26,7 @@ public class BaseIngredientScript : MonoBehaviour
     // 1 - cortado, empanizado, cocido
     // 2 - cortado, empanizado, freido
     // 3 - cortado, empanizado, quemado
-    private GameObject lastModel;
+    private GameObject lastModel; //quiza haga falta un void start donde se iguale lastModel al primer modelo
 
     [SerializeField]
     private int ingredientState1 = 0;
@@ -49,8 +49,8 @@ public class BaseIngredientScript : MonoBehaviour
     private int[] currentMixIDs = new int[0];
 
     [SerializeField]
-    private int _001MainContainerID;
-    private int currentMainContainerID = 0;
+    private int[] _000ContainerIDs, _001ContainerIDs, _010ContainerIDs, _100ContainerIDs, _110ContainerIDs;
+    private int[] currentContainerIDs = new int[1] { 0 };
 
     [SerializeField]
     private int _000ChangeState2ID, _100ChangeState2ID;
@@ -58,28 +58,43 @@ public class BaseIngredientScript : MonoBehaviour
     [SerializeField]
     private bool isState2Changer;
 
-    public void ChangeState1(int newState)
+    //Esto servira para mostrar la barra de que tan completado esta el proceso
+    [SerializeField]
+    private int state1To1Rate = 10, state3To1Rate = 3, state3To2Rate = 3; 
+    private int currentProcessPercent = 0;
+
+    public void ChangeState1(int newState, bool showModel)
     {
         ingredientState1 = newState;
-        lastModel.SetActive(false);
-        ShowModel();
+        HideModel();
+        UpdateModel();
+        if (showModel)
+            ShowModel();
         ChangeAttributesIDs();
+        //Por ahora, cada que cambia de estado se resetea el processPercent, por si las dudas
+        ResetProcessPercent();
     }
 
-    public void ChangeState2(int newState)
+    public void ChangeState2(int newState, bool showModel)
     {
         ingredientState2 = newState;
-        lastModel.SetActive(false);
-        ShowModel();
+        HideModel();
+        UpdateModel();
+        if (showModel)
+            ShowModel();
         ChangeAttributesIDs();
+        ResetProcessPercent();
     }
 
-    public void ChangeState3(int newState)
+    public void ChangeState3(int newState, bool showModel)
     {
         ingredientState3 = newState;
-        lastModel.SetActive(false);
-        ShowModel();
+        HideModel();
+        UpdateModel();
+        if (showModel)
+            ShowModel();
         ChangeAttributesIDs();
+        ResetProcessPercent();
     }
 
     private void ChangeAttributesIDs()
@@ -87,45 +102,82 @@ public class BaseIngredientScript : MonoBehaviour
         if (ingredientState1 == 0 && ingredientState2 == 0 && ingredientState3 == 0)
         {
             currentMixIDs = _000MixIDs;
-            currentMainContainerID = 0;
+            currentContainerIDs = _000ContainerIDs;
             currentChangeState2ID = _000ChangeState2ID;
         }
         else if (ingredientState1 == 0 && ingredientState2 == 0 && ingredientState3 == 1)
         {
             currentMixIDs = _001MixIDs;
-            currentMainContainerID = _001MainContainerID;
+            currentContainerIDs = _001ContainerIDs;
+            currentChangeState2ID = 0;
+        }
+        else if (ingredientState1 == 0 && ingredientState2 == 1 && ingredientState3 == 0)
+        {
+            currentMixIDs = new int[0];
+            currentContainerIDs = _010ContainerIDs;
             currentChangeState2ID = 0;
         }
         else if (ingredientState1 == 0 && ingredientState2 == 1 && ingredientState3 == 2)
         {
             currentMixIDs = _012MixIDs;
-            currentMainContainerID = 0;
+            currentContainerIDs = new int[1] { 0 };
             currentChangeState2ID = 0;
         }
         else if (ingredientState1 == 1 && ingredientState2 == 0 && ingredientState3 == 0)
         {
             currentMixIDs = _100MixIDs;
-            currentMainContainerID = 0;
+            currentContainerIDs = _100ContainerIDs;
             currentChangeState2ID = _100ChangeState2ID;
         }
         else if (ingredientState1 == 1 && ingredientState2 == 0 && ingredientState3 == 2)
         {
             currentMixIDs = _102MixIDs;
-            currentMainContainerID = 0;
+            currentContainerIDs = new int[1] { 0 };
+            currentChangeState2ID = 0;
+        }
+        else if (ingredientState1 == 1 && ingredientState2 == 1 && ingredientState3 == 0)
+        {
+            currentMixIDs = new int[0];
+            currentContainerIDs = _110ContainerIDs;
             currentChangeState2ID = 0;
         }
         else if (ingredientState1 == 1 && ingredientState2 == 1 && ingredientState3 == 2)
         {
             currentMixIDs = _112MixIDs;
-            currentMainContainerID = 0;
+            currentContainerIDs = new int[1] { 0 };
             currentChangeState2ID = 0;
         }
         else
         {
             currentMixIDs = new int[0];
-            currentMainContainerID = 0;
+            currentContainerIDs = new int[1] { 0 };
             currentChangeState2ID = 0;
         }
+    }
+
+    public void ChangeProcessPercent(int stationID)
+    {
+        //Por ahora esto depende del id de la estacion, pero si en un futuro hay mas de 1 estacion que pueda cortar, o freir o cocinar, entonces ahi habria que hacer el cambio para que mejor use el estado
+        switch (stationID)
+        {
+            case 3:
+                //cortar, pero el id puede cambiar
+                currentProcessPercent += state1To1Rate;
+                break;
+            case 4:
+                //olla
+                currentProcessPercent += state3To1Rate;
+                break;
+            case 5:
+                //freir
+                currentProcessPercent += state3To2Rate;
+                break;
+        }
+    }
+
+    public void ResetProcessPercent()
+    {
+        currentProcessPercent = 0;
     }
 
     public int ShowState1()
@@ -148,9 +200,9 @@ public class BaseIngredientScript : MonoBehaviour
         return currentMixIDs;
     }
 
-    public int ShowMainContainerID()
+    public int[] ShowContainerIDs()
     {
-        return currentMainContainerID;
+        return currentContainerIDs;
     }
 
     public int ShowChangeState2ID()
@@ -163,7 +215,17 @@ public class BaseIngredientScript : MonoBehaviour
         return isState2Changer;
     }
 
-    private void ShowModel()
+    public int ShowProcessPercent()
+    {
+        return currentProcessPercent;
+    }
+
+    public void ShowModel()
+    {
+        lastModel.SetActive(true);
+    }
+
+    private void UpdateModel()
     {
         switch (ingredientState1)
         {
@@ -171,11 +233,9 @@ public class BaseIngredientScript : MonoBehaviour
                 switch (ingredientState2)
                 {
                     case 0:
-                        ingredientModels00[ingredientState3].SetActive(true);
                         lastModel = ingredientModels00[ingredientState3];
                         break;
                     case 1:
-                        ingredientModels01[ingredientState3].SetActive(true);
                         lastModel = ingredientModels01[ingredientState3];
                         break;
                 }
@@ -184,15 +244,18 @@ public class BaseIngredientScript : MonoBehaviour
                 switch (ingredientState2)
                 {
                     case 0:
-                        ingredientModels10[ingredientState3].SetActive(true);
                         lastModel = ingredientModels10[ingredientState3];
                         break;
                     case 1:
-                        ingredientModels11[ingredientState3].SetActive(true);
                         lastModel = ingredientModels11[ingredientState3];
                         break;
                 }
                 break;
         }
+    }
+
+    public void HideModel()
+    {
+        lastModel.SetActive(false);
     }
 }
