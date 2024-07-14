@@ -15,41 +15,48 @@ public class ICToICContainerState : MonoBehaviour
     [SerializeField]
     private int finishingState;
 
-    private int currentContainedObjectID = -1;
+    private int containedItemID = -1;
+    private GameObject containedItemGameObject = null;
     private int currentContainedObjectIndex = -1;
     private bool isFinished = false;
 
 
     public bool CanPlaceObjectInContainer(int objectID, int objectState)
     {
-        if (currentContainedObjectID != -1)
+        if (containedItemID != -1)
             return false;
         int objectIndex = acceptedObjectsIDs.FindIndex(ID => ID == objectID);
         if (objectIndex == -1)
             return false;
         if (objectState != startingStatesPerID[objectIndex])
             return false;
-        currentContainedObjectID = objectID;
+        containedItemID = objectID;
         currentContainedObjectIndex = objectIndex;
         isFinished = false;
         ShowModelForID();
         return true;
     }
 
+    public bool CanChangeContainedItemState3(int newState)
+    {
+        containedItemGameObject.GetComponent<BaseIngredientScript>().ChangeState2(newState, true);
+        return true;
+    }
+
     public void EmptyContainer()
     {
-        if(currentContainedObjectID != -1)
+        if(containedItemID != -1)
         {
             HideModelForID();
             isFinished = false;
-            currentContainedObjectID = -1;
+            containedItemID = -1;
             currentContainedObjectIndex = -1;
         }
     }
 
     public void ChangeContainedObjectsToFinished()
     {
-        if(currentContainedObjectID != -1 && !isFinished)
+        if(containedItemID != -1 && !isFinished)
         {
             HideModelForID();
             isFinished = true;
@@ -59,12 +66,12 @@ public class ICToICContainerState : MonoBehaviour
 
     public int GetContainedObjectID()
     {
-        return currentContainedObjectID;
+        return containedItemID;
     }
 
     public int GetContainedObjectState()
     {
-        if (currentContainedObjectID == -1)
+        if (containedItemID == -1)
             return -1;
         if (isFinished)
         {
