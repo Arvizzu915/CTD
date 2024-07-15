@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class BaseStationScript : MonoBehaviour
 {
-    private enum StationTypes { Dispenser, Furnace }
+    private enum StationTypes { Dispenser, Stove }
     [SerializeField]
     private StationTypes stationType = StationTypes.Dispenser;
+
+    [SerializeField]
+    private int[] acceptedIDs;
 
     //Aca la verdad no se si esto sea la mejor opcion, pero fue lo unico que se me ocurrio para poder pasarle al dispenserState un ID del objeto que dispensa, lo malo es que ningun otro state va a usar esta variable
     [SerializeField]
@@ -21,15 +24,25 @@ public class BaseStationScript : MonoBehaviour
             case StationTypes.Dispenser:
                 stationState = new DispenserState(itemID);
                 break;
-            case StationTypes.Furnace:
-                stationState = new FurnaceState(-1);
+            case StationTypes.Stove:
+                stationState = new StoveState(acceptedIDs);
                 break;
         }
     }
 
-    public int OnAccessEmpty()
+    public int GetContainedItemID()
     {
-        return stationState.OnAccessEmpty();
+        return stationState.GetContainedItemID();
+    }
+
+    public GameObject GetContainedItemGameObject()
+    {
+        return stationState.GetContainedItemGameObject();
+    }
+
+    public void EmptyStation()
+    {
+        stationState.EmptyStation();
     }
 
     public bool OnAccessWithID(int ID, GameObject gameObject)

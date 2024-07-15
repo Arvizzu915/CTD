@@ -7,36 +7,19 @@ public class GridData
 {
     Dictionary<Vector3Int, PlacementData> placedObjects = new();
 
-    public void AddObjectAt(Vector3Int gridPosition, Vector2Int objectSize, int ID, int placedObjectIndex)
+    public void AddObjectAt(Vector3Int gridPosition, int ID, GameObject gameObject)
     {
-        List<Vector3Int> positionToOccupy = CalculatePositions(gridPosition, objectSize);
-        PlacementData data = new PlacementData(positionToOccupy, ID, placedObjectIndex);
-        foreach (var pos in positionToOccupy)
-        {
-            if (placedObjects.ContainsKey(pos))
-                throw new Exception($"Dictionary already contains this cell position {pos}");
-            placedObjects[pos] = data;
-        }
+        PlacementData data = new PlacementData(gridPosition, ID, gameObject);
+        if (placedObjects.ContainsKey(gridPosition))
+            throw new Exception($"Dictionary already contains this cell position {gridPosition}");
+        placedObjects[gridPosition] = data;
     }
 
-    private List<Vector3Int> CalculatePositions(Vector3Int gridPosition, Vector2Int objectSize)
-    {
-        List<Vector3Int> returnVal = new();
-        for (int x = 0; x < objectSize.x; x++)
-        {
-            for (int y = 0; y < objectSize.y; y++)
-            {
-                returnVal.Add(gridPosition + new Vector3Int(x, 0, y));
-            }
-        }
-        return returnVal;
-    }
-
-    public int GetRepresentationIndex(Vector3Int gridPosition)
+    public GameObject GetGameObjectAt(Vector3Int gridPosition)
     {
         if (placedObjects.ContainsKey(gridPosition) == false)
-            return -1;
-        return placedObjects[gridPosition].PlacedObjectIndex;
+            return null;
+        return placedObjects[gridPosition].gameObject;
     }
 
     public int GetObjectIDAt(Vector3Int gridPosition)
@@ -48,34 +31,29 @@ public class GridData
 
     internal void RemoveObjectAt(Vector3Int gridPosition)
     {
-        foreach(var pos in placedObjects[gridPosition].occupiedPositions)
-        {
-            placedObjects.Remove(pos);
-        }
+        placedObjects.Remove(gridPosition);
     }
 
-    public bool CanPlaceObjectAt(Vector3Int gridPosition, Vector2Int objectSize)
+    public bool CanPlaceObjectAt(Vector3Int gridPosition)
     {
-        List<Vector3Int> positionToOccupy = CalculatePositions(gridPosition, objectSize);
-        foreach (var pos in positionToOccupy)
-        {
-            if (placedObjects.ContainsKey(pos))
-                return false;
-        }
+        //ya no recuerdo para que servia esta funcion, pero aca esta por si acaso
+        if (placedObjects.ContainsKey(gridPosition))
+            return false;
         return true;
     }
 }
 
 public class PlacementData
 {
-    public List<Vector3Int> occupiedPositions;
+    //creo que este vector ni hace falta, porque segun yo lo que usa para encontrar los vectores esta fuera del placement data, pero por ahora lo dejo por si acaso
+    public Vector3Int occupiedPosition;
     public int ID { get; private set; }
-    public int PlacedObjectIndex { get; private set; }
+    public GameObject gameObject { get; private set; }
 
-    public PlacementData(List<Vector3Int> occupiedPositions, int iD, int placedObjectIndex)
+    public PlacementData(Vector3Int occupiedPosition, int iD, GameObject gameObject)
     {
-        this.occupiedPositions = occupiedPositions;
+        this.occupiedPosition = occupiedPosition;
         ID = iD;
-        PlacedObjectIndex = placedObjectIndex;
+        this.gameObject = gameObject;
     }
 }

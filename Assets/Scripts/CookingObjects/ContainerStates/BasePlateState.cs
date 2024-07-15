@@ -10,8 +10,21 @@ public class BasePlateState : MonoBehaviour
     private int containedItemID = -1;
     private GameObject containedItemGameObject = null;
 
+    public int GetContainedItemID()
+    {
+        return containedItemID;
+    }
+
+    public GameObject GetContainedItemGameObject()
+    {
+        return containedItemGameObject;
+    }
+
     public bool CanPlaceObjectInContainer(int objectID, GameObject objectGameObject)
     {
+        //La razon por la que solo se checa el id y no el gameobject, es porque asumimos que si no tiene id tampoco tiene game object, y si tiene id, entonces tiene gameobject
+        if (objectID == -1)
+            return false;
         //Quiza todo esto podria ir despues del primer if, ya que no hace falta hacer todo eso si nisiquiera se va a usar
         BaseIngredientScript objectIngredientScript = objectGameObject.GetComponent<BaseIngredientScript>();
         int[] objectMixIDs = objectIngredientScript.ShowMixIDs(); //se usa 6 veces
@@ -31,7 +44,7 @@ public class BasePlateState : MonoBehaviour
                 canEnter = true;
         }
         //solo se pueden meter ingredientes base, regulares, especias, platillos y torres al plato, y solo cosas que se puedan poner en plato (no vasos o bowl)
-        if (objectID < 200 || !canEnter)
+        if (!canEnter)
             return false;
         //Por ahora esto solo se separa en plato vacio y plato con algo (para ver que hacer en 1 ingrediente o en 2, no mas)
         if(containedItemID == -1)
@@ -140,15 +153,22 @@ public class BasePlateState : MonoBehaviour
 
     public bool CanChangeContainedItemState2(int newState)
     {
+        //esta funcion no se porque la hize booleana, pero otro dia vere si en verdad es necesario
         containedItemGameObject.GetComponent<BaseIngredientScript>().ChangeState2(newState, true);
         return true;
     }
 
     public void EmptyContainer(bool deleteModel)
     {
-        containedItemID = -1;
-        if (deleteModel)
+        if (deleteModel && containedItemID < 400)
+        {
             Destroy(containedItemGameObject);
+        }
+        if(containedItemID >= 400)
+        {
+            containedItemGameObject.SetActive(false);
+        }
+        containedItemID = -1;
         containedItemGameObject = null;
 
     }

@@ -20,34 +20,34 @@ public class PlayerActions : MonoBehaviour
     private void Update()
     {
         //Esto tambien nomas esta de mientras{
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            inventorySystem.GetObject(400, -1);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            inventorySystem.GetObject(401, -1);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            inventorySystem.GetObject(402, -1);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            inventorySystem.GetObject(0, -1);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha5))
-        {
-            inventorySystem.GetObject(100, -1);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha6))
-        {
-            inventorySystem.GetObject(200, -1);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha7))
-        {
-            inventorySystem.GetObject(300, -1);
-        }
+        //if (Input.GetKeyDown(KeyCode.Alpha1))
+        //{
+        //    inventorySystem.GetObject(400, -1);
+        //}
+        //if (Input.GetKeyDown(KeyCode.Alpha2))
+        //{
+        //    inventorySystem.GetObject(401, -1);
+        //}
+        //if (Input.GetKeyDown(KeyCode.Alpha3))
+        //{
+        //    inventorySystem.GetObject(402, -1);
+        //}
+        //if (Input.GetKeyDown(KeyCode.Alpha4))
+        //{
+        //    inventorySystem.GetObject(0, -1);
+        //}
+        //if (Input.GetKeyDown(KeyCode.Alpha5))
+        //{
+        //    inventorySystem.GetObject(100, -1);
+        //}
+        //if (Input.GetKeyDown(KeyCode.Alpha6))
+        //{
+        //    inventorySystem.GetObject(200, -1);
+        //}
+        //if (Input.GetKeyDown(KeyCode.Alpha7))
+        //{
+        //    inventorySystem.GetObject(300, -1);
+        //}
         //}
 
         if (Input.GetKeyDown(KeyCode.Space))
@@ -60,5 +60,11 @@ public class PlayerActions : MonoBehaviour
     {
         
         return new Vector3(grabHitbox.transform.position.x, grabHitbox.transform.position.y - 0.5f, grabHitbox.transform.position.z);
+    }
+
+    public Vector3 GetGrabHitboxPosition()
+    {
+        //aca podriamos modificar las coordenadas para que coloque el objeto justo donde lo queremos
+        return new Vector3(grabHitbox.transform.position.x, grabHitbox.transform.position.y, grabHitbox.transform.position.z);
     }
 }

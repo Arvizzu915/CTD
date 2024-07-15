@@ -6,6 +6,8 @@ public class IndividualState3ChangerContainerState : MonoBehaviour
 {
     [SerializeField]
     private GameObject[] ingredientModels000, ingredientModels001, ingredientModels010, ingredientModels012, ingredientModels100, ingredientModels102, ingredientModels110, ingredientModels112;
+    [SerializeField]
+    private GameObject burnedModel;
     private GameObject lastModel;
 
     [SerializeField]
@@ -17,9 +19,22 @@ public class IndividualState3ChangerContainerState : MonoBehaviour
     private int containedItemID = -1;
     private int containedItemIndex = -1;
     private GameObject containedItemGameObject = null;
+    private bool isReady = false;
+
+    public int GetContainedItemID()
+    {
+        return containedItemID;
+    }
+
+    public GameObject GetContainedItemGameObject()
+    {
+        return containedItemGameObject;
+    }
 
     public bool CanPlaceObjectInContainer(int objectID, GameObject objectGameObject)
     {
+        if (objectID == -1)
+            return false;
         BaseIngredientScript objectIngredientScript = objectGameObject.GetComponent<BaseIngredientScript>();
         int[] objectContainerIDs = objectIngredientScript.ShowContainerIDs(); //se usa 2 veces
 
@@ -40,16 +55,57 @@ public class IndividualState3ChangerContainerState : MonoBehaviour
                 containedItemIndex = i;
         }
         containedItemGameObject = objectGameObject;
+        isReady = false;
         HideOriginalModel();
         ShowModel();
         return true;
+    }
+
+    public bool IsReady()
+    {
+        return isReady;
+    }
+
+    public bool IngredientIsReady()
+    {
+        return containedItemGameObject.GetComponent<BaseIngredientScript>().IsReady();
     }
 
     public void ChangeState3OfContainedItem()
     {
         HideModel();
         containedItemGameObject.GetComponent<BaseIngredientScript>().ChangeState3(newIngredientState3, false);
+        isReady = true;
         ShowModel();
+    }
+
+    public void ChangeProcessTimeFromContainedItem(bool isBurning)
+    {
+        if (!isBurning)
+        {
+            containedItemGameObject.GetComponent<BaseIngredientScript>().ChangeProcessTime(3, newIngredientState3);
+        }
+        else
+        {
+            containedItemGameObject.GetComponent<BaseIngredientScript>().ChangeProcessTime(666, newIngredientState3);
+        }
+    }
+
+    public void ChangeProcessPercentFromContainedItem()
+    {
+        containedItemGameObject.GetComponent<BaseIngredientScript>().ChangeProcessPercent();
+    }
+
+    public void ChangeToBurnedContainer()
+    {
+        containedItemID = -2;
+        containedItemIndex = -1;
+        HideModel();
+        Destroy(containedItemGameObject);
+        containedItemGameObject = null;
+        burnedModel.SetActive(true);
+        lastModel = burnedModel;
+        isReady = false;
     }
 
     public void EmptyContainer()
@@ -58,6 +114,7 @@ public class IndividualState3ChangerContainerState : MonoBehaviour
         containedItemIndex = -1;
         HideModel();
         containedItemGameObject = null;
+        isReady = false;
     }
 
     private void HideOriginalModel()

@@ -14,6 +14,21 @@ public class DispenserState : IStationState
         this.dispensedItemID = dispensedItemID;
     }
 
+    public int GetContainedItemID()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public GameObject GetContainedItemGameObject()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void EmptyStation()
+    {
+        throw new System.NotImplementedException();
+    }
+
     public int OnAccessEmpty()
     {
         if (itemCount > 0)

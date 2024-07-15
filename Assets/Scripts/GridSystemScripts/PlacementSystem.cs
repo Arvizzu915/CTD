@@ -44,10 +44,10 @@ public class PlacementSystem : MonoBehaviour
         playerActions.OnPressed2 += SystemAction2;
     }
 
-    public void StartPlacement(int ID, int index)
+    public void StartPlacement(int ID, GameObject gameObject)
     {
         StopSystem();
-        buildingState = new PlacementState(ID, index, grid, previewSystem, inventorySystem, placeableObjectsDatabase, placeableObjectsData, mapObjectsData, objectPlacer);
+        buildingState = new PlacementState(ID, gameObject, grid, previewSystem, inventorySystem, placeableObjectsDatabase, placeableObjectsData, mapObjectsData, objectPlacer);
         playerActions.OnPressed1 += SystemAction1;
         playerActions.OnPressed2 += SystemAction2;
     }
