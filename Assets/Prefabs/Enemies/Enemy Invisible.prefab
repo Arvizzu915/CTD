@@ -157,3 +157,4 @@ MonoBehaviour:
   currentPoint: 0
   distanceToNextPoint: 0
   canAttackDefenseTimer: 1.5
+  isInvisible: 1
