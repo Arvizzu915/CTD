@@ -46,6 +46,14 @@ public class DefaultState : IBuildingState
         else if(mapObjectID == 3)
         {
             //dispensador, aun no esta
+            BaseStationScript mapStationScript = mapObjectsData.GetGameObjectAt(gridPosition).GetComponent<BaseStationScript>();
+            if (mapStationScript.GetContainedItemID() != -1)
+            {
+                int newID = mapStationScript.GetContainedItemID();
+                GameObject newObject = mapStationScript.GetContainedItemGameObject();
+                mapStationScript.EmptyStation();
+                inventorySystem.GetObject(newID, newObject);
+            }
         }
         else if(mapObjectID >= 4)
         {

@@ -14,6 +14,9 @@ public class IndividualState3ChangerContainerState : MonoBehaviour
     private int[] acceptedIDs;
 
     [SerializeField]
+    private int containerID;
+
+    [SerializeField]
     private int newIngredientState3;
 
     private int containedItemID = -1;
@@ -41,7 +44,7 @@ public class IndividualState3ChangerContainerState : MonoBehaviour
         bool canEnter = false;
         for (int i = 0; i < objectContainerIDs.Length; i++)
         {
-            if (objectContainerIDs[i] == 0)
+            if (objectContainerIDs[i] == containerID)
                 canEnter = true;
         }
         if (containedItemID != -1 || !canEnter)

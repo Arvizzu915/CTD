@@ -63,7 +63,7 @@ public class MapSystem : MonoBehaviour
         //int selectedObjectIndex = stationsDatabase.stationsData.FindIndex(data => data.ID == ID);
         //int newIndex = objectPlacer.PlaceStation(stationsDatabase.stationsData[selectedObjectIndex].Prefab, grid.CellToWorld(gridPosition), index);
         //mapObjectsData.AddObjectAt(gridPosition, stationsDatabase.stationsData[selectedObjectIndex].Size, stationsDatabase.stationsData[selectedObjectIndex].ID, newIndex);
-        objectPlacer.MoveObject(objectPlacer.CreateNewObject(ID), grid.CellToWorld(gridPosition));
+        objectPlacer.MoveObject(objectPlacer.CreateNewStation(ID, stationsDatabase), grid.CellToWorld(gridPosition));
     }
 
     private void PlaceObject(int ID, Vector3Int gridPosition, float yOffSet, int index)
@@ -71,6 +71,8 @@ public class MapSystem : MonoBehaviour
         //int selectedObjectIndex = placeableObjectsDatabase.objectsPlacementData.FindIndex(data => data.ID == ID);
         //int newIndex = objectPlacer.PlaceObject(placeableObjectsDatabase.objectsPlacementData[selectedObjectIndex].Prefab, grid.CellToWorld(gridPosition), yOffSet, index);
         //placeableObjectsData.AddObjectAt(gridPosition, placeableObjectsDatabase.objectsPlacementData[selectedObjectIndex].Size, placeableObjectsDatabase.objectsPlacementData[selectedObjectIndex].ID, newIndex);
-        objectPlacer.MoveObject(objectPlacer.CreateNewObject(ID), grid.CellToWorld(gridPosition));
+        Vector3 skibidi = grid.CellToWorld(gridPosition);
+        skibidi.y += yOffSet;
+        objectPlacer.MoveObject(objectPlacer.CreateNewObject(ID), skibidi);
     }
 }

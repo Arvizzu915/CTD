@@ -11,27 +11,29 @@ public class BaseIngredientScript : MonoBehaviour
     // 1 - default, default, cocido
     // 2 - default, default, freido
     // 3 - default, default, quemado
+    [SerializeField]
     private GameObject[] ingredientModels01;
     // 0 - default, empanizado, default
     // 1 - default, empanizado, cocido
     // 2 - default, empanizado, freido
     // 3 - default, empanizado, quemado
+    [SerializeField]
     private GameObject[] ingredientModels10;
     // 0 - cortado, default, default
     // 1 - cortado, default, cocido
     // 2 - cortado, default, freido
     // 3 - cortado, default, quemado
+    [SerializeField]
     private GameObject[] ingredientModels11;
     // 0 - cortado, empanizado, default
     // 1 - cortado, empanizado, cocido
     // 2 - cortado, empanizado, freido
     // 3 - cortado, empanizado, quemado
+    [SerializeField]
     private GameObject lastModel; //quiza haga falta un void start donde se iguale lastModel al primer modelo
 
     [SerializeField]
-    private int ingredientState1 = 0;
-    private int ingredientState2 = 0;
-    private int ingredientState3 = 0;
+    private int ingredientState1 = 0, ingredientState2 = 0, ingredientState3 = 0;
     //State 1
     // 0 - default / completo
     // 1 - cortado

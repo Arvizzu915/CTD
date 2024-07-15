@@ -16,7 +16,7 @@ public class DispenserState : IStationState
 
     public int GetContainedItemID()
     {
-        throw new System.NotImplementedException();
+        return dispensedItemID;
     }
 
     public GameObject GetContainedItemGameObject()

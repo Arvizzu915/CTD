@@ -40,7 +40,7 @@ public class BasePlateState : MonoBehaviour
         bool canEnter = false;
         for (int i = 0; i < objectContainerIDs.Length; i++)
         {
-            if (objectContainerIDs[i] == 0)
+            if (objectContainerIDs[i] == 100)
                 canEnter = true;
         }
         //solo se pueden meter ingredientes base, regulares, especias, platillos y torres al plato, y solo cosas que se puedan poner en plato (no vasos o bowl)
