@@ -30,40 +30,33 @@ public class DefaultState : IBuildingState
 
     public void OnAction1(Vector3Int gridPosition)
     {
-        int validity = CheckSelectionValidity(gridPosition);
-        if (validity == 0)
-            return;
-        if (validity == 1) 
-        {
-            inventorySystem.GetObject(placeableObjectsData.GetObjectIDAt(gridPosition), placeableObjectsData.GetRepresentationIndex(gridPosition));
-            objectPlacer.RemoveObjectAt(placeableObjectsData.GetRepresentationIndex(gridPosition));
-            placeableObjectsData.RemoveObjectAt(gridPosition);
-        }
-        else if (validity == 2)
-        {
-            GameObject stationGameObject = objectPlacer.GetStationWithIndex(mapObjectsData.GetRepresentationIndex(gridPosition));
-            if (stationGameObject != null)
-            {
-                int stationReturnedObject = stationGameObject.GetComponent<BaseStationScript>().OnAccessEmpty();
-                if (stationReturnedObject != -1)
-                {
-                    inventorySystem.GetObject(stationReturnedObject, -1);
-                }
-                else if(stationReturnedObject == -1)
-                {
-                    //Esto es mas especifico para las estaciones que solo aceptan platos, aqui pues si ya dio su item, entonces ya nomas tomas el plato vacio
-                    if (placeableObjectsData.GetObjectIDAt(gridPosition) >= 100 && placeableObjectsData.GetObjectIDAt(gridPosition) < 200) 
-                    {
-                        /*
-                        objectPlacer.GetGameObjectWithIndex(placeableObjectsData.GetRepresentationIndex(gridPosition)).GetComponent<PlateModelScript>().EmptyPlate();
-                        */
-                        inventorySystem.GetObject(placeableObjectsData.GetObjectIDAt(gridPosition), placeableObjectsData.GetRepresentationIndex(gridPosition));
-                        objectPlacer.RemoveObjectAt(placeableObjectsData.GetRepresentationIndex(gridPosition));
-                        placeableObjectsData.RemoveObjectAt(gridPosition);
-                    }
-                    //Aca despues podria ir uno que cheque que sea un ingrediente/especia, y si la estacion devuelve que simon o algo asi, etnonces que cambie ese ingrediente/especia a su version cortada
-                }
+        //Como ya quiero acabar, hare este if a lo "facil" asi que probablemente no sea muy optimo
+        int placeableObjectID = placeableObjectsData.GetObjectIDAt(gridPosition);
+        GameObject placeableObjectGameObject = placeableObjectsData.GetGameObjectAt(gridPosition);
+        int mapObjectID = mapObjectsData.GetObjectIDAt(gridPosition);
 
+        if (mapObjectID <= 0 || mapObjectID == 2)
+            return;
+        if(mapObjectID == 1 && placeableObjectID != -1)
+        {
+            //si es mesa basica con algo, agarra el algo y lo quita del diccionario
+            placeableObjectsData.RemoveObjectAt(gridPosition);
+            inventorySystem.GetObject(placeableObjectID, placeableObjectGameObject);
+        }
+        else if(mapObjectID == 3)
+        {
+            //dispensador, aun no esta
+        }
+        else if(mapObjectID >= 4)
+        {
+            //en el script del stoveState faltan cosas, como que pare el timer y eso, pero de mientras 
+            BaseStationScript mapStationScript = mapObjectsData.GetGameObjectAt(gridPosition).GetComponent<BaseStationScript>();
+            if (mapStationScript.GetContainedItemID() != -1)
+            {
+                int newID = mapStationScript.GetContainedItemID();
+                GameObject newObject = mapStationScript.GetContainedItemGameObject();
+                mapStationScript.EmptyStation();
+                inventorySystem.GetObject(newID, newObject);
             }
         }
     }
@@ -79,20 +72,7 @@ public class DefaultState : IBuildingState
     // 2 - Obtiene un objeto en su mano, y modifica el objeto del mapa
     private int CheckSelectionValidity(Vector3Int gridPosition)
     {
-        int placeableObjectID = placeableObjectsData.GetObjectIDAt(gridPosition);
-        int mapObjectID = mapObjectsData.GetObjectIDAt(gridPosition);
-
-        if ((placeableObjectID >= 0 && placeableObjectID < 500) && mapObjectID == 0)
-        {
-            // Puede agarrar cualquier objeto que esté en una mesa basica
-            return 1;
-        }
-        else if (mapObjectID >= 2) 
-        {
-            //Se vale si apunta a un dispensador o estacion (no piso, mesa vacia, ni bote de basura)
-            return 2;
-        }
-
+        //esta funcion probablemente sea eliminada, ya que por ahora no tiene ningun proposito
         return 0;
     }
 

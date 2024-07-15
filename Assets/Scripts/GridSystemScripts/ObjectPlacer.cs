@@ -5,66 +5,37 @@ using UnityEngine;
 
 public class ObjectPlacer : MonoBehaviour
 {
-    [SerializeField]
-    private List<GameObject> placedGameObjects = new();
-
+    //Ahora este script es el encargado de crear los objetos nuevos, moverlos y destruirlos, es el unico que puede crear nuevos objetos, mas no el unico en poder destruirlos o moverlos
     [SerializeField]
     private List<GameObject> placedStations = new();
 
-    public int PlaceObject(GameObject prefab, Vector3 position, float yOffSet, int index)
+    [SerializeField]
+    PlaceableObjectsDatabaseSO placeableObjectsDatabase;
+
+    public GameObject CreateNewObject(int ID)
     {
-        if(index == -1)
-        {
-            GameObject newOject = Instantiate(prefab);
-            newOject.transform.position = new Vector3(position.x, position.y + yOffSet, position.z);
-            for (int i = 0; i < placedGameObjects.Count; i++)
-            {
-                if(placedGameObjects[i] == null)
-                {
-                    //Aca basicamente si no tiene en index nada (es un objeto nuevesito, entonces busca entre los objetos colocados haber si hay uno vacio, si hay lo pone ahi y ese sera su nuevo index.
-                    placedGameObjects[i] = newOject;
-                    return i;
-                }
-            }
-            //Si estan todos llenos, entonces agrega un nuevo elemento a la lista y pasa su index.
-            placedGameObjects.Add(newOject);
-            return placedGameObjects.Count - 1;
-        }
-        else
-        {
-            if(index < placedGameObjects.Count)
-            {
-                //Si ya tiene index, significa que es un objeto que si existe ya, entonces nomas hay que activarlo
-                placedGameObjects[index].SetActive(true);
-                placedGameObjects[index].transform.position = new Vector3(position.x, position.y + yOffSet, position.z);
-                return index;
-            }
-            else
-            {
-                //si por alguna razon el objeto ya trae index, pero no esta en la lista, entonces algo salio muy mal
-                throw new System.Exception($"No index found in list {index}");
-            }
-        }
+        int objectIndex = placeableObjectsDatabase.objectsPlacementData.FindIndex(data => data.ID == ID);
+        GameObject newOject = Instantiate(placeableObjectsDatabase.objectsPlacementData[objectIndex].Prefab);
+        return newOject;
     }
 
-    internal void RemoveObjectAt(int gameObjectIndex)
+    public void MoveObject(GameObject gameObject, Vector3 position)
     {
-        //por ahora solo oculta el objeto, pero quiza sea mejor despues moverlo a las manos del jugador
-        if (placedGameObjects.Count <= gameObjectIndex || gameObjectIndex <= -1 || placedGameObjects[gameObjectIndex] == null)
-            return;
-        placedGameObjects[gameObjectIndex].SetActive(false);
+        if(gameObject == null)
+        {
+            print("que rayos paso aqui, porque me mandas un objeto vacio??");
+        }
+        gameObject.transform.position = position;
     }
 
-    public void PermaRemoveObjectAt(int gameObjectIndex)
+    public void DeleteObject(GameObject gameObject)
     {
-        if (placedGameObjects.Count <= gameObjectIndex || gameObjectIndex <= -1 || placedGameObjects[gameObjectIndex] == null)
-            return;
-        Destroy(placedGameObjects[gameObjectIndex]);
-        placedGameObjects[gameObjectIndex] = null;
+        Destroy(gameObject);
     }
 
     public int PlaceStation(GameObject prefab, Vector3 position, int index)
     {
+        //Por ahora esto no se usa, asi que quiza sea eliminado junto con la lista de estaciones si es que no son necesarias
         if (index == -1)
         {
             GameObject newOject = Instantiate(prefab);
@@ -97,13 +68,6 @@ public class ObjectPlacer : MonoBehaviour
                 throw new System.Exception($"No index found in list {index}");
             }
         }
-    }
-
-    public GameObject GetGameObjectWithIndex(int index)
-    {
-        if (placedGameObjects.Count <= index || index == -1)
-            return null;
-        return placedGameObjects[index].gameObject;
     }
 
     public GameObject GetStationWithIndex(int index)

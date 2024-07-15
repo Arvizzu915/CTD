@@ -4,13 +4,22 @@ using UnityEngine;
 
 public class CuttingTableState : IStationState
 {
-
-    public void OnAccess2()
+    public void EmptyStation()
     {
         throw new System.NotImplementedException();
     }
 
-    public int OnAccessEmpty()
+    public GameObject GetContainedItemGameObject()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public int GetContainedItemID()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void OnAccess2()
     {
         throw new System.NotImplementedException();
     }
