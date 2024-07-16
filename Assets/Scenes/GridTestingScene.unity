@@ -557,8 +557,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c242950360d96047b25c1c346463626, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  placedGameObjects: []
   placedStations: []
+  placeableObjectsDatabase: {fileID: 11400000, guid: e08f01dfa233aa34986a0ee5c78dc705, type: 2}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -1210,8 +1210,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da945a25ac63eb640a6eae823326d17d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  placeableObjectsDatabase: {fileID: 11400000, guid: e08f01dfa233aa34986a0ee5c78dc705, type: 2}
   placementSystem: {fileID: 429956305}
+  objectPlacer: {fileID: 740902795}
+  playerActions: {fileID: 1074560559}
 --- !u!4 &1831030760
 Transform:
   m_ObjectHideFlags: 0

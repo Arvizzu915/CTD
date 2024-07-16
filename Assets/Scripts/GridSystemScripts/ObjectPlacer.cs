@@ -19,6 +19,13 @@ public class ObjectPlacer : MonoBehaviour
         return newOject;
     }
 
+    public GameObject CreateNewStation(int ID, StationsDatabaseSO stationsDatabase)
+    {
+        int objectIndex = stationsDatabase.stationsData.FindIndex(data => data.ID == ID);
+        GameObject newOject = Instantiate(stationsDatabase.stationsData[objectIndex].Prefab);
+        return newOject;
+    }
+
     public void MoveObject(GameObject gameObject, Vector3 position)
     {
         if(gameObject == null)
