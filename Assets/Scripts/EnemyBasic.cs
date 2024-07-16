@@ -11,6 +11,7 @@ public class EnemyBasic : MonoBehaviour
     public float distanceToNextPoint = 0, canAttackDefenseTimer;
     private float canAttackDefenseTimerReference;
     private bool attacking = false, inPoint = false, canAttackDefense = true;
+    public bool isInvisible;
 
     GameObject route;
     Route routeScript;

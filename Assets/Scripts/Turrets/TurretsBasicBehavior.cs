@@ -9,11 +9,11 @@ public class TurretsBasicBehavior : MonoBehaviour
 
     public float cadence;
     public int enemiesInRange = 0;
-    public bool canShoot = false;
+    public bool canShoot = false, canSeeInvisible;
 
     public List<GameObject> enemies = new List<GameObject>();
 
-    private EnemyBasic currentEnemyBeingCompared, enemyToCompare;
+    private EnemyBasic currentEnemyBeingCompared, enemyToCompare, enemyCollision;
     private BasicTurretShoot shootScript;
 
     private void Start()
@@ -69,12 +69,18 @@ public class TurretsBasicBehavior : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            if (enemiesInRange <= 0)
+            enemyCollision =  other.gameObject.GetComponent<EnemyBasic>();
+
+            if (canSeeInvisible || (!canSeeInvisible && !enemyCollision.isInvisible)) 
             {
-                enemyObjective = other.gameObject;
+                if (enemiesInRange <= 0)
+                {
+                    enemyObjective = other.gameObject;
+                }
+                enemies.Add(other.gameObject);
+                enemiesInRange++;
             }
-            enemies.Add(other.gameObject);
-            enemiesInRange++;
+            
         }
     }
 
