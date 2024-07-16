@@ -155,7 +155,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -283,6 +283,7 @@ MonoBehaviour:
   cadence: 3
   enemiesInRange: 0
   canShoot: 0
+  canSeeInvisible: 0
   enemies: []
 --- !u!135 &6418266071987597105
 SphereCollider:
