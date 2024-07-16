@@ -155,7 +155,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyObjective: {fileID: 0}
-  cadence: 2
+  cadence: 1.8
   enemiesInRange: 0
   canShoot: 0
   canSeeInvisible: 1
@@ -194,9 +194,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cadence: 2
-  damage1: 2
-  damage2: 4
-  damage3: 6
+  damage: 3
   projectile: {fileID: 7527298208413731341, guid: 93f6fe940c3d21641a8cf824cd26b49c, type: 3}
-  damage: 0
-  canShoot: 0
