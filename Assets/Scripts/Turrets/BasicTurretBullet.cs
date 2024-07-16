@@ -35,7 +35,7 @@ public class BasicTurretBullet : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            other.gameObject.GetComponent<EnemyBasic>().TakeDamage(damage);
+            other.gameObject.GetComponent<EnemyBasic>().TakeDamage(damage, false);
             Destroy(gameObject);
         }
     }

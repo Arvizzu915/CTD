@@ -68,7 +68,7 @@ GameObject:
   - component: {fileID: 7947083089227415913}
   m_Layer: 0
   m_Name: ShotgunArea
-  m_TagString: ShotgunArea
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

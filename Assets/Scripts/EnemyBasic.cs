@@ -59,11 +59,18 @@ public class EnemyBasic : MonoBehaviour
         distanceToNextPoint = UnityEngine.Vector3.Distance(transform.position, routeScript.pointsToFollow[currentPoint].position);
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, bool isAntiArmour)
     {
         if (armour > 0)
         {
-            armour -= damage/2;
+            if (isAntiArmour) 
+            {
+                armour -= damage * 2;
+            }
+            else
+            {
+                armour -= damage / 2;
+            }
         }
         else
         {
