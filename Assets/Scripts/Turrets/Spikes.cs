@@ -36,7 +36,7 @@ public class Spikes : MonoBehaviour
         {
             if (enemies[i] != null)
             {
-                enemies[i].gameObject.GetComponent<EnemyBasic>().TakeDamage(damage);
+                enemies[i].gameObject.GetComponent<EnemyBasic>().TakeDamage(damage, true);
             }
             
         }

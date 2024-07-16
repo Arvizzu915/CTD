@@ -7,7 +7,7 @@ public class Bombs : MonoBehaviour
     [SerializeField] float speed;
 
     public float damage, timer;
-    public bool exploded = false;
+    public bool exploded = false, isAntiArmour;
 
     public List<GameObject> enemies = new List<GameObject>();
 
@@ -42,7 +42,7 @@ public class Bombs : MonoBehaviour
     {
         foreach (GameObject item in enemies)
         {
-            item.gameObject.GetComponent<EnemyBasic>().TakeDamage(damage);
+            item.gameObject.GetComponent<EnemyBasic>().TakeDamage(damage, isAntiArmour);
             Destroy(gameObject);
         }
     }

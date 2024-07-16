@@ -151,7 +151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 15
-  armour: 0
+  armour: 10
   speed: 600
   damageToDefense: 6
   currentPoint: 0
