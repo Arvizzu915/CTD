@@ -9,8 +9,8 @@ public class EnemyBasic : MonoBehaviour
     private Rigidbody rb;
     public int currentPoint = 0;
     public float distanceToNextPoint = 0, canAttackDefenseTimer;
-    private float canAttackDefenseTimerReference;
-    private bool attacking = false, inPoint = false, canAttackDefense = true;
+    private float canAttackDefenseTimerReference, stunTimer, stunTimerReference;
+    private bool attacking = false, inPoint = false, canAttackDefense = true, canWalk = true;
     public bool isInvisible;
 
     GameObject route;
@@ -35,11 +35,16 @@ public class EnemyBasic : MonoBehaviour
             Destroy(gameObject); return;
         }
 
-        if (!attacking) 
+        if (canWalk) 
         {
             WalkToPoint();
         }
         else
+        {
+            rb.velocity = UnityEngine.Vector3.zero;
+        }
+
+        if (attacking)
         {
             Attack();
         }
@@ -48,6 +53,15 @@ public class EnemyBasic : MonoBehaviour
         {
             canAttackDefense = true;
             canAttackDefenseTimerReference = Time.time;
+        }
+
+        if (Time.time - stunTimerReference >= stunTimer)
+        {
+            canWalk = true;
+        }
+        else
+        {
+            canWalk = false;
         }
     }
 
@@ -76,6 +90,12 @@ public class EnemyBasic : MonoBehaviour
         {
             health -= damage;
         }
+    }
+
+    public void StunEnemy(float stunTime)
+    {
+        stunTimer = stunTime;
+        stunTimerReference = Time.time;
     }
 
     private void Attack()
