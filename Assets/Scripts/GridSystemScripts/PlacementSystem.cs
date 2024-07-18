@@ -9,10 +9,7 @@ public class PlacementSystem : MonoBehaviour
     [SerializeField]
     private Grid grid;
 
-    [SerializeField]
-    private PlaceableObjectsDatabaseSO placeableObjectsDatabase;
-
-    public GridData placeableObjectsData, mapObjectsData;
+    public GridData placeableObjectsData, mapObjectsData; //probablemente el placeableObjectsData sea eliminado o cambiado por towersData, ya que ahora todos los objetos del mapa siempre estan dentro de algun mapObject
 
     [SerializeField]
     private PreviewSystem previewSystem;
@@ -47,7 +44,7 @@ public class PlacementSystem : MonoBehaviour
     public void StartPlacement(int ID, GameObject gameObject)
     {
         StopSystem();
-        buildingState = new PlacementState(ID, gameObject, grid, previewSystem, inventorySystem, placeableObjectsDatabase, placeableObjectsData, mapObjectsData, objectPlacer);
+        buildingState = new PlacementState(ID, gameObject, grid, previewSystem, inventorySystem, placeableObjectsData, mapObjectsData, objectPlacer);
         playerActions.OnPressed1 += SystemAction1;
         playerActions.OnPressed2 += SystemAction2;
     }

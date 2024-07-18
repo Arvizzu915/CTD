@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DispenserState : IStationState
 {
-    int dispensedItemID;
+    private int dispensedItemID;
     private float itemCooldown = 5f;
     private float timeCount = 0f;
     private int itemCount = 0;
@@ -16,21 +16,6 @@ public class DispenserState : IStationState
 
     public int GetContainedItemID()
     {
-        return dispensedItemID;
-    }
-
-    public GameObject GetContainedItemGameObject()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void EmptyStation()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public int OnAccessEmpty()
-    {
         if (itemCount > 0)
         {
             itemCount--;
@@ -40,15 +25,24 @@ public class DispenserState : IStationState
         return -1;
     }
 
-    public bool OnAccessWithID(int ID, GameObject gameObject)
+    public GameObject GetContainedItemGameObject()
     {
-        //Por ahora es false, pero quiza si esta sosteniendo un plato, podría haber una exepcion
-        return false;
+        return null;
+    }
+
+    public void EmptyStation()
+    {
+        //Nada
+    }
+
+    public int CanEnterStation(int ID, GameObject gameObject)
+    {
+        return 0;
     }
 
     public void OnAccess2()
     {
-        //Nada xd
+        //Nada
     }
 
     public void UpdateState()

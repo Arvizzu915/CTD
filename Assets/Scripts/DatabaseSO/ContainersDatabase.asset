@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19a4d7d42c0186a4c80cc2840e38701b, type: 3}
+  m_Name: ContainersDatabase
+  m_EditorClassIdentifier: 
+  objectsData:
+  - <Name>k__BackingField: Flat Plate
+    <ID>k__BackingField: 100
+    <Prefab>k__BackingField: {fileID: 1326499916210567707, guid: 9fb992d7505485e4a846f9495db4eb97, type: 3}
+  - <Name>k__BackingField: Pot
+    <ID>k__BackingField: 105
+    <Prefab>k__BackingField: {fileID: 1326499916210567707, guid: 110cf1bbfe68ee94982d9d04b0daad5f, type: 3}

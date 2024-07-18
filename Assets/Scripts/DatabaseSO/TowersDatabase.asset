@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19a4d7d42c0186a4c80cc2840e38701b, type: 3}
+  m_Name: TowersDatabase
+  m_EditorClassIdentifier: 
+  objectsData:
+  - <Name>k__BackingField: Sushi
+    <ID>k__BackingField: 400
+    <Prefab>k__BackingField: {fileID: 0}
+  - <Name>k__BackingField: Breaded Fish
+    <ID>k__BackingField: 401
+    <Prefab>k__BackingField: {fileID: 0}
+  - <Name>k__BackingField: Tortilla Chips
+    <ID>k__BackingField: 402
+    <Prefab>k__BackingField: {fileID: 0}
+  - <Name>k__BackingField: Onigiri
+    <ID>k__BackingField: 403
+    <Prefab>k__BackingField: {fileID: 0}
+  - <Name>k__BackingField: Coffee Drink
+    <ID>k__BackingField: 404
+    <Prefab>k__BackingField: {fileID: 0}
+  - <Name>k__BackingField: Chicken Popcorn
+    <ID>k__BackingField: 405
+    <Prefab>k__BackingField: {fileID: 0}
