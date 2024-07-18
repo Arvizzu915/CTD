@@ -82,6 +82,26 @@ public class StoveState : IStationState
 
     public void UpdateState()
     {
+        if (containedItemGameObject != null)
+        {
+            if (containedItemGameObject.gameObject.GetComponent<BaseIngredientScript>().cookingTimes[0] > 0)
+            {
+                containedItemGameObject.gameObject.GetComponent<BaseIngredientScript>().cookingTimes[0] -= Time.deltaTime;
+            }
+            else if(containedItemGameObject.gameObject.GetComponent<BaseIngredientScript>().cookingTimes[0] > -5 && containedItemGameObject.gameObject.GetComponent<BaseIngredientScript>().cookingTimes[0] <= 0)
+            {
+                //empieza a quemarlo
+                containedItemGameObject.gameObject.GetComponent<BaseIngredientScript>().ChangeState3(1, true);
+                containedItemGameObject.gameObject.GetComponent<BaseIngredientScript>().cookingTimes[0] -= Time.deltaTime;
+            }
+            else
+            {
+                containedItemGameObject.gameObject.GetComponent<BaseIngredientScript>().ChangeState3(-1, true);
+                //ya esta quemado
+            }
+            
+        }
+
         //if (timeCount > 0f)
         //{
         //    timeCount -= Time.deltaTime;
