@@ -52,7 +52,7 @@ public class DefaultState : IBuildingState
 
     public void OnAction2(Vector3Int gridPosition)
     {
-
+        Debug.Log(mapObjectsData.GetObjectIDAt(gridPosition));
     }
 
     //Esta funcion solia retornar bool, pero para reutilizar codigo, ahora retorna un int que significa:
