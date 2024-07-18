@@ -60,11 +60,7 @@ public class BaseIngredientScript : MonoBehaviour
     [SerializeField]
     private bool isState2Changer = false;
 
-    //Esto servira para mostrar la barra de que tan completado esta el proceso
-    [SerializeField]
-    private int state1To1Time = 6, state3To1Time = 40, state3To2Time = 40, burnTime = 10;
-    private int currentProcessTime = 0;
-    private int currentProcessPercent = 0;
+    [SerializeField] public float[] cookingTimes = new float[3] {0, 0, 0};
 
     public void ChangeState1(int newState, bool showModel)
     {
@@ -74,8 +70,6 @@ public class BaseIngredientScript : MonoBehaviour
         if (showModel)
             ShowModel();
         ChangeAttributesIDs();
-        //Por ahora, cada que cambia de estado se resetea el processPercent, por si las dudas
-        ResetProcessPercent();
     }
 
     public void ChangeState2(int newState, bool showModel)
@@ -86,7 +80,6 @@ public class BaseIngredientScript : MonoBehaviour
         if (showModel)
             ShowModel();
         ChangeAttributesIDs();
-        ResetProcessPercent();
     }
 
     public void ChangeState3(int newState, bool showModel)
@@ -97,7 +90,6 @@ public class BaseIngredientScript : MonoBehaviour
         if (showModel)
             ShowModel();
         ChangeAttributesIDs();
-        ResetProcessPercent();
     }
 
     private void ChangeAttributesIDs()
@@ -166,58 +158,7 @@ public class BaseIngredientScript : MonoBehaviour
         }
     }
 
-    public void ChangeProcessTime(int stateNumber, int stateValue)
-    {
-        switch (stateNumber)
-        {
-            case 1:
-                switch (stateValue)
-                {
-                    case 1:
-                        //cortar
-                        currentProcessTime = state1To1Time;
-                        break;
-                }
-                break;
-            case 2:
-                //esto probablemente nunca se use, pero aca esta pos nomas
-                break;
-            case 3:
-                switch (stateValue)
-                {
-                    case -1:
-                        //aca es cuando sea pa quemarse
-                        currentProcessTime = burnTime;
-                        break;
-                    case 1:
-                        //cocinar en olla
-                        currentProcessTime = state3To1Time;
-                        break;
-                    case 2:
-                        //freir
-                        currentProcessTime = state3To2Time;
-                        break;
-                }
-                break;
-        }
-    }
-
-    public void ChangeProcessPercent()
-    {
-        currentProcessPercent += 1;
-    }
-
-    public bool IsReady()
-    {
-        if (currentProcessTime != 0 && currentProcessPercent >= currentProcessTime)
-            return true;
-        return false;
-    }
-
-    public void ResetProcessPercent()
-    {
-        currentProcessPercent = 0;
-    }
+    
 
     public int ShowState1()
     {

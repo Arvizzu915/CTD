@@ -6,9 +6,10 @@ public class ShotgunShoot : MonoBehaviour
 {
     //checar que se llame la funcion de bajar vida en los enemigos
 
-    [SerializeField] public float cadence, damage1, damage2, damage3;
+    [SerializeField] public float cadence, damage;
+    [SerializeField] private bool canStun;
 
-    private float cadenceTime, damage = 0;
+    private float cadenceTime;
 
     private bool shoot = false, canShoot = false;
 
@@ -20,7 +21,6 @@ public class ShotgunShoot : MonoBehaviour
     private void Start()
     {
         cadence = gameObject.GetComponentInParent<TurretsBasicBehavior>().cadence;
-        damage = damage1;
         cadenceTime = Time.time - cadence;
         turretScript = gameObject.GetComponentInParent<TurretsBasicBehavior>();
     }
@@ -48,9 +48,15 @@ public class ShotgunShoot : MonoBehaviour
         {
             if (enemies[i] != null)
             {
+                enemyScript = enemies[i].gameObject.GetComponent<EnemyBasic>();
+                if (canStun)
+                {
+                    enemyScript.StunEnemy(1f);
+                }
+
                 //daño es igual a la distancia máxima más la distancia del enemigo multiplicada por el daño sobre 100 por 2
                 //damage = radius + Vector3.Distance(transform.position, enemies[i].transform.position) * .8;
-                enemies[i].gameObject.GetComponent<EnemyBasic>().TakeDamage(damage, false);
+                enemyScript.TakeDamage(damage, false);
             }
         }
 

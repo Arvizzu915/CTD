@@ -284,7 +284,7 @@ MonoBehaviour:
   _000ChangeState2ID: -1
   _100ChangeState2ID: -1
   isState2Changer: 0
-  state1To1Time: 6
-  state3To1Time: 40
-  state3To2Time: 40
-  burnTime: 10
+  cookingTimes:
+  - 10
+  - 0
+  - 0
