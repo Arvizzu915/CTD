@@ -8,6 +8,8 @@ public class InventorySystem : MonoBehaviour
     private GameObject selectedObjectGameObject = null;
 
     [SerializeField]
+    private GameObject player;
+    [SerializeField]
     PlacementSystem placementSystem;
     [SerializeField]
     ObjectPlacer objectPlacer;
@@ -22,7 +24,7 @@ public class InventorySystem : MonoBehaviour
     public bool GetObject(int ID, GameObject gameObject)
     {
         //Si ya tiene algo en la mano, o le llega un ID no aceptado, da false
-        if (selectedObjectID > -1 || ID <= -1 || ID > 400)
+        if (selectedObjectID != -1 || ID <= -1 || ID > 400)
             return false;
         //Iguala y coloca el objeto en mano
         selectedObjectID = ID;
@@ -35,6 +37,7 @@ public class InventorySystem : MonoBehaviour
         {
             selectedObjectGameObject = gameObject;
         }
+        selectedObjectGameObject.transform.parent = player.transform;
         objectPlacer.MoveObject(selectedObjectGameObject, playerActions.GetGrabHitboxPosition());
         placementSystem.StartPlacement(selectedObjectID, selectedObjectGameObject);
         return true;

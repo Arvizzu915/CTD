@@ -261,7 +261,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ingredientModels00:
-  - {fileID: 495663309775192055}
+  - {fileID: 0}
   - {fileID: 4443699916584219924}
   ingredientModels01: []
   ingredientModels10: []
@@ -271,18 +271,18 @@ MonoBehaviour:
   ingredientState2: 0
   ingredientState3: 0
   _000MixIDs: 
-  _001MixIDs: f4010000f7010000
+  _001MixIDs: 9001000093010000
   _012MixIDs: 
   _100MixIDs: 
   _102MixIDs: 
   _112MixIDs: 
-  _000ContainerIDs: 6400000069000000
-  _001ContainerIDs: 6400000069000000
-  _010ContainerIDs: 
-  _100ContainerIDs: 
-  _110ContainerIDs: 
-  _000ChangeState2ID: 0
-  _100ChangeState2ID: 0
+  _000ContainersAndStationsIDs: 6400000069000000
+  _001ContainersAndStationsIDs: 6400000069000000
+  _010ContainersAndStationsIDs: 64000000
+  _100ContainersAndStationsIDs: 64000000
+  _110ContainersAndStationsIDs: 64000000
+  _000ChangeState2ID: -1
+  _100ChangeState2ID: -1
   isState2Changer: 0
   state1To1Time: 6
   state3To1Time: 40

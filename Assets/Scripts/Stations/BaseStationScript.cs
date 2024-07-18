@@ -4,27 +4,32 @@ using UnityEngine;
 
 public class BaseStationScript : MonoBehaviour
 {
-    private enum StationTypes { Dispenser, Stove }
     [SerializeField]
-    private StationTypes stationType = StationTypes.Dispenser;
+    private int stationID = 501;
 
     [SerializeField]
     private int[] acceptedIDs;
 
     //Aca la verdad no se si esto sea la mejor opcion, pero fue lo unico que se me ocurrio para poder pasarle al dispenserState un ID del objeto que dispensa, lo malo es que ningun otro state va a usar esta variable
     [SerializeField]
-    private int itemID;
+    public int itemID; //la hize public de mientras nomas en lo que esta el mapsystem definitivo (ahorita necesita esto)
 
     IStationState stationState;
 
     void Start()
     {
-        switch (stationType)
+        switch (stationID)
         {
-            case StationTypes.Dispenser:
+            case 501:
+                stationState = new BasicTableState(this.transform.position);
+                break;
+            case 502:
+                stationState = new TrashcanState();
+                break;
+            case 503:
                 stationState = new DispenserState(itemID);
                 break;
-            case StationTypes.Stove:
+            case 504:
                 stationState = new StoveState(acceptedIDs);
                 break;
         }
@@ -45,12 +50,11 @@ public class BaseStationScript : MonoBehaviour
         stationState.EmptyStation();
     }
 
-    public bool OnAccessWithID(int ID, GameObject gameObject)
+    public int CanEnterStation(int ID, GameObject gameObject)
     {
-        return stationState.OnAccessWithID(ID, gameObject);
+        return stationState.CanEnterStation(ID, gameObject);
     }
 
-    // Update is called once per frame
     void Update()
     {
         stationState.UpdateState();

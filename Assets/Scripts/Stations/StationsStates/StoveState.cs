@@ -33,7 +33,7 @@ public class StoveState : IStationState
         containedItemGameObject = null;
     }
 
-    public bool OnAccessWithID(int objectID, GameObject objectGameObject)
+    public int CanEnterStation(int objectID, GameObject objectGameObject)
     {
         bool canEnter = false;
         for (int i = 0; i < acceptedIDs.Length; i++)
@@ -42,38 +42,38 @@ public class StoveState : IStationState
                 canEnter = true;
         }
         if (containedItemID != -1 || !canEnter)
-            return false;
+            return 0;
 
         containedItemID = objectID;
         containedItemGameObject = objectGameObject;
-        StartTimer();
-        return true;
+        //StartTimer();
+        return 1;
     }
 
-    private void StartTimer()
-    {
-        timeCount = progressPercentTime;
-        if (CheckIfItemIsReady())
-        {
-            //inicia protocolo de quemar
-            containedItemGameObject.GetComponent<IndividualState3ChangerContainerState>().ChangeProcessTimeFromContainedItem(true);
-        }
-        else
-        {
-            //Lo normal
-            containedItemGameObject.GetComponent<IndividualState3ChangerContainerState>().ChangeProcessTimeFromContainedItem(false);
-        }
-    }
+    //private void StartTimer()
+    //{
+    //    timeCount = progressPercentTime;
+    //    if (CheckIfItemIsReady())
+    //    {
+    //        //inicia protocolo de quemar
+    //        containedItemGameObject.GetComponent<IndividualState3ChangerContainerState>().ChangeProcessTimeFromContainedItem(true);
+    //    }
+    //    else
+    //    {
+    //        //Lo normal
+    //        containedItemGameObject.GetComponent<IndividualState3ChangerContainerState>().ChangeProcessTimeFromContainedItem(false);
+    //    }
+    //}
 
-    private bool CheckIfItemIsReady()
-    {
-        return containedItemGameObject.GetComponent<IndividualState3ChangerContainerState>().IsReady();
-    }
+    //private bool CheckIfItemIsReady()
+    //{
+    //    return containedItemGameObject.GetComponent<IndividualState3ChangerContainerState>().IsReady();
+    //}
 
-    private bool CheckIfIngredientInItemIsReady()
-    {
-        return containedItemGameObject.GetComponent<IndividualState3ChangerContainerState>().IngredientIsReady();
-    }
+    //private bool CheckIfIngredientInItemIsReady()
+    //{
+    //    return containedItemGameObject.GetComponent<IndividualState3ChangerContainerState>().IngredientIsReady();
+    //}
 
     public void OnAccess2()
     {
@@ -82,32 +82,32 @@ public class StoveState : IStationState
 
     public void UpdateState()
     {
-        if (timeCount > 0f)
-        {
-            timeCount -= Time.deltaTime;
-            if (timeCount <= 0f)
-            {
-                //Avanza el proceso del ingrediente, y ve si esta listo
-                containedItemGameObject.GetComponent<IndividualState3ChangerContainerState>().ChangeProcessPercentFromContainedItem();
-                if (CheckIfIngredientInItemIsReady())
-                {
-                    //Si el ingrediente esta listo, entonces ve primero si el contenedor esta listo o no
-                    if (CheckIfItemIsReady())
-                    {
-                        //Si esta listo, significa que ya se quemo
-                        containedItemGameObject.GetComponent<IndividualState3ChangerContainerState>().ChangeToBurnedContainer();
-                    }
-                    else
-                    {
-                        //si no esta listo, entonces ahora le cambia a cocinado
-                        containedItemGameObject.GetComponent<IndividualState3ChangerContainerState>().ChangeState3OfContainedItem();
-                        //vuelve a iniciar el contador, pero ahora pa quemarse
-                        StartTimer();
-                    }
-                }
-                //Si no esta listo, reinicia el contador
-                timeCount = progressPercentTime;
-            }
-        }
+        //if (timeCount > 0f)
+        //{
+        //    timeCount -= Time.deltaTime;
+        //    if (timeCount <= 0f)
+        //    {
+        //        //Avanza el proceso del ingrediente, y ve si esta listo
+        //        containedItemGameObject.GetComponent<IndividualState3ChangerContainerState>().ChangeProcessPercentFromContainedItem();
+        //        if (CheckIfIngredientInItemIsReady())
+        //        {
+        //            //Si el ingrediente esta listo, entonces ve primero si el contenedor esta listo o no
+        //            if (CheckIfItemIsReady())
+        //            {
+        //                //Si esta listo, significa que ya se quemo
+        //                containedItemGameObject.GetComponent<IndividualState3ChangerContainerState>().ChangeToBurnedContainer();
+        //            }
+        //            else
+        //            {
+        //                //si no esta listo, entonces ahora le cambia a cocinado
+        //                containedItemGameObject.GetComponent<IndividualState3ChangerContainerState>().ChangeState3OfContainedItem();
+        //                //vuelve a iniciar el contador, pero ahora pa quemarse
+        //                StartTimer();
+        //            }
+        //        }
+        //        //Si no esta listo, reinicia el contador
+        //        timeCount = progressPercentTime;
+        //    }
+        //}
     }
 }

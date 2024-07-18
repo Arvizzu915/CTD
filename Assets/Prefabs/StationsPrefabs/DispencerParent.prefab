@@ -260,6 +260,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b40de4326e7ce82439d5549075f6a739, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stationType: 0
+  stationID: 503
   acceptedIDs: 
-  itemID: 200
+  itemID: 0

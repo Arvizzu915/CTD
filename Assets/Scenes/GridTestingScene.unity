@@ -316,7 +316,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerActions: {fileID: 1074560559}
   grid: {fileID: 123025831}
-  placeableObjectsDatabase: {fileID: 11400000, guid: e08f01dfa233aa34986a0ee5c78dc705, type: 2}
   previewSystem: {fileID: 986842125}
   inventorySystem: {fileID: 1831030759}
   mapSystem: {fileID: 1236511104}
@@ -557,8 +556,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c242950360d96047b25c1c346463626, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  placedStations: []
-  placeableObjectsDatabase: {fileID: 11400000, guid: e08f01dfa233aa34986a0ee5c78dc705, type: 2}
+  specialItemsDatabase: {fileID: 11400000, guid: dc2a52bfc896fae4fa07ff0e20956208, type: 2}
+  containersDatabase: {fileID: 11400000, guid: 6a7ebc7997a9edc4e92f7f5dd3b36620, type: 2}
+  ingredientsDatabase: {fileID: 11400000, guid: 376ac9c57f3e34b4c98276bca14e83b1, type: 2}
+  spicesDatabase: {fileID: 11400000, guid: 1c5c67392cae40d42bff9796cdd4e029, type: 2}
+  towersDatabase: {fileID: 11400000, guid: af83f9b33a01cf146a8ee764cc373cfc, type: 2}
+  stationsDatabase: {fileID: 11400000, guid: 20a063ce3a13a8f438c8e9bb16230b50, type: 2}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -1061,8 +1064,6 @@ MonoBehaviour:
   mapObjectsPositions: []
   objectPlacer: {fileID: 740902795}
   grid: {fileID: 123025831}
-  placeableObjectsDatabase: {fileID: 11400000, guid: e08f01dfa233aa34986a0ee5c78dc705, type: 2}
-  stationsDatabase: {fileID: 11400000, guid: fc3e665e4e94f8c41b91837a83354c4d, type: 2}
 --- !u!1 &1537720897
 GameObject:
   m_ObjectHideFlags: 0
@@ -1210,6 +1211,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da945a25ac63eb640a6eae823326d17d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 1074560552}
   placementSystem: {fileID: 429956305}
   objectPlacer: {fileID: 740902795}
   playerActions: {fileID: 1074560559}

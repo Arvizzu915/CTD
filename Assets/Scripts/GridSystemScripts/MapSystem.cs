@@ -21,11 +21,6 @@ public class MapSystem : MonoBehaviour
     [SerializeField]
     private Grid grid;
 
-    [SerializeField]
-    private PlaceableObjectsDatabaseSO placeableObjectsDatabase;
-    [SerializeField]
-    private StationsDatabaseSO stationsDatabase;
-
     private GridData placeableObjectsData, mapObjectsData;
 
 
@@ -43,36 +38,38 @@ public class MapSystem : MonoBehaviour
 
     private void SetMapObjects()
     {
-        PlaceStation(0, new Vector3Int(5, 0, 5));
-        PlaceStation(0, new Vector3Int(5, 0, 6));
-        PlaceStation(0, new Vector3Int(5, 0, 7));
-        PlaceStation(0, new Vector3Int(5, 0, 8));
-        PlaceStation(0, new Vector3Int(5, 0, 9));
+        PlaceObject(501, new Vector3Int(5, 0, 5), 0f, 0);
+        PlaceObject(501, new Vector3Int(5, 0, 6), 0f, 0);
+        PlaceObject(501, new Vector3Int(5, 0, 7), 0f, 0);
+        PlaceObject(501, new Vector3Int(5, 0, 8), 0f, 0);
+        PlaceObject(501, new Vector3Int(5, 0, 9), 0f, 0);
 
-        PlaceObject(0, new Vector3Int(5, 0, 7), 1f, -1);
-        PlaceObject(100, new Vector3Int(5, 0, 6), 1f, -1);
-        PlaceObject(100, new Vector3Int(5, 0, 5), 1f, -1);
+        PlaceObject(0, new Vector3Int(5, 0, 7), 1f, 0);
+        PlaceObject(100, new Vector3Int(5, 0, 6), 1f, 0);
+        PlaceObject(100, new Vector3Int(5, 0, 5), 1f, 0);
 
-        PlaceStation(1, new Vector3Int(7, 0, 5));
-        PlaceStation(2, new Vector3Int(7, 0, 7));
-        PlaceStation(3, new Vector3Int(7, 0, 9));
+        PlaceObject(502, new Vector3Int(7, 0, 5), 0f, 0);
+        PlaceObject(503, new Vector3Int(7, 0, 7), 0f, 200);
+        PlaceObject(503, new Vector3Int(7, 0, 9), 0f, 204);
     }
 
-    private void PlaceStation(int ID, Vector3Int gridPosition)
-    {
-        //int selectedObjectIndex = stationsDatabase.stationsData.FindIndex(data => data.ID == ID);
-        //int newIndex = objectPlacer.PlaceStation(stationsDatabase.stationsData[selectedObjectIndex].Prefab, grid.CellToWorld(gridPosition), index);
-        //mapObjectsData.AddObjectAt(gridPosition, stationsDatabase.stationsData[selectedObjectIndex].Size, stationsDatabase.stationsData[selectedObjectIndex].ID, newIndex);
-        objectPlacer.MoveObject(objectPlacer.CreateNewStation(ID, stationsDatabase), grid.CellToWorld(gridPosition));
-    }
-
-    private void PlaceObject(int ID, Vector3Int gridPosition, float yOffSet, int index)
+    private void PlaceObject(int ID, Vector3Int gridPosition, float yOffSet, int itemID)
     {
         //int selectedObjectIndex = placeableObjectsDatabase.objectsPlacementData.FindIndex(data => data.ID == ID);
         //int newIndex = objectPlacer.PlaceObject(placeableObjectsDatabase.objectsPlacementData[selectedObjectIndex].Prefab, grid.CellToWorld(gridPosition), yOffSet, index);
         //placeableObjectsData.AddObjectAt(gridPosition, placeableObjectsDatabase.objectsPlacementData[selectedObjectIndex].Size, placeableObjectsDatabase.objectsPlacementData[selectedObjectIndex].ID, newIndex);
-        Vector3 skibidi = grid.CellToWorld(gridPosition);
-        skibidi.y += yOffSet;
-        objectPlacer.MoveObject(objectPlacer.CreateNewObject(ID), skibidi);
+        Vector3 worldPosition = grid.CellToWorld(gridPosition);
+        worldPosition.y += yOffSet;
+        GameObject newObject = objectPlacer.CreateNewObject(ID);
+        objectPlacer.MoveObject(newObject, worldPosition);
+        if(ID >= 500)
+        {
+            mapObjectsData.AddObjectAt(gridPosition, ID, newObject);
+            newObject.GetComponent<BaseStationScript>().itemID = itemID;
+        }
+        else
+        {
+            placeableObjectsData.AddObjectAt(gridPosition, ID, newObject);
+        }
     }
 }
