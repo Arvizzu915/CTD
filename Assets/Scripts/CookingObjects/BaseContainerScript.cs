@@ -7,7 +7,7 @@ public class BaseContainerScript : MonoBehaviour
     //Ambos
     IContainerState containerState;
     [SerializeField]
-    private int containerID = 100;
+    public int containerID = 100;//por ahora la hize publica, pero podria ser privada y solo tener una funcion extra que devuelva su valor
 
     //Contenedores Generales (plato, vaso)
     [SerializeField]

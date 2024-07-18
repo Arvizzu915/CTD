@@ -5,7 +5,7 @@ using UnityEngine;
 public class BaseStationScript : MonoBehaviour
 {
     [SerializeField]
-    private int stationID = 501;
+    public int stationID = 501;//por ahora la hize publica, pero podria ser privada y solo tener una funcion extra que devuelva su valor
 
     [SerializeField]
     private int[] acceptedIDs;

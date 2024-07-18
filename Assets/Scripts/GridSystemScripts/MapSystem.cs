@@ -4,16 +4,12 @@ using UnityEngine;
 
 public class MapSystem : MonoBehaviour
 {
+    //Aca minimo es izquierda inferior, y maximo es derecha superior
     [SerializeField]
-    private Vector3Int minMapPos;
+    private GameObject minMapPosObject, maxMapPosObject, minKitchenPosObject, maxKitchenPosObject;
+    private Vector3Int minMapPos, maxMapPos, minKitchenPos, maxKitchenPos;
     [SerializeField]
-    private Vector3Int maxMapPos;
-    [SerializeField]
-    private int[] mapObjectsID;
-    [SerializeField]
-    private int[] mapObjectsAmmount;
-    [SerializeField]
-    private Vector3Int[] mapObjectsPositions;
+    private GameObject[] stationObjects, containerObjects, specialObjects;
     
     [SerializeField]
     ObjectPlacer objectPlacer;
@@ -26,50 +22,87 @@ public class MapSystem : MonoBehaviour
 
     void Start()
     {
-
+        
     }
 
     public void SetGridData(GridData placeableObjectsData, GridData mapObjectsData)
     {
         this.placeableObjectsData = placeableObjectsData;
         this.mapObjectsData = mapObjectsData;
-        SetMapObjects();
+        minMapPos = grid.WorldToCell(minMapPosObject.transform.position);
+        maxMapPos = grid.WorldToCell(maxMapPosObject.transform.position);
+        minKitchenPos = grid.WorldToCell(minKitchenPosObject.transform.position);
+        maxKitchenPos = grid.WorldToCell(maxKitchenPosObject.transform.position);
+        SetStations();
+        SetSpecialObjects();
+        SetContainers();
+        SetMap();
+        SetKitchen();
     }
 
-    private void SetMapObjects()
+    private void SetStations()
     {
-        PlaceObject(501, new Vector3Int(5, 0, 5), 0f, 0);
-        PlaceObject(501, new Vector3Int(5, 0, 6), 0f, 0);
-        PlaceObject(501, new Vector3Int(5, 0, 7), 0f, 0);
-        PlaceObject(501, new Vector3Int(5, 0, 8), 0f, 0);
-        PlaceObject(501, new Vector3Int(5, 0, 9), 0f, 0);
-
-        PlaceObject(0, new Vector3Int(5, 0, 7), 1f, 0);
-        PlaceObject(100, new Vector3Int(5, 0, 6), 1f, 0);
-        PlaceObject(100, new Vector3Int(5, 0, 5), 1f, 0);
-
-        PlaceObject(502, new Vector3Int(7, 0, 5), 0f, 0);
-        PlaceObject(503, new Vector3Int(7, 0, 7), 0f, 200);
-        PlaceObject(503, new Vector3Int(7, 0, 9), 0f, 204);
-    }
-
-    private void PlaceObject(int ID, Vector3Int gridPosition, float yOffSet, int itemID)
-    {
-        //int selectedObjectIndex = placeableObjectsDatabase.objectsPlacementData.FindIndex(data => data.ID == ID);
-        //int newIndex = objectPlacer.PlaceObject(placeableObjectsDatabase.objectsPlacementData[selectedObjectIndex].Prefab, grid.CellToWorld(gridPosition), yOffSet, index);
-        //placeableObjectsData.AddObjectAt(gridPosition, placeableObjectsDatabase.objectsPlacementData[selectedObjectIndex].Size, placeableObjectsDatabase.objectsPlacementData[selectedObjectIndex].ID, newIndex);
-        Vector3 worldPosition = grid.CellToWorld(gridPosition);
-        worldPosition.y += yOffSet;
-        GameObject newObject = objectPlacer.CreateNewObject(ID);
-        objectPlacer.MoveObject(newObject, worldPosition);
-        if(ID >= 500)
+        //primero ponemos las estaciones en el diccionario (mapa)
+        for (int i = 0; i < stationObjects.Length; i++)
         {
-            mapObjectsData.AddObjectAt(gridPosition, ID, newObject);
-            newObject.GetComponent<BaseStationScript>().itemID = itemID;
+            //estas 2 lineas que parece que no hacen nada, lo que hacen es mover el objeto a justo la casilla correcta
+            Vector3Int gridPosition = grid.WorldToCell(stationObjects[i].transform.position);
+            objectPlacer.MoveObject(stationObjects[i], grid.CellToWorld(gridPosition));
+            mapObjectsData.AddObjectAt(gridPosition, stationObjects[i].GetComponent<BaseStationScript>().stationID, stationObjects[i]);
         }
-        else
+    }
+
+    private void SetSpecialObjects()
+    {
+        //Aca es para poner los objetos dentro de sus respetivas estaciones, no checamos si pueden entrar porque en teoria nosotros hacemos el mapa, y pondremos todo donde puede estar
+        for (int i = 0; i < specialObjects.Length; i++)
         {
-            placeableObjectsData.AddObjectAt(gridPosition, ID, newObject);
+            Vector3Int gridPosition = grid.WorldToCell(specialObjects[i].transform.position);
+            GameObject station =  mapObjectsData.GetGameObjectAt(gridPosition);
+            //aca es 0 porque por ahora solo hay un objeto especial, pero quiza despues haya que ponerles un script que nos de su ID, o hacer un arreglo aqui que tenga todos los IDs
+            station.GetComponent<BaseStationScript>().CanEnterStation(0, specialObjects[i]);
+        }
+    }
+
+    private void SetContainers()
+    {
+        //Aca es para poner los objetos dentro de sus respetivas estaciones, no checamos si pueden entrar porque en teoria nosotros hacemos el mapa, y pondremos todo donde puede estar
+        for (int i = 0; i < containerObjects.Length; i++)
+        {
+            Vector3Int gridPosition = grid.WorldToCell(containerObjects[i].transform.position);
+            GameObject station = mapObjectsData.GetGameObjectAt(gridPosition);
+            //aca es 0 porque por ahora solo hay un objeto especial, pero quiza despues haya que ponerles un script que nos de su ID, o hacer un arreglo aqui que tenga todos los IDs
+            station.GetComponent<BaseStationScript>().CanEnterStation(containerObjects[i].GetComponent<BaseContainerScript>().containerID, containerObjects[i]);
+        }
+    }
+
+    private void SetMap()
+    {
+        for (int z = minMapPos.z; z <= maxMapPos.z; z++)
+        {
+            for (int x = minMapPos.x; x <= maxMapPos.x; x++)
+            {
+                Vector3Int gridPosition = new Vector3Int(x, 0, z);
+                if (mapObjectsData.GetObjectIDAt(gridPosition) == -1)
+                {
+                    mapObjectsData.AddObjectAt(gridPosition, 0, null);
+                }
+            }
+        }
+    }
+
+    private void SetKitchen()
+    {
+        for (int z = minKitchenPos.z; z <= maxKitchenPos.z; z++)
+        {
+            for (int x = minKitchenPos.x; x <= maxKitchenPos.x; x++)
+            {
+                Vector3Int gridPosition = new Vector3Int(x, 0, z);
+                if (mapObjectsData.GetObjectIDAt(gridPosition) == 0)
+                {
+                    mapObjectsData.RemoveObjectAt(gridPosition);
+                }
+            }
         }
     }
 }
