@@ -34,36 +34,25 @@ public class DefaultState : IBuildingState
         int placeableObjectID = placeableObjectsData.GetObjectIDAt(gridPosition);
         GameObject placeableObjectGameObject = placeableObjectsData.GetGameObjectAt(gridPosition);
         int mapObjectID = mapObjectsData.GetObjectIDAt(gridPosition);
+        GameObject mapObjectGameObject = mapObjectsData.GetGameObjectAt(gridPosition);
 
-        if (mapObjectID <= 0 || mapObjectID == 2)
+        if (mapObjectID <= 0)
             return;
-        if(mapObjectID == 1 && placeableObjectID != -1)
+
+        BaseStationScript mapObjectStationScript = mapObjectGameObject.GetComponent<BaseStationScript>();
+        int objectID = mapObjectStationScript.GetContainedItemID();
+        GameObject objectGameObject = mapObjectStationScript.GetContainedItemGameObject();
+
+        if(objectID != -1)
         {
-            //si es mesa basica con algo, agarra el algo y lo quita del diccionario
-            placeableObjectsData.RemoveObjectAt(gridPosition);
-            inventorySystem.GetObject(placeableObjectID, placeableObjectGameObject);
-        }
-        else if(mapObjectID == 3)
-        {
-            //dispensador, aun no esta
-        }
-        else if(mapObjectID >= 4)
-        {
-            //en el script del stoveState faltan cosas, como que pare el timer y eso, pero de mientras 
-            BaseStationScript mapStationScript = mapObjectsData.GetGameObjectAt(gridPosition).GetComponent<BaseStationScript>();
-            if (mapStationScript.GetContainedItemID() != -1)
-            {
-                int newID = mapStationScript.GetContainedItemID();
-                GameObject newObject = mapStationScript.GetContainedItemGameObject();
-                mapStationScript.EmptyStation();
-                inventorySystem.GetObject(newID, newObject);
-            }
+            //no hace falta revisar si el gameObject == null, ya que el inventory system puede llamar al objectPlacer para crear un nuevo objeto
+            inventorySystem.GetObject(objectID, objectGameObject);
         }
     }
 
     public void OnAction2(Vector3Int gridPosition)
     {
-
+        Debug.Log(mapObjectsData.GetObjectIDAt(gridPosition));
     }
 
     //Esta funcion solia retornar bool, pero para reutilizar codigo, ahora retorna un int que significa:

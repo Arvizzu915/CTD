@@ -11,27 +11,29 @@ public class BaseIngredientScript : MonoBehaviour
     // 1 - default, default, cocido
     // 2 - default, default, freido
     // 3 - default, default, quemado
+    [SerializeField]
     private GameObject[] ingredientModels01;
     // 0 - default, empanizado, default
     // 1 - default, empanizado, cocido
     // 2 - default, empanizado, freido
     // 3 - default, empanizado, quemado
+    [SerializeField]
     private GameObject[] ingredientModels10;
     // 0 - cortado, default, default
     // 1 - cortado, default, cocido
     // 2 - cortado, default, freido
     // 3 - cortado, default, quemado
+    [SerializeField]
     private GameObject[] ingredientModels11;
     // 0 - cortado, empanizado, default
     // 1 - cortado, empanizado, cocido
     // 2 - cortado, empanizado, freido
     // 3 - cortado, empanizado, quemado
+    [SerializeField]
     private GameObject lastModel; //quiza haga falta un void start donde se iguale lastModel al primer modelo
 
     [SerializeField]
-    private int ingredientState1 = 0;
-    private int ingredientState2 = 0;
-    private int ingredientState3 = 0;
+    private int ingredientState1 = 0, ingredientState2 = 0, ingredientState3 = 0;
     //State 1
     // 0 - default / completo
     // 1 - cortado
@@ -39,24 +41,24 @@ public class BaseIngredientScript : MonoBehaviour
     // 0 - default
     // 1 - empanizado
     //State 3
+    //-1 - quemado (este estado no tiene modelo propio ya que solo sirve para informar al recipiente para que este muestre el modelo quemado)
     // 0 - default / crudo
     // 1 - cocido/cocinado (en olla)
     // 2 - freido
-    // 3 - quemado (este quiza no haga falta, pero lo dejare por si hay algun ingrediente que se pueda meter a un horno sin nada)
 
     [SerializeField]
-    private int[] _000MixIDs, _001MixIDs, _012MixIDs, _100MixIDs, _102MixIDs, _112MixIDs;
+    private int[] _000MixIDs = new int[0], _001MixIDs = new int[0], _012MixIDs = new int[0], _100MixIDs = new int[0], _102MixIDs = new int[0], _112MixIDs = new int[0];
     private int[] currentMixIDs = new int[0];
 
     [SerializeField]
-    private int[] _000ContainerIDs, _001ContainerIDs, _010ContainerIDs, _100ContainerIDs, _110ContainerIDs;
-    private int[] currentContainerIDs = new int[1] { 0 };
+    private int[] _000ContainersAndStationsIDs = new int[1] { 100 }, _001ContainersAndStationsIDs = new int[1] { 100 }, _010ContainersAndStationsIDs = new int[1] { 100 }, _100ContainersAndStationsIDs = new int[1] { 100 }, _110ContainersAndStationsIDs = new int[1] { 100 };
+    private int[] currentContainersAndStationsIDs = new int[1] { 100 };
 
     [SerializeField]
-    private int _000ChangeState2ID, _100ChangeState2ID;
-    private int currentChangeState2ID = 0;
+    private int _000ChangeState2ID = -1, _100ChangeState2ID = -1;
+    private int currentChangeState2ID = -1;
     [SerializeField]
-    private bool isState2Changer;
+    private bool isState2Changer = false;
 
     //Esto servira para mostrar la barra de que tan completado esta el proceso
     [SerializeField]
@@ -103,56 +105,64 @@ public class BaseIngredientScript : MonoBehaviour
         if (ingredientState1 == 0 && ingredientState2 == 0 && ingredientState3 == 0)
         {
             currentMixIDs = _000MixIDs;
-            currentContainerIDs = _000ContainerIDs;
+            currentContainersAndStationsIDs = _000ContainersAndStationsIDs;
             currentChangeState2ID = _000ChangeState2ID;
         }
         else if (ingredientState1 == 0 && ingredientState2 == 0 && ingredientState3 == 1)
         {
             currentMixIDs = _001MixIDs;
-            currentContainerIDs = _001ContainerIDs;
-            currentChangeState2ID = 0;
+            currentContainersAndStationsIDs = _001ContainersAndStationsIDs;
+            currentChangeState2ID = -1;
         }
         else if (ingredientState1 == 0 && ingredientState2 == 1 && ingredientState3 == 0)
         {
             currentMixIDs = new int[0];
-            currentContainerIDs = _010ContainerIDs;
-            currentChangeState2ID = 0;
+            currentContainersAndStationsIDs = _010ContainersAndStationsIDs;
+            currentChangeState2ID = -1;
         }
         else if (ingredientState1 == 0 && ingredientState2 == 1 && ingredientState3 == 2)
         {
             currentMixIDs = _012MixIDs;
-            currentContainerIDs = new int[1] { 0 };
-            currentChangeState2ID = 0;
+            currentContainersAndStationsIDs = new int[1] { 100 };
+            currentChangeState2ID = -1;
         }
         else if (ingredientState1 == 1 && ingredientState2 == 0 && ingredientState3 == 0)
         {
             currentMixIDs = _100MixIDs;
-            currentContainerIDs = _100ContainerIDs;
+            currentContainersAndStationsIDs = _100ContainersAndStationsIDs;
             currentChangeState2ID = _100ChangeState2ID;
         }
         else if (ingredientState1 == 1 && ingredientState2 == 0 && ingredientState3 == 2)
         {
             currentMixIDs = _102MixIDs;
-            currentContainerIDs = new int[1] { 0 };
-            currentChangeState2ID = 0;
+            currentContainersAndStationsIDs = new int[1] { 100 };
+            currentChangeState2ID = -1;
         }
         else if (ingredientState1 == 1 && ingredientState2 == 1 && ingredientState3 == 0)
         {
             currentMixIDs = new int[0];
-            currentContainerIDs = _110ContainerIDs;
-            currentChangeState2ID = 0;
+            currentContainersAndStationsIDs = _110ContainersAndStationsIDs;
+            currentChangeState2ID = -1;
         }
         else if (ingredientState1 == 1 && ingredientState2 == 1 && ingredientState3 == 2)
         {
             currentMixIDs = _112MixIDs;
-            currentContainerIDs = new int[1] { 0 };
-            currentChangeState2ID = 0;
+            currentContainersAndStationsIDs = new int[1] { 100 };
+            currentChangeState2ID = -1;
         }
         else
         {
             currentMixIDs = new int[0];
-            currentContainerIDs = new int[1] { 0 };
-            currentChangeState2ID = 0;
+            if(ingredientState3 != -1)
+            {
+                currentContainersAndStationsIDs = new int[1] { 100 };
+            }
+            else
+            {
+                //si esta quemado, no puede entrar a ningun recipiente mas que la basura
+                currentContainersAndStationsIDs = new int[1] { 502 };
+            }
+            currentChangeState2ID = -1;
         }
     }
 
@@ -175,6 +185,10 @@ public class BaseIngredientScript : MonoBehaviour
             case 3:
                 switch (stateValue)
                 {
+                    case -1:
+                        //aca es cuando sea pa quemarse
+                        currentProcessTime = burnTime;
+                        break;
                     case 1:
                         //cocinar en olla
                         currentProcessTime = state3To1Time;
@@ -184,10 +198,6 @@ public class BaseIngredientScript : MonoBehaviour
                         currentProcessTime = state3To2Time;
                         break;
                 }
-                break;
-            case 666:
-                //aca es cuando sea pa quemarse
-                currentProcessTime = burnTime;
                 break;
         }
     }
@@ -229,9 +239,9 @@ public class BaseIngredientScript : MonoBehaviour
         return currentMixIDs;
     }
 
-    public int[] ShowContainerIDs()
+    public int[] ShowContainersAndStationsIDs()
     {
-        return currentContainerIDs;
+        return currentContainersAndStationsIDs;
     }
 
     public int ShowChangeState2ID()

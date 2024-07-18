@@ -29,7 +29,7 @@ public class GridData
         return placedObjects[gridPosition].ID;
     }
 
-    internal void RemoveObjectAt(Vector3Int gridPosition)
+    public void RemoveObjectAt(Vector3Int gridPosition)
     {
         placedObjects.Remove(gridPosition);
     }

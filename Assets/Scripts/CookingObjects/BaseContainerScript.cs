@@ -4,136 +4,61 @@ using UnityEngine;
 
 public class BaseContainerScript : MonoBehaviour
 {
-    //Este es el script que menos me gusta, ya que hay muchos arreglos y booleanas que no todos los recipientes usan, ademas de que quiza podria hacerse de una manera mas inteligente, pero no le se,
-    //la unica alternativa que se me ocurre es hacer un script diferente para cada recipiente, pero no se si sea mejor o peor.
-    //Quiza la mejor opcion sea que instancien o muevan o algo asi, el ingrediente directamente al plato, asi no tiene que guardar los modelos de cada ingrediente con cada estado que puede contener.
-
-    //Todos los modelos de los objetos que puede tener dentro
+    //Ambos
+    IContainerState containerState;
     [SerializeField]
-    private GameObject[] towersInContainer, defaultIngredientsInContainer, cutIngredientsInContainer, cookedIngredientsInContainer, defaultSpicesInContainer, cutSpicesInContainer, cookedSpicesInContainer;
-    //Esto es mas para ver que puede recibir/entrar, no tanto el que puede contener (ej. puede contener una torre, pero no recibir una)
+    public int containerID = 100;//por ahora la hize publica, pero podria ser privada y solo tener una funcion extra que devuelva su valor
+
+    //Contenedores Generales (plato, vaso)
     [SerializeField]
-    private bool canContainIngredients, canContainSpices, canContainDefault, canContainCut, canContainCooked;
-    //Esto es mas para pasarle información a otros recipientes o estaciones
-    private List<GameObject> containedGameObjects = new();
-    private int towerInContainerID = -1;
+    private GameObject[] turretModels;
 
-    //public bool CanPlaceGameObjectsInContainer(GameObject[] gameObjects)
-    //{
-    //    if (towerInContainerID != -1)
-    //        return false;
-    //    foreach (GameObject gameObject in gameObjects)
-    //    {
-    //        int gameObjectID = gameObject.GetComponent<BaseIngredientScript>().GetIngredientID();
-    //        BaseIngredientScript.IngredientState gameObjectState = gameObject.GetComponent<BaseIngredientScript>().GetCurrentState();
-    //        if ((gameObjectID >= 200 && gameObjectID < 300) && !canContainIngredients)
-    //            return false;
-    //        if ((gameObjectID >= 300 && gameObjectID < 400) && !canContainSpices)
-    //            return false;
-    //        if (gameObjectState == BaseIngredientScript.IngredientState.defaultState && !canContainDefault)
-    //            return false;
-    //        if (gameObjectState == BaseIngredientScript.IngredientState.cutState && !canContainCut)
-    //            return false;
-    //        if (gameObjectState == BaseIngredientScript.IngredientState.cookedState && !canContainCooked)
-    //            return false;
-    //        foreach (GameObject containedGameObject in containedGameObjects)
-    //        {
-    //            if (gameObjectID == containedGameObject.GetComponent<BaseIngredientScript>().GetIngredientID())
-    //                return false;
-    //        }
-    //    }
-    //    //Si todos los objetos pueden entrar, los agrega todos, si tan solo 1 objeto no puede entrar, entonces no deja.
-    //    foreach (GameObject gameObject in gameObjects)
-    //    {
-    //        containedGameObjects.Add(gameObject);
-    //        ShowGameObjectInContainer(gameObject.GetComponent<BaseIngredientScript>().GetIngredientID(), gameObject.GetComponent<BaseIngredientScript>().GetCurrentState());
-    //    }
-    //    return true;
-    //}
+    //Contenedores Especificos (olla, canastilla)
+    [SerializeField]
+    private GameObject burnedModel;
+    [SerializeField]
+    private GameObject[] ingredientModels000, ingredientModels010, ingredientModels100, ingredientModels110;
+    [SerializeField]
+    private GameObject[] ingredientModels001, ingredientModels012, ingredientModels102, ingredientModels112;
+    [SerializeField]
+    private int[] ingredientsIDs; //este no sirve tanto para ver que ingredientes pueden entrar, sino para buscar al ingrediente dentro del arreglo, y usar el su index para activar modelos de los otros arreglos
 
-    //private void ShowGameObjectInContainer(int id, BaseIngredientScript.IngredientState ingredientState)
-    //{
-    //    if (id >= 200 && id < 300)
-    //    {
-    //        switch (ingredientState)
-    //        {
-    //            case BaseIngredientScript.IngredientState.defaultState:
-    //                defaultIngredientsInContainer[id - 200].SetActive(true);
-    //                break;
-    //            case BaseIngredientScript.IngredientState.cutState:
-    //                cutIngredientsInContainer[id - 200].SetActive(true);
-    //                break;
-    //            case BaseIngredientScript.IngredientState.cookedState:
-    //                cookedIngredientsInContainer[id - 200].SetActive(true);
-    //                break;
-    //        }
-    //    }
-    //    else if (id >= 300 && id < 400)
-    //    {
-    //        switch (ingredientState)
-    //        {
-    //            case BaseIngredientScript.IngredientState.defaultState:
-    //                defaultSpicesInContainer[id - 300].SetActive(true);
-    //                break;
-    //            case BaseIngredientScript.IngredientState.cutState:
-    //                cutSpicesInContainer[id - 300].SetActive(true);
-    //                break;
-    //            case BaseIngredientScript.IngredientState.cookedState:
-    //                cookedSpicesInContainer[id - 300].SetActive(true);
-    //                break;
-    //        }
-    //    }
-    //}
 
-    //public void EmptyContainer(bool deleteGameObjects)
-    //{
-    //    if (deleteGameObjects)
-    //    {
-    //        foreach (GameObject gameObject in containedGameObjects)
-    //        {
-    //            HideGameObjectInContainer(gameObject.GetComponent<BaseIngredientScript>().GetIngredientID(), gameObject.GetComponent<BaseIngredientScript>().GetCurrentState());
-    //            Destroy(gameObject);
-    //        }
-    //    }
-    //    containedGameObjects.Clear();
-    //}
-
-    //private void HideGameObjectInContainer(int id, BaseIngredientScript.IngredientState ingredientState)
-    //{
-    //    if (id >= 200 && id < 300)
-    //    {
-    //        switch (ingredientState)
-    //        {
-    //            case BaseIngredientScript.IngredientState.defaultState:
-    //                defaultIngredientsInContainer[id - 200].SetActive(false);
-    //                break;
-    //            case BaseIngredientScript.IngredientState.cutState:
-    //                cutIngredientsInContainer[id - 200].SetActive(false);
-    //                break;
-    //            case BaseIngredientScript.IngredientState.cookedState:
-    //                cookedIngredientsInContainer[id - 200].SetActive(false);
-    //                break;
-    //        }
-    //    }
-    //    else if (id >= 300 && id < 400)
-    //    {
-    //        switch (ingredientState)
-    //        {
-    //            case BaseIngredientScript.IngredientState.defaultState:
-    //                defaultSpicesInContainer[id - 300].SetActive(false);
-    //                break;
-    //            case BaseIngredientScript.IngredientState.cutState:
-    //                cutSpicesInContainer[id - 300].SetActive(false);
-    //                break;
-    //            case BaseIngredientScript.IngredientState.cookedState:
-    //                cookedSpicesInContainer[id - 300].SetActive(false);
-    //                break;
-    //        }
-    //    }
-    //}
-
-    public void GetTowerInContainer(int towerID)
+    void Start()
     {
+        switch (containerID)
+        {
+            case 100:
+                containerState = new FlatPlateState(containerID, this.gameObject, turretModels);
+                break;
+            case 105:
+                containerState = new PotState(containerID, this.gameObject, burnedModel, ingredientModels000, ingredientModels001, ingredientsIDs);
+                break;
+        }
+    }
 
+    public int GetContainedItemID()
+    {
+        return containerState.GetContainedItemID();
+    }
+
+    public GameObject GetContainedItemGameObject()
+    {
+        return containerState.GetContainedItemGameObject();
+    }
+
+    public void EmptyContainer(bool deleteContainedItemGameObject)
+    {
+        containerState.EmptyContainer(deleteContainedItemGameObject);
+    }
+
+    public int CanEnterContainer(int ID, GameObject gameObject)
+    {
+        return containerState.CanEnterContainer(ID, gameObject);
+    }
+
+    public void UpdateModel()
+    {
+        containerState.UpdateModel();
     }
 }

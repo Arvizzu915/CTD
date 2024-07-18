@@ -24,7 +24,7 @@ public class CuttingTableState : IStationState
         throw new System.NotImplementedException();
     }
 
-    public bool OnAccessWithID(int ID, GameObject gameObject)
+    public int CanEnterStation(int ID, GameObject gameObject)
     {
         throw new System.NotImplementedException();
     }
