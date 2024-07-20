@@ -7,12 +7,12 @@ public class BasicTableState : IStationState
     private int containedItemID = -1;
     private GameObject containedItemGameObject = null;
 
-    private Vector3 stationPosition;
+    private Transform stationTransform;
     private float yOffset = 1f;
 
-    public BasicTableState(Vector3 stationPosition)
+    public BasicTableState(Transform stationTransform)
     {
-        this.stationPosition = stationPosition;
+        this.stationTransform = stationTransform;
     }
 
     public int CanEnterStation(int ID, GameObject gameObject)
@@ -29,9 +29,9 @@ public class BasicTableState : IStationState
         else if (containedItemID >= 100 && containedItemID < 200)
         {
             BaseContainerScript containedContainerScript = containedItemGameObject.GetComponent<BaseContainerScript>();
-            if(containedContainerScript.GetContainedItemID() == -1 && containedContainerScript.GetContainedItemGameObject() == null)
+            if(containedItemID >= 105 || containedContainerScript.GetContainedItemID() == -1)
             {
-                //solo si el contenedor que tiene la mesa esta vacio, entonces puede recibir lo que viene
+                //al menos que lo que este dentro sea un plato principal con algo dentro, puede ver si lo que viene se puede meter al contenedor
                 switch(containedContainerScript.CanEnterContainer(ID, gameObject))
                 {
                     case 1:
@@ -73,8 +73,12 @@ public class BasicTableState : IStationState
     private void SetObjectInStation()
     {
         containedItemGameObject.transform.SetParent(null);
-        Vector3 newPosition = new Vector3(stationPosition.x, stationPosition.y + yOffset, stationPosition.z);
+        Vector3 newPosition = new Vector3(stationTransform.position.x, stationTransform.position.y + yOffset, stationTransform.position.z);
         containedItemGameObject.transform.position = newPosition;
-        containedItemGameObject.GetComponent<BaseIngredientScript>().ShowModel();
+        containedItemGameObject.transform.rotation = stationTransform.rotation;
+        if (containedItemID >= 200 && containedItemID < 300)
+        {
+            containedItemGameObject.GetComponent<BaseIngredientScript>().ShowModel();
+        }
     }
 }

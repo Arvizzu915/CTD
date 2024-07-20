@@ -47,11 +47,13 @@ public class BaseIngredientScript : MonoBehaviour
     // 2 - freido
 
     [SerializeField]
-    private int[] _000MixIDs = new int[0], _001MixIDs = new int[0], _012MixIDs = new int[0], _100MixIDs = new int[0], _102MixIDs = new int[0], _112MixIDs = new int[0];
+    private int[] _000MixIDs, _001MixIDs, _012MixIDs, _100MixIDs, _102MixIDs, _112MixIDs;
     private int[] currentMixIDs = new int[0];
 
     [SerializeField]
-    private int[] _000ContainersAndStationsIDs = new int[1] { 100 }, _001ContainersAndStationsIDs = new int[1] { 100 }, _010ContainersAndStationsIDs = new int[1] { 100 }, _100ContainersAndStationsIDs = new int[1] { 100 }, _110ContainersAndStationsIDs = new int[1] { 100 };
+    private int[] _000ContainersAndStationsIDs = new int[1] { 100 }, _001ContainersAndStationsIDs = new int[1] { 100 }, _010ContainersAndStationsIDs = new int[1] { 100 };
+    [SerializeField]
+    private int[] _100ContainersAndStationsIDs = new int[1] { 100 }, _110ContainersAndStationsIDs = new int[1] { 100 };
     private int[] currentContainersAndStationsIDs = new int[1] { 100 };
 
     [SerializeField]
@@ -60,7 +62,9 @@ public class BaseIngredientScript : MonoBehaviour
     [SerializeField]
     private bool isState2Changer = false;
 
-    [SerializeField] public float[] cookingTimes = new float[3] {0, 0, 0};
+    [SerializeField]
+    public float[] cookingTimes = new float[3] {0, 0, 0};
+    // 0- stove, 1- cutting board, 2- Deep Fryer
 
     public void ChangeState1(int newState, bool showModel)
     {

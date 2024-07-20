@@ -9,7 +9,7 @@ public class PlacementSystem : MonoBehaviour
     [SerializeField]
     private Grid grid;
 
-    public GridData placeableObjectsData, mapObjectsData; //probablemente el placeableObjectsData sea eliminado o cambiado por towersData, ya que ahora todos los objetos del mapa siempre estan dentro de algun mapObject
+    public GridData towersObjectsData, mapObjectsData;
 
     [SerializeField]
     private PreviewSystem previewSystem;
@@ -28,15 +28,15 @@ public class PlacementSystem : MonoBehaviour
     private void Start()
     {
         StopSystem();
-        placeableObjectsData = new();
+        towersObjectsData = new();
         mapObjectsData = new();
-        mapSystem.SetGridData(placeableObjectsData, mapObjectsData);
+        mapSystem.SetGridData(towersObjectsData, mapObjectsData);
     }
 
     public void StartDefault()
     {
         StopSystem();
-        buildingState = new DefaultState(grid, previewSystem, inventorySystem, placeableObjectsData, mapObjectsData, objectPlacer);
+        buildingState = new DefaultState(grid, previewSystem, inventorySystem, towersObjectsData, mapObjectsData, objectPlacer);
         playerActions.OnPressed1 += SystemAction1;
         playerActions.OnPressed2 += SystemAction2;
     }
@@ -44,7 +44,7 @@ public class PlacementSystem : MonoBehaviour
     public void StartPlacement(int ID, GameObject gameObject)
     {
         StopSystem();
-        buildingState = new PlacementState(ID, gameObject, grid, previewSystem, inventorySystem, placeableObjectsData, mapObjectsData, objectPlacer);
+        buildingState = new PlacementState(ID, gameObject, grid, previewSystem, inventorySystem, towersObjectsData, mapObjectsData, objectPlacer);
         playerActions.OnPressed1 += SystemAction1;
         playerActions.OnPressed2 += SystemAction2;
     }

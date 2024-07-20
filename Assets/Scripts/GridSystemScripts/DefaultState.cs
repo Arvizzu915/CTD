@@ -7,16 +7,16 @@ public class DefaultState : IBuildingState
     Grid grid;
     PreviewSystem previewSystem;
     InventorySystem inventorySystem;
-    GridData placeableObjectsData;
+    GridData towersObjectsData;
     GridData mapObjectsData;
     ObjectPlacer objectPlacer;
 
-    public DefaultState(Grid grid, PreviewSystem previewSystem, InventorySystem inventorySystem, GridData placeableObjectsData, GridData mapObjectsData, ObjectPlacer objectPlacer)
+    public DefaultState(Grid grid, PreviewSystem previewSystem, InventorySystem inventorySystem, GridData towersObjectsData, GridData mapObjectsData, ObjectPlacer objectPlacer)
     {
         this.grid = grid;
         this.previewSystem = previewSystem;
         this.inventorySystem = inventorySystem;
-        this.placeableObjectsData = placeableObjectsData;
+        this.towersObjectsData = towersObjectsData;
         this.mapObjectsData = mapObjectsData;
         this.objectPlacer = objectPlacer;
 
@@ -31,8 +31,6 @@ public class DefaultState : IBuildingState
     public void OnAction1(Vector3Int gridPosition)
     {
         //Como ya quiero acabar, hare este if a lo "facil" asi que probablemente no sea muy optimo
-        int placeableObjectID = placeableObjectsData.GetObjectIDAt(gridPosition);
-        GameObject placeableObjectGameObject = placeableObjectsData.GetGameObjectAt(gridPosition);
         int mapObjectID = mapObjectsData.GetObjectIDAt(gridPosition);
         GameObject mapObjectGameObject = mapObjectsData.GetGameObjectAt(gridPosition);
 
@@ -47,12 +45,21 @@ public class DefaultState : IBuildingState
         {
             //no hace falta revisar si el gameObject == null, ya que el inventory system puede llamar al objectPlacer para crear un nuevo objeto
             inventorySystem.GetObject(objectID, objectGameObject);
+            mapObjectStationScript.EmptyStation();
         }
     }
 
     public void OnAction2(Vector3Int gridPosition)
     {
-        Debug.Log(mapObjectsData.GetObjectIDAt(gridPosition));
+        int mapObjectID = mapObjectsData.GetObjectIDAt(gridPosition);
+        GameObject mapObjectGameObject = mapObjectsData.GetGameObjectAt(gridPosition);
+
+        if (mapObjectID <= 0)
+            return;
+
+        BaseStationScript mapObjectStationScript = mapObjectGameObject.GetComponent<BaseStationScript>();
+        //por ahora solo corta, pero quiza en algun futuro podria regresar algo para saber si corto, y asi realizar una animacion del personaje de cortar
+        mapObjectStationScript.OnAccess2();
     }
 
     //Esta funcion solia retornar bool, pero para reutilizar codigo, ahora retorna un int que significa:

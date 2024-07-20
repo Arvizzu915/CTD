@@ -17,9 +17,13 @@ public class BaseContainerScript : MonoBehaviour
     [SerializeField]
     private GameObject burnedModel;
     [SerializeField]
-    private GameObject[] ingredientModels000, ingredientModels010, ingredientModels100, ingredientModels110;
+    private GameObject[] ingredientModels000, ingredientModels001, ingredientModels002;
     [SerializeField]
-    private GameObject[] ingredientModels001, ingredientModels012, ingredientModels102, ingredientModels112;
+    private GameObject[] ingredientModels010, ingredientModels012;
+    [SerializeField]
+    private GameObject[] ingredientModels100, ingredientModels102;
+    [SerializeField]
+    private GameObject[] ingredientModels110, ingredientModels112;
     [SerializeField]
     private int[] ingredientsIDs; //este no sirve tanto para ver que ingredientes pueden entrar, sino para buscar al ingrediente dentro del arreglo, y usar el su index para activar modelos de los otros arreglos
 
@@ -31,8 +35,25 @@ public class BaseContainerScript : MonoBehaviour
             case 100:
                 containerState = new FlatPlateState(containerID, this.gameObject, turretModels);
                 break;
+            case 101:
+                containerState = new CupState(containerID, this.gameObject, turretModels);
+                break;
             case 105:
                 containerState = new PotState(containerID, this.gameObject, burnedModel, ingredientModels000, ingredientModels001, ingredientsIDs);
+                break;
+            case 106:
+                containerState = new FryingBasketState(containerID,
+                                                       this.gameObject,
+                                                       burnedModel,
+                                                       ingredientModels000,
+                                                       ingredientModels002,
+                                                       ingredientModels010,
+                                                       ingredientModels012,
+                                                       ingredientModels100,
+                                                       ingredientModels102,
+                                                       ingredientModels110,
+                                                       ingredientModels112,
+                                                       ingredientsIDs);
                 break;
         }
     }

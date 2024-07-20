@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FlatPlateState : IContainerState
+public class CupState : IContainerState
 {
     private GameObject[] turretModels; //aca tienen que venir todas las torres, aunque no use su modelo, tiene que estar en null, ya que dependen del index de la torre
 
@@ -13,31 +13,11 @@ public class FlatPlateState : IContainerState
     private int containedItemID = -1;
     private GameObject containedItemGameObject = null;
 
-    public FlatPlateState(int containerID, GameObject containerGameObject, GameObject[] turretModels)
+    public CupState(int containerID, GameObject containerGameObject, GameObject[] turretModels)
     {
         this.containerID = containerID;
         this.containerGameObject = containerGameObject;
         this.turretModels = turretModels;
-    }
-
-    public int GetContainedItemID()
-    {
-        return containedItemID;
-    }
-
-    public GameObject GetContainedItemGameObject()
-    {
-        return containedItemGameObject;
-    }
-
-    public void EmptyContainer(bool deleteContainedItemGameObject)
-    {
-        if (deleteContainedItemGameObject && containedItemID < 400)
-            Object.Destroy(containedItemGameObject);
-        if (containedItemID >= 400 && containedItemID < 500)
-            containedItemGameObject.SetActive(false);
-        containedItemID = -1;
-        containedItemGameObject = null;
     }
 
     public int CanEnterContainer(int ID, GameObject gameObject)
@@ -73,12 +53,12 @@ public class FlatPlateState : IContainerState
             }
             else
             {
-                //es un else y no un else if, ya que sabemos que el plato solo puede tener ingredientes o torres (estamos ignorando especias)
+                //es un else y no un else if, ya que sabemos que el vaso solo puede tener ingredientes o torres (estamos ignorando especias)
                 ingredientScript = ingredientGameObject.GetComponent<BaseIngredientScript>();
                 returnInt = 2;
             }
         }
-        else if(ID >= 200 && ID < 300)
+        else if (ID >= 200 && ID < 300)
         {
             ingredientID = ID;
             ingredientGameObject = gameObject;
@@ -109,14 +89,8 @@ public class FlatPlateState : IContainerState
             {
                 switch (ingredientMixIDs[i])
                 {
-                    case 401:
-                        containedItemID = 401;
-                        break;
-                    case 402:
-                        containedItemID = 402;
-                        break;
-                    case 405:
-                        containedItemID = 405;
+                    case 404:
+                        containedItemID = 404;
                         break;
                 }
             }
@@ -155,23 +129,20 @@ public class FlatPlateState : IContainerState
                         EmptyContainer(true);
                         switch (ingredientMixIDs[i])
                         {
-                            case 400:
-                                containedItemID = 400;
-                                break;
-                            case 403:
-                                containedItemID = 403;
+                            case 0:
+                                //nada por ahora, porque no hay mezclas en el vaso por ahora, pero en un futuro quiza hayan
                                 break;
                         }
                         containedItemGameObject = turretModels[containedItemID - 400];
                         containedItemGameObject.SetActive(true);
-                        if(returnInt == 1)
+                        if (returnInt == 1)
                         {
                             Object.Destroy(ingredientGameObject);
                         }
                         else if (returnInt == 2)
                         {
                             gameObject.GetComponent<BaseContainerScript>().EmptyContainer(true);
-                        } 
+                        }
                         return returnInt;
                     }
                 }
@@ -213,9 +184,29 @@ public class FlatPlateState : IContainerState
         }
     }
 
+    public void EmptyContainer(bool deleteContainedItemGameObject)
+    {
+        if (deleteContainedItemGameObject && containedItemID < 400)
+            Object.Destroy(containedItemGameObject);
+        if (containedItemID >= 400 && containedItemID < 500)
+            containedItemGameObject.SetActive(false);
+        containedItemID = -1;
+        containedItemGameObject = null;
+    }
+
+    public GameObject GetContainedItemGameObject()
+    {
+        return containedItemGameObject;
+    }
+
+    public int GetContainedItemID()
+    {
+        return containedItemID;
+    }
+
     public void UpdateModel()
     {
-        if(containedItemGameObject != null)
+        if (containedItemGameObject != null)
         {
             Vector3 newPosition = new Vector3(containerGameObject.transform.position.x, containerGameObject.transform.position.y + yOffset, containerGameObject.transform.position.z);
             containedItemGameObject.transform.position = newPosition;

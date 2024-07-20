@@ -28,3 +28,9 @@ MonoBehaviour:
   - <Name>k__BackingField: Stove
     <ID>k__BackingField: 504
     <Prefab>k__BackingField: {fileID: 0}
+  - <Name>k__BackingField: Cutting Board
+    <ID>k__BackingField: 505
+    <Prefab>k__BackingField: {fileID: 0}
+  - <Name>k__BackingField: Deep Fryer
+    <ID>k__BackingField: 505
+    <Prefab>k__BackingField: {fileID: 0}
