@@ -11,18 +11,18 @@ public class PlacementState : IBuildingState
     Grid grid;
     PreviewSystem previewSystem;
     InventorySystem inventorySystem;
-    GridData placeableObjectsData;
+    GridData towersObjectsData;
     GridData mapObjectsData;
     ObjectPlacer objectPlacer;
 
-    public PlacementState(int ID, GameObject gameObject, Grid grid, PreviewSystem previewSystem, InventorySystem inventorySystem, GridData placeableObjectsData, GridData mapObjectsData, ObjectPlacer objectPlacer)
+    public PlacementState(int ID, GameObject gameObject, Grid grid, PreviewSystem previewSystem, InventorySystem inventorySystem, GridData towersObjectsData, GridData mapObjectsData, ObjectPlacer objectPlacer)
     {
         selectedID = ID;
         selectedGameObject = gameObject;
         this.grid = grid;
         this.previewSystem = previewSystem;
         this.inventorySystem = inventorySystem;
-        this.placeableObjectsData = placeableObjectsData;
+        this.towersObjectsData = towersObjectsData;
         this.mapObjectsData = mapObjectsData;
         this.objectPlacer = objectPlacer;
 
@@ -67,11 +67,8 @@ public class PlacementState : IBuildingState
     public void OnAction1(Vector3Int gridPosition)
     {
         //Como ya quiero acabar, hare este if a lo "facil" asi que probablemente no sea muy optimo
-        int placeableObjectID = placeableObjectsData.GetObjectIDAt(gridPosition);
-        GameObject placeableObjectGameObject = placeableObjectsData.GetGameObjectAt(gridPosition);
         int mapObjectID = mapObjectsData.GetObjectIDAt(gridPosition);
         GameObject mapObjectGameObject = mapObjectsData.GetGameObjectAt(gridPosition);
-        //aca quiero que defina el cellposiion, por ahora se usaria 3 veces
 
         // Si no hay nada en el mapa o no es interactuable, pues nada xd (aunque aqui quiza podria venir despues lo de que se vaya al mas cercano)
         if (mapObjectID == -1)
@@ -79,6 +76,49 @@ public class PlacementState : IBuildingState
         if (mapObjectID == 0)
         {
             //Aca solo para torre
+            if(selectedID >= 100 && selectedID < 105)
+            {
+                //solo si tiene un plato principal (los unicos que pueden tener torres)
+                BaseContainerScript selectedContainerScript = selectedGameObject.GetComponent<BaseContainerScript>();
+                int selectedTowerID = selectedContainerScript.GetContainedItemID();
+                if(selectedTowerID >= 400 && selectedTowerID < 500)
+                {
+                    //solo si ese plato tiene dentro una torre
+                    int towerObjectID = towersObjectsData.GetObjectIDAt(gridPosition);
+                    GameObject towerObjectGameObject = towersObjectsData.GetGameObjectAt(gridPosition);
+                    if (towerObjectID == -1)
+                    {
+                        //si no hay ninguna torre ya en ese lugar, entonces pone la que tiene
+                        selectedContainerScript.EmptyContainer(true);
+                        GameObject newTower = objectPlacer.CreateNewObject(selectedTowerID);
+                        Vector3 adjustedPosition = grid.CellToWorld(gridPosition);
+                        adjustedPosition = new Vector3(adjustedPosition.x + 0.5f, adjustedPosition.y, adjustedPosition.z + 0.5f);
+                        newTower.transform.position = adjustedPosition;
+                        towersObjectsData.AddObjectAt(gridPosition, selectedTowerID, newTower);
+                    }
+                    else if(towerObjectID == selectedTowerID)
+                    {
+                        //si ya hay una, y es la misma a la que tenemos, entonces ve si la puede mejorar
+                        if (towerObjectGameObject.GetComponent<BaseTurretScript>().CanUpgradeTurret())
+                        {
+                            //si pudo mejorarla, entonces vacia nuestro plato con la torre
+                            selectedContainerScript.EmptyContainer(true);
+                        }
+                    }
+                }
+            }
+            else if(selectedID == 0)
+            {
+                //si tiene una pala, ve si hay una torre para borrar
+                int towerObjectID = towersObjectsData.GetObjectIDAt(gridPosition);
+                GameObject towerObjectGameObject = towersObjectsData.GetGameObjectAt(gridPosition);
+                if(towerObjectID >= 400 && towerObjectID < 500)
+                {
+                    //si hay una torre, la borra y la quita del diccionario
+                    objectPlacer.DeleteObject(towerObjectGameObject);
+                    towersObjectsData.RemoveObjectAt(gridPosition);
+                }
+            }
         }
         else
         {

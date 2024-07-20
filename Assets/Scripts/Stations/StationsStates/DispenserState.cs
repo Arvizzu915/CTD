@@ -37,6 +37,8 @@ public class DispenserState : IStationState
 
     public int CanEnterStation(int ID, GameObject gameObject)
     {
+        //si queremos que lo pueda poner directo al contenedor, quiza aqui podriamos poner un if que lea si es container, y devuelva 3,
+        //para que en placementstate, cree un nuevo objeto a partir del id, y se lo meta al container
         return 0;
     }
 

@@ -51,15 +51,6 @@ public class ObjectPlacer : MonoBehaviour
         
     }
 
-    public void MoveObject(GameObject gameObject, Vector3 position)
-    {
-        if(gameObject == null)
-        {
-            print("que rayos paso aqui, porque me mandas un objeto vacio??");
-        }
-        gameObject.transform.position = position;
-    }
-
     public void DeleteObject(GameObject gameObject)
     {
         Destroy(gameObject);

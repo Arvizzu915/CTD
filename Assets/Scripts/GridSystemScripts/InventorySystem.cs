@@ -8,7 +8,7 @@ public class InventorySystem : MonoBehaviour
     private GameObject selectedObjectGameObject = null;
 
     [SerializeField]
-    private GameObject player;
+    private GameObject player, grabHitbox;
     [SerializeField]
     PlacementSystem placementSystem;
     [SerializeField]
@@ -38,7 +38,8 @@ public class InventorySystem : MonoBehaviour
             selectedObjectGameObject = gameObject;
         }
         selectedObjectGameObject.transform.parent = player.transform;
-        objectPlacer.MoveObject(selectedObjectGameObject, playerActions.GetGrabHitboxPosition());
+        selectedObjectGameObject.transform.position = grabHitbox.transform.position;
+        selectedObjectGameObject.transform.rotation = grabHitbox.transform.rotation;
         placementSystem.StartPlacement(selectedObjectID, selectedObjectGameObject);
         return true;
     }

@@ -12,7 +12,7 @@ public class BaseStationScript : MonoBehaviour
 
     //Aca la verdad no se si esto sea la mejor opcion, pero fue lo unico que se me ocurrio para poder pasarle al dispenserState un ID del objeto que dispensa, lo malo es que ningun otro state va a usar esta variable
     [SerializeField]
-    public int itemID; //la hize public de mientras nomas en lo que esta el mapsystem definitivo (ahorita necesita esto)
+    private int itemID;
 
     IStationState stationState;
 
@@ -21,7 +21,7 @@ public class BaseStationScript : MonoBehaviour
         switch (stationID)
         {
             case 501:
-                stationState = new BasicTableState(this.transform.position);
+                stationState = new BasicTableState(this.transform);
                 break;
             case 502:
                 stationState = new TrashcanState();
@@ -30,7 +30,13 @@ public class BaseStationScript : MonoBehaviour
                 stationState = new DispenserState(itemID);
                 break;
             case 504:
-                stationState = new StoveState(acceptedIDs);
+                stationState = new StoveState(this.transform, acceptedIDs);
+                break;
+            case 505:
+                stationState = new CuttingTableState(stationID, this.transform);
+                break;
+            case 506:
+                stationState = new DeepFryerState(this.transform, acceptedIDs);
                 break;
         }
     }
@@ -53,6 +59,11 @@ public class BaseStationScript : MonoBehaviour
     public int CanEnterStation(int ID, GameObject gameObject)
     {
         return stationState.CanEnterStation(ID, gameObject);
+    }
+
+    public void OnAccess2()
+    {
+        stationState.OnAccess2();
     }
 
     void Update()

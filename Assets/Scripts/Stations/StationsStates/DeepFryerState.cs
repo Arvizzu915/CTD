@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StoveState : IStationState
+public class DeepFryerState : IStationState
 {
     private int[] acceptedIDs;
 
@@ -10,38 +10,20 @@ public class StoveState : IStationState
     private GameObject containedItemGameObject = null;
 
     private Transform stationTransform;
-    private float yOffset = 1f;
+    private float yOffset = 0.5f;
 
     private BaseIngredientScript ingredientScript = null;
     private int processState = -1;
-    // 2 normal > 1 cocinado > 0 quemado > -1 no hay nada
+    // 2 normal > 1 freido > 0 quemado > -1 no hay nada
 
-    public StoveState(Transform stationTransform, int[] acceptedIDs)
+    public DeepFryerState(Transform stationTransform, int[] acceptedIDs)
     {
         this.stationTransform = stationTransform;
         this.acceptedIDs = acceptedIDs;
     }
 
-    public int GetContainedItemID()
-    {
-        return containedItemID;
-    }
-
-    public GameObject GetContainedItemGameObject()
-    {
-        return containedItemGameObject;
-    }
-
-    public void EmptyStation()
-    {
-        containedItemID = -1;
-        containedItemGameObject = null;
-        processState = -1;
-    }
-
     public int CanEnterStation(int ID, GameObject gameObject)
     {
-        //aca (y en deepfryer) falto algo para poder recibir el ingrediente de otro recipiente
         bool canEnter = false;
         for (int i = 0; i < acceptedIDs.Length; i++)
         {
@@ -54,7 +36,7 @@ public class StoveState : IStationState
         containedItemID = ID;
         containedItemGameObject = gameObject;
         SetObjectInStation();
-        //como sabemos que el stove state solo recibe contenedores, podemos permitirnos no hacer ninguna comprobación, y directamente acceder a su script 
+        //como sabemos que el deep fryer state solo recibe contenedores, podemos permitirnos no hacer ninguna comprobación, y directamente acceder a su script
         if (containedItemGameObject.GetComponent<BaseContainerScript>().GetContainedItemGameObject() != null)
         {
             //aca no hace falta checar el id del objeto dentro de la olla, ya que sabemos que la olla solo puede tener ingredientes
@@ -67,7 +49,7 @@ public class StoveState : IStationState
                 case 0:
                     processState = 2;
                     break;
-                case 1:
+                case 2:
                     processState = 1;
                     break;
             }
@@ -79,6 +61,23 @@ public class StoveState : IStationState
         return 1;
     }
 
+    public void EmptyStation()
+    {
+        containedItemID = -1;
+        containedItemGameObject = null;
+        processState = -1;
+    }
+
+    public GameObject GetContainedItemGameObject()
+    {
+        return containedItemGameObject;
+    }
+
+    public int GetContainedItemID()
+    {
+        return containedItemID;
+    }
+
     public void OnAccess2()
     {
         //Nada
@@ -88,16 +87,16 @@ public class StoveState : IStationState
     {
         if (containedItemGameObject != null)
         {
-            if(processState > 0)
+            if (processState > 0)
             {
-                ingredientScript.cookingTimes[0] -= Time.deltaTime;
-                if(processState == 2 && ingredientScript.cookingTimes[0] <= 0)
+                ingredientScript.cookingTimes[2] -= Time.deltaTime;
+                if (processState == 2 && ingredientScript.cookingTimes[2] <= 0)
                 {
-                    ingredientScript.ChangeState3(1, true);
+                    ingredientScript.ChangeState3(2, true);
                     containedItemGameObject.GetComponent<BaseContainerScript>().UpdateModel();
                     processState = 1;
                 }
-                else if(processState == 1 && ingredientScript.cookingTimes[0] <= -5f)
+                else if (processState == 1 && ingredientScript.cookingTimes[2] <= -5f)
                 {
                     ingredientScript.ChangeState3(-1, true);
                     containedItemGameObject.GetComponent<BaseContainerScript>().UpdateModel();

@@ -17,7 +17,7 @@ public class MapSystem : MonoBehaviour
     [SerializeField]
     private Grid grid;
 
-    private GridData placeableObjectsData, mapObjectsData;
+    private GridData towersObjectsData, mapObjectsData;
 
 
     void Start()
@@ -27,7 +27,7 @@ public class MapSystem : MonoBehaviour
 
     public void SetGridData(GridData placeableObjectsData, GridData mapObjectsData)
     {
-        this.placeableObjectsData = placeableObjectsData;
+        this.towersObjectsData = placeableObjectsData;
         this.mapObjectsData = mapObjectsData;
         minMapPos = grid.WorldToCell(minMapPosObject.transform.position);
         maxMapPos = grid.WorldToCell(maxMapPosObject.transform.position);
@@ -43,36 +43,40 @@ public class MapSystem : MonoBehaviour
     private void SetStations()
     {
         //primero ponemos las estaciones en el diccionario (mapa)
-        for (int i = 0; i < stationObjects.Length; i++)
+        foreach (GameObject station in stationObjects)
         {
-            //estas 2 lineas que parece que no hacen nada, lo que hacen es mover el objeto a justo la casilla correcta
-            Vector3Int gridPosition = grid.WorldToCell(stationObjects[i].transform.position);
-            objectPlacer.MoveObject(stationObjects[i], grid.CellToWorld(gridPosition));
-            mapObjectsData.AddObjectAt(gridPosition, stationObjects[i].GetComponent<BaseStationScript>().stationID, stationObjects[i]);
+            //estas 3 lineas que parece que no hacen nada, lo que hacen es mover el objeto a justo la casilla correcta
+            Vector3Int gridPosition = grid.WorldToCell(station.transform.position);
+            Vector3 adjustedPosition = grid.CellToWorld(gridPosition);
+            adjustedPosition = new Vector3(adjustedPosition.x + 0.5f, adjustedPosition.y, adjustedPosition.z + 0.5f);
+            station.transform.position = adjustedPosition;
+            mapObjectsData.AddObjectAt(gridPosition, station.GetComponent<BaseStationScript>().stationID, station);
         }
     }
 
     private void SetSpecialObjects()
     {
         //Aca es para poner los objetos dentro de sus respetivas estaciones, no checamos si pueden entrar porque en teoria nosotros hacemos el mapa, y pondremos todo donde puede estar
-        for (int i = 0; i < specialObjects.Length; i++)
+        foreach (GameObject specialObject in specialObjects)
         {
-            Vector3Int gridPosition = grid.WorldToCell(specialObjects[i].transform.position);
-            GameObject station =  mapObjectsData.GetGameObjectAt(gridPosition);
+            Vector3Int gridPosition = grid.WorldToCell(specialObject.transform.position);
+            //esta linea de abajo se hace porque asumimos que el objeto esta en una celda arriba de la estacion
+            Vector3Int stationGridPosition = new Vector3Int(gridPosition.x, gridPosition.y - 1, gridPosition.z);
+            GameObject station = mapObjectsData.GetGameObjectAt(stationGridPosition);
             //aca es 0 porque por ahora solo hay un objeto especial, pero quiza despues haya que ponerles un script que nos de su ID, o hacer un arreglo aqui que tenga todos los IDs
-            station.GetComponent<BaseStationScript>().CanEnterStation(0, specialObjects[i]);
+            station.GetComponent<BaseStationScript>().CanEnterStation(0, specialObject);
         }
     }
 
     private void SetContainers()
     {
         //Aca es para poner los objetos dentro de sus respetivas estaciones, no checamos si pueden entrar porque en teoria nosotros hacemos el mapa, y pondremos todo donde puede estar
-        for (int i = 0; i < containerObjects.Length; i++)
+        foreach (GameObject container in containerObjects)
         {
-            Vector3Int gridPosition = grid.WorldToCell(containerObjects[i].transform.position);
-            GameObject station = mapObjectsData.GetGameObjectAt(gridPosition);
-            //aca es 0 porque por ahora solo hay un objeto especial, pero quiza despues haya que ponerles un script que nos de su ID, o hacer un arreglo aqui que tenga todos los IDs
-            station.GetComponent<BaseStationScript>().CanEnterStation(containerObjects[i].GetComponent<BaseContainerScript>().containerID, containerObjects[i]);
+            Vector3Int gridPosition = grid.WorldToCell(container.transform.position);
+            Vector3Int stationGridPosition = new Vector3Int(gridPosition.x, gridPosition.y - 1, gridPosition.z);
+            GameObject station = mapObjectsData.GetGameObjectAt(stationGridPosition);
+            station.GetComponent<BaseStationScript>().CanEnterStation(container.GetComponent<BaseContainerScript>().containerID, container);
         }
     }
 

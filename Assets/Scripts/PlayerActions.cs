@@ -58,13 +58,6 @@ public class PlayerActions : MonoBehaviour
 
     public Vector3 GetPointingPosition()
     {
-        
         return new Vector3(grabHitbox.transform.position.x, grabHitbox.transform.position.y - 0.5f, grabHitbox.transform.position.z);
-    }
-
-    public Vector3 GetGrabHitboxPosition()
-    {
-        //aca podriamos modificar las coordenadas para que coloque el objeto justo donde lo queremos
-        return new Vector3(grabHitbox.transform.position.x, grabHitbox.transform.position.y, grabHitbox.transform.position.z);
     }
 }

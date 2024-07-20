@@ -9,7 +9,7 @@ public class PotState : IContainerState
 
     private int containerID;
     private GameObject containerGameObject;
-    private float yOffset = 0.5f;
+    private float yOffset = 0f;
 
     private int[] ingredientsIDs;
     private int containedItemIndex = -1;
