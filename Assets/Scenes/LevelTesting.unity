@@ -729,6 +729,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 19e6d21d87b649746acb89e7f1c6b01c, type: 3}
+--- !u!1 &253399137 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2340448347091648139, guid: 75d5e1418df99ea408b410ca46b88145, type: 3}
+  m_PrefabInstance: {fileID: 3216143228512220189}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &353304282
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -979,6 +984,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 4584256286448367505, guid: 9bdd1d412369d54429435ab3c185678a, type: 3}
+      propertyPath: route
+      value: 
+      objectReference: {fileID: 253399137}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1172,7 +1181,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerActions: {fileID: 1074560559}
   grid: {fileID: 123025831}
-  placeableObjectsDatabase: {fileID: 0}
   previewSystem: {fileID: 986842125}
   inventorySystem: {fileID: 0}
   mapSystem: {fileID: 0}
@@ -1225,6 +1233,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4390798496961442167, guid: 69aed15374e1afd46b00593f8b245fc2, type: 3}
+      propertyPath: route
+      value: 
+      objectReference: {fileID: 253399137}
     - target: {fileID: 8762529520248076479, guid: 69aed15374e1afd46b00593f8b245fc2, type: 3}
       propertyPath: m_Name
       value: Enemy Basic (1)
@@ -1848,8 +1860,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c242950360d96047b25c1c346463626, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  placedStations: []
-  placeableObjectsDatabase: {fileID: 0}
+  specialItemsDatabase: {fileID: 0}
+  containersDatabase: {fileID: 0}
+  ingredientsDatabase: {fileID: 0}
+  spicesDatabase: {fileID: 0}
+  towersDatabase: {fileID: 0}
+  stationsDatabase: {fileID: 0}
 --- !u!1 &881754808
 GameObject:
   m_ObjectHideFlags: 0
@@ -2698,6 +2714,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4390798496961442167, guid: 69aed15374e1afd46b00593f8b245fc2, type: 3}
+      propertyPath: route
+      value: 
+      objectReference: {fileID: 253399137}
     - target: {fileID: 8762529520248076479, guid: 69aed15374e1afd46b00593f8b245fc2, type: 3}
       propertyPath: m_Name
       value: Enemy Basic
@@ -2763,6 +2783,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2158996753732963689, guid: b6569f9584eb11945a9418c321e53759, type: 3}
+      propertyPath: route
+      value: 
+      objectReference: {fileID: 253399137}
     - target: {fileID: 5550716682977253407, guid: b6569f9584eb11945a9418c321e53759, type: 3}
       propertyPath: m_Name
       value: Enemy Fast
@@ -2833,6 +2857,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2158996753732963689, guid: b6569f9584eb11945a9418c321e53759, type: 3}
+      propertyPath: route
+      value: 
+      objectReference: {fileID: 253399137}
     - target: {fileID: 5550716682977253407, guid: b6569f9584eb11945a9418c321e53759, type: 3}
       propertyPath: m_Name
       value: Enemy Fast (1)
@@ -2925,6 +2953,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 881754809}
     m_Modifications:
+    - target: {fileID: 1620926337557772964, guid: f5b4fb2570d0e604bbe3b8913c72d370, type: 3}
+      propertyPath: route
+      value: 
+      objectReference: {fileID: 253399137}
     - target: {fileID: 6367855998592886895, guid: f5b4fb2570d0e604bbe3b8913c72d370, type: 3}
       propertyPath: m_Name
       value: Enemy Invisible (1)
@@ -3026,6 +3058,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4390798496961442167, guid: 69aed15374e1afd46b00593f8b245fc2, type: 3}
+      propertyPath: route
+      value: 
+      objectReference: {fileID: 253399137}
     - target: {fileID: 8762529520248076479, guid: 69aed15374e1afd46b00593f8b245fc2, type: 3}
       propertyPath: m_Name
       value: Enemy Basic (2)
@@ -3723,6 +3759,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 4584256286448367505, guid: 9bdd1d412369d54429435ab3c185678a, type: 3}
+      propertyPath: route
+      value: 
+      objectReference: {fileID: 253399137}
     - target: {fileID: 8411753295792107572, guid: 9bdd1d412369d54429435ab3c185678a, type: 3}
       propertyPath: m_ExcludeLayers.m_Bits
       value: 0
