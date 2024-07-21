@@ -24,18 +24,40 @@ public class DeepFryerState : IStationState
 
     public int CanEnterStation(int ID, GameObject gameObject)
     {
-        bool canEnter = false;
-        for (int i = 0; i < acceptedIDs.Length; i++)
-        {
-            if (acceptedIDs[i] == ID)
-                canEnter = true;
-        }
-        if (containedItemID != -1 || !canEnter)
+        if (ID == -1 || gameObject == null)
             return 0;
-
-        containedItemID = ID;
-        containedItemGameObject = gameObject;
-        SetObjectInStation();
+        int returnInt = 0;
+        if (containedItemID == -1)
+        {
+            bool canEnter = false;
+            for (int i = 0; i < acceptedIDs.Length; i++)
+            {
+                if (acceptedIDs[i] == ID)
+                    canEnter = true;
+            }
+            if (!canEnter)
+                return 0;
+            containedItemID = ID;
+            containedItemGameObject = gameObject;
+            SetObjectInStation();
+            returnInt = 1;
+        }
+        else
+        {
+            //si ya tiene dentro una canastilla (o cualquier otro contenedor que acepte la freidora), entonces ve si el objeto puede meterse a la canastilla
+            switch (containedItemGameObject.GetComponent<BaseContainerScript>().CanEnterContainer(ID, gameObject))
+            {
+                case 0:
+                    return 0;
+                case 1:
+                    returnInt = 1;
+                    break;
+                case 2:
+                    returnInt = 2;
+                    break;
+            }
+        }
+        
         //como sabemos que el deep fryer state solo recibe contenedores, podemos permitirnos no hacer ninguna comprobación, y directamente acceder a su script
         if (containedItemGameObject.GetComponent<BaseContainerScript>().GetContainedItemGameObject() != null)
         {
@@ -58,7 +80,7 @@ public class DeepFryerState : IStationState
         {
             processState = -1;
         }
-        return 1;
+        return returnInt;
     }
 
     public void EmptyStation()
