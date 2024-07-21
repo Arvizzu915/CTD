@@ -24,8 +24,38 @@ public class CuttingTableState : IStationState
     {
         if (ID == -1 || gameObject == null)
             return 0;
-        //aca falta hacer comprobaciones para encontrar el ingrediente
-        ingredientScript = gameObject.GetComponent<BaseIngredientScript>();
+        //Ve si lo que va a entrar es un plato o un ingrediente
+        int ingredientID;
+        GameObject ingredientGameObject;
+        BaseIngredientScript ingredientScript;
+        int returnInt = 0;
+        if (ID >= 100 && ID < 200)
+        {
+            ingredientID = gameObject.GetComponent<BaseContainerScript>().GetContainedItemID();
+            ingredientGameObject = gameObject.GetComponent<BaseContainerScript>().GetContainedItemGameObject();
+            if(ingredientID >= 200 && ingredientID < 300)
+            {
+                //solo si el contenedor tiene un ingrediente, entonces lo toma en cuenta
+                ingredientScript = ingredientGameObject.GetComponent<BaseIngredientScript>();
+                returnInt = 2;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        else if (ID >= 200 && ID < 300)
+        {
+            ingredientID = ID;
+            ingredientGameObject = gameObject;
+            ingredientScript = gameObject.GetComponent<BaseIngredientScript>();
+            returnInt = 1;
+        }
+        else
+        {
+            return 0;
+        }
+        //si llega hasta aca es porque si encontro un ingrediente
         int[] ingredientContainersAndStationsIDs = ingredientScript.ShowContainersAndStationsIDs();
         bool canEnter = false;
         for (int i = 0; i < ingredientContainersAndStationsIDs.Length; i++)
@@ -38,10 +68,10 @@ public class CuttingTableState : IStationState
             return 0;
 
         //si puede, entonces iguala
-        containedItemID = ID;
-        containedItemGameObject = gameObject;
+        containedItemID = ingredientID;
+        containedItemGameObject = ingredientGameObject;
         SetObjectInStation();
-        return 1;
+        return returnInt;
     }
 
     public void EmptyStation()
