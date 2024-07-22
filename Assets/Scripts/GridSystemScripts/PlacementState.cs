@@ -99,11 +99,16 @@ public class PlacementState : IBuildingState
                     else if(towerObjectID == selectedTowerID)
                     {
                         //si ya hay una, y es la misma a la que tenemos, entonces ve si la puede mejorar
-                        if (towerObjectGameObject.GetComponent<BaseTurretScript>().CanUpgradeTurret())
+                        GameObject newTurretLevel = towerObjectGameObject.GetComponent<TurretsBasicBehavior>().CanUpgradeTurret();
+                        if (newTurretLevel != null)
                         {
                             //si pudo mejorarla, entonces vacia nuestro plato con la torre
                             selectedContainerScript.EmptyContainer(true);
+                            towersObjectsData.RemoveObjectAt(gridPosition);
+                            towersObjectsData.AddObjectAt(gridPosition, towerObjectID, newTurretLevel);
                         }
+
+
                     }
                 }
             }
@@ -162,6 +167,7 @@ public class PlacementState : IBuildingState
     public void OnAction2(Vector3Int gridPosition)
     {
         //Por ahora, si tiene un objeto, su accion secundaria no hace nada, pero pues aqui esta el hueco disponible por si se quiere hacer que lanze el objeto, o haga algo con el, como rotar o algo asi
+        Debug.Log(towersObjectsData.GetGameObjectAt(gridPosition));
     }
 
     //Esta funcion solia retornar bool, pero para reutilizar codigo, ahora retorna un int que significa:
