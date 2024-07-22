@@ -29,8 +29,8 @@ Transform:
   m_GameObject: {fileID: 3113256363315318248}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 2.16}
-  m_LocalScale: {x: 1.7430482, y: 1, z: 3.8643734}
+  m_LocalPosition: {x: -0.0053, y: 0, z: 2.6879}
+  m_LocalScale: {x: 0.5696019, y: 1, z: 4.9201202}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1264388998667705065}
@@ -230,6 +230,8 @@ MonoBehaviour:
   enemiesInRange: 0
   canShoot: 0
   canSeeInvisible: 0
+  canUpgrade: 1
+  turretUpgrade: {fileID: 4636576459425656035, guid: 2997a6ccaf040ae4db2175e53ecd6ffe, type: 3}
   enemies: []
 --- !u!135 &6085362640460514453
 SphereCollider:

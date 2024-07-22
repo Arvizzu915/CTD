@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7419565954046347958}
   - component: {fileID: 7150110101331100098}
   - component: {fileID: 5537030614448462167}
+  - component: {fileID: 1587077786856041932}
   m_Layer: 0
   m_Name: CadenceSupport2
   m_TagString: Untagged
@@ -151,6 +152,26 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &1587077786856041932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 115775798755300484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e653134dadfaddb40ace191aecc38bfd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyObjective: {fileID: 0}
+  cadence: 0
+  enemiesInRange: 0
+  canShoot: 0
+  canSeeInvisible: 0
+  canUpgrade: 1
+  turretUpgrade: {fileID: 7594641725415739891, guid: 4535b0f9448fa9f408838d43c165bb11, type: 3}
+  enemies: []
 --- !u!1 &6194955003733206636
 GameObject:
   m_ObjectHideFlags: 0
