@@ -10,7 +10,7 @@ public class CuttingTableState : IStationState
     private GameObject containedItemGameObject = null;
 
     private Transform stationTransform;
-    private float yOffset = 1f;
+    private float yOffset = 1.05f;
 
     private BaseIngredientScript ingredientScript = null;
 
@@ -27,7 +27,6 @@ public class CuttingTableState : IStationState
         //Ve si lo que va a entrar es un plato o un ingrediente
         int ingredientID;
         GameObject ingredientGameObject;
-        BaseIngredientScript ingredientScript;
         int returnInt = 0;
         if (ID >= 100 && ID < 200)
         {
@@ -92,7 +91,7 @@ public class CuttingTableState : IStationState
 
     public void OnAccess2()
     {
-        if(containedItemGameObject != null && ingredientScript != null)
+        if (containedItemGameObject != null && ingredientScript != null)
         {
             if (ingredientScript.ShowState1() != 1)
             {

@@ -15,22 +15,22 @@ MonoBehaviour:
   objectsData:
   - <Name>k__BackingField: Rice
     <ID>k__BackingField: 200
-    <Prefab>k__BackingField: {fileID: 7719610114591466590, guid: 83c3531cd8ae8ef4ab279d64e0831778, type: 3}
+    <Prefab>k__BackingField: {fileID: 3275202483024292458, guid: 4f761769aa49229468a668c391198482, type: 3}
   - <Name>k__BackingField: Fish
     <ID>k__BackingField: 201
-    <Prefab>k__BackingField: {fileID: 0}
+    <Prefab>k__BackingField: {fileID: 3275202483024292458, guid: 3892ea763737ce24ea659b4a6417650a, type: 3}
   - <Name>k__BackingField: Bread
     <ID>k__BackingField: 202
-    <Prefab>k__BackingField: {fileID: 0}
+    <Prefab>k__BackingField: {fileID: 3275202483024292458, guid: 57730095635ff584cbe69abb7282f607, type: 3}
   - <Name>k__BackingField: Tortilla
     <ID>k__BackingField: 203
-    <Prefab>k__BackingField: {fileID: 0}
+    <Prefab>k__BackingField: {fileID: 3275202483024292458, guid: c40d5bc61826cc44ba943f4af650706e, type: 3}
   - <Name>k__BackingField: Seaweed
     <ID>k__BackingField: 204
-    <Prefab>k__BackingField: {fileID: 2210663633836781453, guid: cedfed0def07b3b49bb3701780f5df5e, type: 3}
+    <Prefab>k__BackingField: {fileID: 3275202483024292458, guid: 83295fc00b43101428b2f8a1b44fbaf9, type: 3}
   - <Name>k__BackingField: Coffee
     <ID>k__BackingField: 205
-    <Prefab>k__BackingField: {fileID: 0}
+    <Prefab>k__BackingField: {fileID: 3275202483024292458, guid: 53cfceb183d85bd428ab456cd438e251, type: 3}
   - <Name>k__BackingField: Chicken
     <ID>k__BackingField: 206
-    <Prefab>k__BackingField: {fileID: 0}
+    <Prefab>k__BackingField: {fileID: 3275202483024292458, guid: 9254af39e1f629a45974c549ded7a891, type: 3}
