@@ -10,7 +10,7 @@ public class DeepFryerState : IStationState
     private GameObject containedItemGameObject = null;
 
     private Transform stationTransform;
-    private float yOffset = 0.5f;
+    private float yOffset = 0.65f;
 
     private BaseIngredientScript ingredientScript = null;
     private int processState = -1;
@@ -109,18 +109,20 @@ public class DeepFryerState : IStationState
     {
         if (containedItemGameObject != null)
         {
+            if (containedItemGameObject.GetComponent<BaseContainerScript>().GetContainedItemID() == -1)
+                processState = -1;
             if (processState > 0)
             {
                 ingredientScript.cookingTimes[2] -= Time.deltaTime;
                 if (processState == 2 && ingredientScript.cookingTimes[2] <= 0)
                 {
-                    ingredientScript.ChangeState3(2, true);
+                    ingredientScript.ChangeState3(2, false);
                     containedItemGameObject.GetComponent<BaseContainerScript>().UpdateModel();
                     processState = 1;
                 }
                 else if (processState == 1 && ingredientScript.cookingTimes[2] <= -5f)
                 {
-                    ingredientScript.ChangeState3(-1, true);
+                    ingredientScript.ChangeState3(-1, false);
                     containedItemGameObject.GetComponent<BaseContainerScript>().UpdateModel();
                     processState = 0;
                 }

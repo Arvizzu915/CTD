@@ -66,6 +66,11 @@ public class BaseIngredientScript : MonoBehaviour
     public float[] cookingTimes = new float[3] {0, 0, 0};
     // 0- stove, 1- cutting board, 2- Deep Fryer
 
+    private void Start()
+    {
+        ChangeAttributesIDs();
+    }
+
     public void ChangeState1(int newState, bool showModel)
     {
         ingredientState1 = newState;
@@ -206,30 +211,33 @@ public class BaseIngredientScript : MonoBehaviour
 
     private void UpdateModel()
     {
-        switch (ingredientState1)
+        if(ingredientState3 != -1)
         {
-            case 0:
-                switch (ingredientState2)
-                {
-                    case 0:
-                        lastModel = ingredientModels00[ingredientState3];
-                        break;
-                    case 1:
-                        lastModel = ingredientModels01[ingredientState3];
-                        break;
-                }
-                break;
-            case 1:
-                switch (ingredientState2)
-                {
-                    case 0:
-                        lastModel = ingredientModels10[ingredientState3];
-                        break;
-                    case 1:
-                        lastModel = ingredientModels11[ingredientState3];
-                        break;
-                }
-                break;
+            switch (ingredientState1)
+            {
+                case 0:
+                    switch (ingredientState2)
+                    {
+                        case 0:
+                            lastModel = ingredientModels00[ingredientState3];
+                            break;
+                        case 1:
+                            lastModel = ingredientModels01[ingredientState3];
+                            break;
+                    }
+                    break;
+                case 1:
+                    switch (ingredientState2)
+                    {
+                        case 0:
+                            lastModel = ingredientModels10[ingredientState3];
+                            break;
+                        case 1:
+                            lastModel = ingredientModels11[ingredientState3];
+                            break;
+                    }
+                    break;
+            }
         }
     }
 

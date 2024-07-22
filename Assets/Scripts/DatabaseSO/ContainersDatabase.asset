@@ -15,13 +15,13 @@ MonoBehaviour:
   objectsData:
   - <Name>k__BackingField: Flat Plate
     <ID>k__BackingField: 100
-    <Prefab>k__BackingField: {fileID: 1326499916210567707, guid: 9fb992d7505485e4a846f9495db4eb97, type: 3}
+    <Prefab>k__BackingField: {fileID: 8836739461881230793, guid: ed825622192eeb54183f181d26a087bc, type: 3}
   - <Name>k__BackingField: Cup
     <ID>k__BackingField: 101
-    <Prefab>k__BackingField: {fileID: 0}
+    <Prefab>k__BackingField: {fileID: 8836739461881230793, guid: 255956d4588b6544099944924ea26e5b, type: 3}
   - <Name>k__BackingField: Pot
     <ID>k__BackingField: 105
-    <Prefab>k__BackingField: {fileID: 1326499916210567707, guid: 110cf1bbfe68ee94982d9d04b0daad5f, type: 3}
+    <Prefab>k__BackingField: {fileID: 8836739461881230793, guid: b36ddd1e8e80b724da665f84a470738e, type: 3}
   - <Name>k__BackingField: Frying Basket
     <ID>k__BackingField: 106
-    <Prefab>k__BackingField: {fileID: 0}
+    <Prefab>k__BackingField: {fileID: 8836739461881230793, guid: 762c5bbfa053b844782f376956d9c558, type: 3}

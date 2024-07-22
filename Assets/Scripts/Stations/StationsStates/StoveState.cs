@@ -10,7 +10,7 @@ public class StoveState : IStationState
     private GameObject containedItemGameObject = null;
 
     private Transform stationTransform;
-    private float yOffset = 1f;
+    private float yOffset = 1.085f;
 
     private BaseIngredientScript ingredientScript = null;
     private int processState = -1;
@@ -112,18 +112,20 @@ public class StoveState : IStationState
     {
         if (containedItemGameObject != null)
         {
-            if(processState > 0)
+            if (containedItemGameObject.GetComponent<BaseContainerScript>().GetContainedItemID() == -1)
+                processState = -1;
+            if (processState > 0)
             {
                 ingredientScript.cookingTimes[0] -= Time.deltaTime;
                 if(processState == 2 && ingredientScript.cookingTimes[0] <= 0)
                 {
-                    ingredientScript.ChangeState3(1, true);
+                    ingredientScript.ChangeState3(1, false);
                     containedItemGameObject.GetComponent<BaseContainerScript>().UpdateModel();
                     processState = 1;
                 }
                 else if(processState == 1 && ingredientScript.cookingTimes[0] <= -5f)
                 {
-                    ingredientScript.ChangeState3(-1, true);
+                    ingredientScript.ChangeState3(-1, false);
                     containedItemGameObject.GetComponent<BaseContainerScript>().UpdateModel();
                     processState = 0;
                 }

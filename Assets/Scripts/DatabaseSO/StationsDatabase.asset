@@ -27,10 +27,10 @@ MonoBehaviour:
     <Prefab>k__BackingField: {fileID: 2008021581258425823, guid: 5036613e7d65a4749acb5ebd1581241f, type: 3}
   - <Name>k__BackingField: Stove
     <ID>k__BackingField: 504
-    <Prefab>k__BackingField: {fileID: 0}
+    <Prefab>k__BackingField: {fileID: 5942712394594464285, guid: bf0eadb88f742eb45add609a49ccd2ec, type: 3}
   - <Name>k__BackingField: Cutting Board
     <ID>k__BackingField: 505
-    <Prefab>k__BackingField: {fileID: 0}
+    <Prefab>k__BackingField: {fileID: 398505559395389370, guid: ba80ce3276d1539428a5f9c7f759e82f, type: 3}
   - <Name>k__BackingField: Deep Fryer
-    <ID>k__BackingField: 505
-    <Prefab>k__BackingField: {fileID: 0}
+    <ID>k__BackingField: 506
+    <Prefab>k__BackingField: {fileID: 398505559395389370, guid: e2487f0e11786304c9cd2259c9c7afe9, type: 3}

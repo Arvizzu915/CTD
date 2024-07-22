@@ -8,7 +8,7 @@ public class FlatPlateState : IContainerState
 
     private int containerID;
     private GameObject containerGameObject;
-    private float yOffset = 0.5f;
+    private float yOffset = 0.05f;
 
     private int containedItemID = -1;
     private GameObject containedItemGameObject = null;
@@ -182,6 +182,8 @@ public class FlatPlateState : IContainerState
             if (ingredientChangeState2ID == containedItemGameObject.GetComponent<BaseIngredientScript>().ShowChangeState2ID() && ingredientChangeState2ID != -1)
             {
                 //Aca checa cual es el que es el changer (como el pan) para ver a cual se le cambia el estado, si ninguno es el changer significa que ninguno cambia al otro, por lo que retorna false
+                if (ingredientScript.ShowIfIsState2Changer() && containedItemGameObject.GetComponent<BaseIngredientScript>().ShowIfIsState2Changer())
+                    return 0;
                 if (ingredientScript.ShowIfIsState2Changer())
                 {
                     //Si es el ingrediente entrante el changer, entonces solo le cambia el estado 2 al ingrediente del plato y elimina al ingrediente entrante
