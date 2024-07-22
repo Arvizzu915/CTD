@@ -15,19 +15,19 @@ MonoBehaviour:
   objectsData:
   - <Name>k__BackingField: Sushi
     <ID>k__BackingField: 400
-    <Prefab>k__BackingField: {fileID: 0}
+    <Prefab>k__BackingField: {fileID: 5922219919769989298, guid: 19e6d21d87b649746acb89e7f1c6b01c, type: 3}
   - <Name>k__BackingField: Breaded Fish
     <ID>k__BackingField: 401
-    <Prefab>k__BackingField: {fileID: 0}
+    <Prefab>k__BackingField: {fileID: 4172394206532653334, guid: ae6074887908eb64d81c7ea2f4011148, type: 3}
   - <Name>k__BackingField: Tortilla Chips
     <ID>k__BackingField: 402
-    <Prefab>k__BackingField: {fileID: 0}
+    <Prefab>k__BackingField: {fileID: 4032542265816614718, guid: caa6b6d2e132d2247afb62d56fe96733, type: 3}
   - <Name>k__BackingField: Onigiri
     <ID>k__BackingField: 403
-    <Prefab>k__BackingField: {fileID: 0}
+    <Prefab>k__BackingField: {fileID: 1778430224007780275, guid: 57f1f1ffa1780224f8b21403df44a8e2, type: 3}
   - <Name>k__BackingField: Coffee Drink
     <ID>k__BackingField: 404
-    <Prefab>k__BackingField: {fileID: 0}
+    <Prefab>k__BackingField: {fileID: 7655746876141254664, guid: 556c9cc5b8d80554fb1bd060baa1bd6d, type: 3}
   - <Name>k__BackingField: Chicken Popcorn
     <ID>k__BackingField: 405
-    <Prefab>k__BackingField: {fileID: 0}
+    <Prefab>k__BackingField: {fileID: 1338338236287823168, guid: 0d4e16e5161f02540b2ec594987bdb34, type: 3}

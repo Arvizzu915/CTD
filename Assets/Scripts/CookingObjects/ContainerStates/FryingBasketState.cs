@@ -47,6 +47,8 @@ public class FryingBasketState : IContainerState
 
     public int CanEnterContainer(int ID, GameObject gameObject)
     {
+        if (ID == -1 || gameObject == null)
+            return 0;
         //Si el recipiente no esta vacio, nel
         if (containedItemID != -1 || containedItemGameObject != null)
             return 0;

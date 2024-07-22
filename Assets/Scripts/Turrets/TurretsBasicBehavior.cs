@@ -10,6 +10,9 @@ public class TurretsBasicBehavior : MonoBehaviour
     public float cadence;
     public int enemiesInRange = 0;
     public bool canShoot = false, canSeeInvisible;
+    private bool upgraded = false;
+    [SerializeField] private bool canUpgrade;
+    [SerializeField] private GameObject turretUpgrade;
 
     public List<GameObject> enemies = new List<GameObject>();
 
@@ -40,6 +43,11 @@ public class TurretsBasicBehavior : MonoBehaviour
             enemyObjective = null;
             canShoot = false;
         }
+
+        if (upgraded) 
+        {
+            Destroy(gameObject);
+        }
     }
 
     void FindNewEnemy()
@@ -63,6 +71,17 @@ public class TurretsBasicBehavior : MonoBehaviour
         {
             enemyObjective = enemies[0];
         }
+    }
+
+    public GameObject CanUpgradeTurret()
+    {
+        if (canUpgrade)
+        {
+            Instantiate(turretUpgrade, transform.position, Quaternion.identity);
+            upgraded = true;
+            return turretUpgrade;
+        }
+        return null;
     }
 
     private void OnTriggerEnter(Collider other)
