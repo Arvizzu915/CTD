@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using UnityEngine;
 
 public class EnemyBasic : MonoBehaviour
 {
     [SerializeField] float health, armour, speed, damageToDefense;
+    [SerializeField] GameObject route;
     private Rigidbody rb;
     public int currentPoint = 0;
     public float distanceToNextPoint = 0, canAttackDefenseTimer;
@@ -13,7 +15,6 @@ public class EnemyBasic : MonoBehaviour
     private bool attacking = false, inPoint = false, canAttackDefense = true, canWalk = true;
     public bool isInvisible;
 
-    GameObject route;
     Route routeScript;
     private KitchenLife kitchenLife;
 
@@ -21,8 +22,7 @@ public class EnemyBasic : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        route = GameObject.FindGameObjectWithTag("Route");
-        routeScript = route.GetComponent<Route>();
+        routeScript = route.gameObject.GetComponent<Route>();
         canAttackDefenseTimerReference = Time.time - canAttackDefenseTimer;
     }
 

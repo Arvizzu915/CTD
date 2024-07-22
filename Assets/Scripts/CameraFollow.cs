@@ -20,11 +20,11 @@ public class CameraFollow : MonoBehaviour
 
         if (playerScript.inKitchen) 
         {
-            transform.position = new Vector3(0, 11.35f, -7.69f);
+            transform.position = new Vector3(0, 10.43f, -5.62f);
         }
         else
         {
-            transform.position = player.transform.position + new Vector3(0, 10.35f, -8);
+            transform.position = player.transform.position + new Vector3(0, 10.43f, -5.62f);
         }
     }
 }
