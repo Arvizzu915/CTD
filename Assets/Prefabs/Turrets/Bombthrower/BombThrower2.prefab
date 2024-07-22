@@ -106,6 +106,8 @@ MonoBehaviour:
   enemiesInRange: 0
   canShoot: 0
   canSeeInvisible: 0
+  canUpgrade: 1
+  turretUpgrade: {fileID: 2881551617157839155, guid: c9b89067b6c7f8c408db3cb22aca5d70, type: 3}
   enemies: []
 --- !u!135 &657574526248703518
 SphereCollider:

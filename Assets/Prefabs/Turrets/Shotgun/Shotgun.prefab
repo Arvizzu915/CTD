@@ -175,6 +175,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cadence: 3
   damage: 4
+  canStun: 0
   enemies: []
 --- !u!1 &1338338236287823168
 GameObject:
@@ -282,6 +283,8 @@ MonoBehaviour:
   enemiesInRange: 0
   canShoot: 0
   canSeeInvisible: 0
+  canUpgrade: 1
+  turretUpgrade: {fileID: 6294050124156977974, guid: 7439c3a37eb1913488d2184303ad99e2, type: 3}
   enemies: []
 --- !u!135 &6418266071987597105
 SphereCollider:
