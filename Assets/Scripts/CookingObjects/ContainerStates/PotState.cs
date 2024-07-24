@@ -63,7 +63,7 @@ public class PotState : IContainerState
         {
             ingredientID = gameObject.GetComponent<BaseContainerScript>().GetContainedItemID();
             ingredientGameObject = gameObject.GetComponent<BaseContainerScript>().GetContainedItemGameObject();
-            if(ingredientID >= 200 && ingredientID < 300)
+            if (ingredientID >= 200 && ingredientID < 300)
             {
                 //Solo si el plato tiene un ingrediente, lo toma en cuenta
                 ingredientScript = ingredientGameObject.GetComponent<BaseIngredientScript>();
@@ -121,15 +121,14 @@ public class PotState : IContainerState
 
     public void UpdateModel()
     {
-        if ((containedItemID == -1 || containerGameObject == null) && lastModel != null)
-        {
+        if (lastModel != null)
             lastModel.SetActive(false);
+        if (containedItemID == -1 || containerGameObject == null)
+        {
             lastModel = null;
         }
         else
         {
-            if(lastModel != null)
-                lastModel.SetActive(false);
             BaseIngredientScript containedItemIngredientScript = containedItemGameObject.GetComponent<BaseIngredientScript>();
             int ingredientState1 = containedItemIngredientScript.ShowState1();
             int ingredientState2 = containedItemIngredientScript.ShowState2();

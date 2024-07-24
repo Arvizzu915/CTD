@@ -22,7 +22,7 @@ public class CuttingTableState : IStationState
 
     public int CanEnterStation(int ID, GameObject gameObject)
     {
-        if (ID == -1 || gameObject == null)
+        if (ID == -1 || gameObject == null || containedItemID != -1)
             return 0;
         //Ve si lo que va a entrar es un plato o un ingrediente
         int ingredientID;
@@ -70,6 +70,8 @@ public class CuttingTableState : IStationState
         containedItemID = ingredientID;
         containedItemGameObject = ingredientGameObject;
         SetObjectInStation();
+        if (returnInt == 2)
+            gameObject.GetComponent<BaseContainerScript>().EmptyContainer(false);
         return returnInt;
     }
 

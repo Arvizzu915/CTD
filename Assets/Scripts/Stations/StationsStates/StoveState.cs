@@ -123,7 +123,7 @@ public class StoveState : IStationState
                     containedItemGameObject.GetComponent<BaseContainerScript>().UpdateModel();
                     processState = 1;
                 }
-                else if(processState == 1 && ingredientScript.cookingTimes[0] <= -5f)
+                else if(processState == 1 && ingredientScript.cookingTimes[0] <= -10f)
                 {
                     ingredientScript.ChangeState3(-1, false);
                     containedItemGameObject.GetComponent<BaseContainerScript>().UpdateModel();
