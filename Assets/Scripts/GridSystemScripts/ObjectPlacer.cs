@@ -16,23 +16,23 @@ public class ObjectPlacer : MonoBehaviour
         {
             objectsDatabase = specialItemsDatabase;
         }
-        else if (ID < 200)
+        else if (ID >= 100 && ID < 200)
         {
             objectsDatabase = containersDatabase;
         }
-        else if (ID < 300)
+        else if (ID >= 200 && ID < 300)
         {
             objectsDatabase = ingredientsDatabase;
         }
-        else if (ID < 400)
+        else if (ID >= 300 && ID < 400)
         {
             objectsDatabase = spicesDatabase;
         }
-        else if (ID < 500)
+        else if (ID >= 400 && ID < 500)
         {
             objectsDatabase = towersDatabase;
         }
-        else if (ID < 600)
+        else if (ID >= 500 && ID < 600)
         {
             objectsDatabase = stationsDatabase;
         }

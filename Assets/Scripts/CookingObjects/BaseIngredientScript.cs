@@ -66,7 +66,7 @@ public class BaseIngredientScript : MonoBehaviour
     public float[] cookingTimes = new float[3] {0, 0, 0};
     // 0- stove, 1- cutting board, 2- Deep Fryer
 
-    private void Start()
+    private void Awake()
     {
         ChangeAttributesIDs();
     }

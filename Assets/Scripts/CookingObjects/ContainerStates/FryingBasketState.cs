@@ -139,15 +139,14 @@ public class FryingBasketState : IContainerState
 
     public void UpdateModel()
     {
-        if ((containedItemID == -1 || containerGameObject == null) && lastModel != null)
-        {
+        if (lastModel != null)
             lastModel.SetActive(false);
+        if (containedItemID == -1 || containerGameObject == null)
+        {
             lastModel = null;
         }
         else
         {
-            if (lastModel != null)
-                lastModel.SetActive(false);
             BaseIngredientScript containedItemIngredientScript = containedItemGameObject.GetComponent<BaseIngredientScript>();
             int ingredientState1 = containedItemIngredientScript.ShowState1();
             int ingredientState2 = containedItemIngredientScript.ShowState2();

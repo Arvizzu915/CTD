@@ -160,6 +160,28 @@ public class PlacementState : IBuildingState
                 case 2:
                     //significa que su contenido si pudo entrar
                     break;
+                case 3:
+                    //significa que es un dispensador, y ve si puede entrar el nuevo objeto
+                    if (selectedID >= 100 && selectedID < 200)
+                    {
+                        //Solo si es contenedor, ve si lo que esta en la estacion podria entrar
+                        int toEnterID = mapObjectStationScript.GetContainedItemID();
+                        GameObject toEnterGameObject = objectPlacer.CreateNewObject(toEnterID);
+
+                        switch (selectedGameObject.GetComponent<BaseContainerScript>().CanEnterContainer(toEnterID, toEnterGameObject))
+                        {
+                            case 0:
+                                Object.Destroy(toEnterGameObject);
+                                break;
+                            case 1:
+                                mapObjectStationScript.EmptyStation();
+                                break;
+                            case 2:
+                                //Nada, el propio script ya vacio al otro contenedor
+                                break;
+                        }
+                    }
+                    break;
             }
         }
     }

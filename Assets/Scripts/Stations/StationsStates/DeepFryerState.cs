@@ -120,7 +120,7 @@ public class DeepFryerState : IStationState
                     containedItemGameObject.GetComponent<BaseContainerScript>().UpdateModel();
                     processState = 1;
                 }
-                else if (processState == 1 && ingredientScript.cookingTimes[2] <= -5f)
+                else if (processState == 1 && ingredientScript.cookingTimes[2] <= -10f)
                 {
                     ingredientScript.ChangeState3(-1, false);
                     containedItemGameObject.GetComponent<BaseContainerScript>().UpdateModel();
