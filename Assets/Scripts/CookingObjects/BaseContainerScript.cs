@@ -15,6 +15,8 @@ public class BaseContainerScript : MonoBehaviour
 
     //Contenedores Especificos (olla, canastilla)
     [SerializeField]
+    private BasicSliderScript cookingSlider;
+    [SerializeField]
     private GameObject burnedModel;
     [SerializeField]
     private GameObject[] ingredientModels000, ingredientModels001, ingredientModels002;
@@ -39,11 +41,12 @@ public class BaseContainerScript : MonoBehaviour
                 containerState = new CupState(containerID, this.gameObject, turretModels);
                 break;
             case 105:
-                containerState = new PotState(containerID, this.gameObject, burnedModel, ingredientModels000, ingredientModels001, ingredientsIDs);
+                containerState = new PotState(containerID, this.gameObject, cookingSlider, burnedModel, ingredientModels000, ingredientModels001, ingredientsIDs);
                 break;
             case 106:
                 containerState = new FryingBasketState(containerID,
                                                        this.gameObject,
+                                                       cookingSlider,
                                                        burnedModel,
                                                        ingredientModels000,
                                                        ingredientModels002,
@@ -81,5 +84,11 @@ public class BaseContainerScript : MonoBehaviour
     public void UpdateModel()
     {
         containerState.UpdateModel();
+    }
+
+    public void UpdateCookingSlider()
+    {
+        //por ahora esto esta aqui de manera random, no me gusta, pero no hace nada malo asi que por ahora aqui se queda
+        cookingSlider.ChangeValue(Time.deltaTime);
     }
 }

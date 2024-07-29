@@ -9,6 +9,7 @@ public class PotState : IContainerState
 
     private int containerID;
     private GameObject containerGameObject;
+    BasicSliderScript cookingSlider;
     private float yOffset = 0f;
 
     private int[] ingredientsIDs;
@@ -17,10 +18,11 @@ public class PotState : IContainerState
     private int containedItemID = -1;
     private GameObject containedItemGameObject = null;
 
-    public PotState(int containerID, GameObject containerGameObject, GameObject burnedModel, GameObject[] ingredientModels000, GameObject[] ingredientModels001, int[] ingredientsIDs)
+    public PotState(int containerID, GameObject containerGameObject, BasicSliderScript cookingSlider, GameObject burnedModel, GameObject[] ingredientModels000, GameObject[] ingredientModels001, int[] ingredientsIDs)
     {
         this.containerID = containerID;
         this.containerGameObject = containerGameObject;
+        this.cookingSlider = cookingSlider;
         this.burnedModel = burnedModel;
         this.ingredientModels000 = ingredientModels000;
         this.ingredientModels001 = ingredientModels001;
@@ -45,6 +47,7 @@ public class PotState : IContainerState
         containedItemID = -1;
         containedItemGameObject = null;
         UpdateModel();
+        cookingSlider.HideSlider();
     }
 
     public int CanEnterContainer(int ID, GameObject gameObject)
@@ -117,6 +120,7 @@ public class PotState : IContainerState
         Vector3 newPosition = new Vector3(containerGameObject.transform.position.x, containerGameObject.transform.position.y + yOffset, containerGameObject.transform.position.z);
         containedItemGameObject.transform.position = newPosition;
         containedItemGameObject.transform.parent = containerGameObject.transform;
+        
     }
 
     public void UpdateModel()
@@ -126,9 +130,11 @@ public class PotState : IContainerState
         if (containedItemID == -1 || containerGameObject == null)
         {
             lastModel = null;
+            cookingSlider.HideSlider();
         }
         else
         {
+            cookingSlider.ShowSlider();
             BaseIngredientScript containedItemIngredientScript = containedItemGameObject.GetComponent<BaseIngredientScript>();
             int ingredientState1 = containedItemIngredientScript.ShowState1();
             int ingredientState2 = containedItemIngredientScript.ShowState2();
@@ -145,14 +151,26 @@ public class PotState : IContainerState
                                 case -1:
                                     burnedModel.SetActive(true);
                                     lastModel = burnedModel;
+                                    //pal slider
+                                    cookingSlider.SetValues(1f, 0f, 1f);
+                                    cookingSlider.ChangeFillColor(1);
+                                    cookingSlider.ChangeStateColor(0);
                                     break;
                                 case 0:
                                     ingredientModels000[containedItemIndex].SetActive(true);
                                     lastModel = ingredientModels000[containedItemIndex];
+                                    //pal slider
+                                    cookingSlider.SetValues(containedItemIngredientScript.maxCookingTimes[0] - containedItemIngredientScript.cookingTimes[0], 0f, containedItemIngredientScript.maxCookingTimes[0]);
+                                    cookingSlider.ChangeFillColor(2);
+                                    cookingSlider.ChangeStateColor(-1);
                                     break;
                                 case 1:
                                     ingredientModels001[containedItemIndex].SetActive(true);
                                     lastModel = ingredientModels001[containedItemIndex];
+                                    //pal slider
+                                    cookingSlider.SetValues(-10f - containedItemIngredientScript.cookingTimes[0], -10f, 0f);
+                                    cookingSlider.ChangeFillColor(1);
+                                    cookingSlider.ChangeStateColor(1);
                                     break;
                             }
                             break;

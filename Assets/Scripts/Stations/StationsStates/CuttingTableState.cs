@@ -10,14 +10,16 @@ public class CuttingTableState : IStationState
     private GameObject containedItemGameObject = null;
 
     private Transform stationTransform;
+    BasicSliderScript cuttingSlider;
     private float yOffset = 1.05f;
 
     private BaseIngredientScript ingredientScript = null;
 
-    public CuttingTableState(int stationID, Transform stationTransform)
+    public CuttingTableState(int stationID, Transform stationTransform, BasicSliderScript cuttingSlider)
     {
         this.stationID = stationID;
         this.stationTransform = stationTransform;
+        this.cuttingSlider = cuttingSlider;
     }
 
     public int CanEnterStation(int ID, GameObject gameObject)
@@ -70,6 +72,7 @@ public class CuttingTableState : IStationState
         containedItemID = ingredientID;
         containedItemGameObject = ingredientGameObject;
         SetObjectInStation();
+        SetCuttingSlider();
         if (returnInt == 2)
             gameObject.GetComponent<BaseContainerScript>().EmptyContainer(false);
         return returnInt;
@@ -79,6 +82,7 @@ public class CuttingTableState : IStationState
     {
         containedItemID = -1;
         containedItemGameObject = null;
+        SetCuttingSlider();
     }
 
     public GameObject GetContainedItemGameObject()
@@ -98,6 +102,7 @@ public class CuttingTableState : IStationState
             if (ingredientScript.ShowState1() != 1)
             {
                 ingredientScript.cookingTimes[1] -= 1;
+                cuttingSlider.ChangeValue(1);
                 if (ingredientScript.cookingTimes[1] <= 0) 
                 {
                     ingredientScript.ChangeState1(1, true);
@@ -109,6 +114,21 @@ public class CuttingTableState : IStationState
     public void UpdateState()
     {
         //Nada
+    }
+
+    private void SetCuttingSlider()
+    {
+        if(containedItemID == -1 || containedItemGameObject == null)
+        {
+            cuttingSlider.HideSlider();
+        }
+        else
+        {
+            cuttingSlider.ShowSlider();
+            float cookingTime = containedItemGameObject.GetComponent<BaseIngredientScript>().cookingTimes[1];
+            float maxCookingTime = containedItemGameObject.GetComponent<BaseIngredientScript>().maxCookingTimes[1];
+            cuttingSlider.SetValues(maxCookingTime - cookingTime, 0f, maxCookingTime);
+        }
     }
 
     private void SetObjectInStation()

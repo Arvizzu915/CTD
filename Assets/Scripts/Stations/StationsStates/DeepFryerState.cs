@@ -114,6 +114,7 @@ public class DeepFryerState : IStationState
             if (processState > 0)
             {
                 ingredientScript.cookingTimes[2] -= Time.deltaTime;
+                containedItemGameObject.GetComponent<BaseContainerScript>().UpdateCookingSlider();
                 if (processState == 2 && ingredientScript.cookingTimes[2] <= 0)
                 {
                     ingredientScript.ChangeState3(2, false);

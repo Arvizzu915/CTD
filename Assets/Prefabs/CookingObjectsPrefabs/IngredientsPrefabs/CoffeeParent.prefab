@@ -288,3 +288,7 @@ MonoBehaviour:
   - 40
   - 0
   - 0
+  maxCookingTimes:
+  - 40
+  - 0
+  - 0

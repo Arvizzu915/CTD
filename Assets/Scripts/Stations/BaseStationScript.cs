@@ -6,6 +6,8 @@ public class BaseStationScript : MonoBehaviour
 {
     [SerializeField]
     public int stationID = 501;//por ahora la hize publica, pero podria ser privada y solo tener una funcion extra que devuelva su valor
+    [SerializeField]
+    private BasicSliderScript slider;
 
     [SerializeField]
     private int[] acceptedIDs;
@@ -27,13 +29,13 @@ public class BaseStationScript : MonoBehaviour
                 stationState = new TrashcanState();
                 break;
             case 503:
-                stationState = new DispenserState(itemID);
+                stationState = new DispenserState(itemID, slider);
                 break;
             case 504:
                 stationState = new StoveState(this.transform, acceptedIDs);
                 break;
             case 505:
-                stationState = new CuttingTableState(stationID, this.transform);
+                stationState = new CuttingTableState(stationID, this.transform, slider);
                 break;
             case 506:
                 stationState = new DeepFryerState(this.transform, acceptedIDs);

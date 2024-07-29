@@ -110,13 +110,14 @@ public class StoveState : IStationState
 
     public void UpdateState()
     {
-        if (containedItemGameObject != null)
+        if (containedItemGameObject != null && processState > 0)
         {
             if (containedItemGameObject.GetComponent<BaseContainerScript>().GetContainedItemID() == -1)
                 processState = -1;
             if (processState > 0)
             {
                 ingredientScript.cookingTimes[0] -= Time.deltaTime;
+                containedItemGameObject.GetComponent<BaseContainerScript>().UpdateCookingSlider();
                 if(processState == 2 && ingredientScript.cookingTimes[0] <= 0)
                 {
                     ingredientScript.ChangeState3(1, false);
