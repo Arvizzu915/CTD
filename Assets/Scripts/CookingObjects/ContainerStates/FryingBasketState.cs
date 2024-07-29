@@ -9,6 +9,7 @@ public class FryingBasketState : IContainerState
 
     private int containerID;
     private GameObject containerGameObject;
+    BasicSliderScript cookingSlider;
     private float yOffset = 0f;
 
     private int[] ingredientsIDs;
@@ -19,6 +20,7 @@ public class FryingBasketState : IContainerState
 
     public FryingBasketState(int containerID,
                              GameObject containerGameObject,
+                             BasicSliderScript cookingSlider,
                              GameObject burnedModel,
                              GameObject[] ingredientModels000,
                              GameObject[] ingredientModels002,
@@ -32,6 +34,7 @@ public class FryingBasketState : IContainerState
     {
         this.containerID = containerID;
         this.containerGameObject = containerGameObject;
+        this.cookingSlider = cookingSlider;
         this.burnedModel = burnedModel;
         this.ingredientModels000 = ingredientModels000;
         this.ingredientModels002 = ingredientModels002;
@@ -144,9 +147,11 @@ public class FryingBasketState : IContainerState
         if (containedItemID == -1 || containerGameObject == null)
         {
             lastModel = null;
+            cookingSlider.HideSlider();
         }
         else
         {
+            cookingSlider.ShowSlider();
             BaseIngredientScript containedItemIngredientScript = containedItemGameObject.GetComponent<BaseIngredientScript>();
             int ingredientState1 = containedItemIngredientScript.ShowState1();
             int ingredientState2 = containedItemIngredientScript.ShowState2();
@@ -156,6 +161,10 @@ public class FryingBasketState : IContainerState
             {
                 burnedModel.SetActive(true);
                 lastModel = burnedModel;
+                //pal slider
+                cookingSlider.SetValues(1f, 0f, 1f);
+                cookingSlider.ChangeFillColor(1);
+                cookingSlider.ChangeStateColor(0);
             }
             else
             {
@@ -222,6 +231,20 @@ public class FryingBasketState : IContainerState
                                 }
                                 break;
                         }
+                        break;
+                }
+                //otro switch extra para el slider
+                switch (ingredientState3)
+                {
+                    case 0:
+                        cookingSlider.SetValues(containedItemIngredientScript.maxCookingTimes[2] - containedItemIngredientScript.cookingTimes[2], 0f, containedItemIngredientScript.maxCookingTimes[2]);
+                        cookingSlider.ChangeFillColor(2);
+                        cookingSlider.ChangeStateColor(-1);
+                        break;
+                    case 2:
+                        cookingSlider.SetValues(-10f - containedItemIngredientScript.cookingTimes[2], -10f, 0f);
+                        cookingSlider.ChangeFillColor(1);
+                        cookingSlider.ChangeStateColor(1);
                         break;
                 }
             }

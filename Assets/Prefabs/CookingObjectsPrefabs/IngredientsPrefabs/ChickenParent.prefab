@@ -843,6 +843,10 @@ MonoBehaviour:
   - 0
   - 30
   - 25
+  maxCookingTimes:
+  - 0
+  - 30
+  - 25
 --- !u!1 &3653877047941995281
 GameObject:
   m_ObjectHideFlags: 0

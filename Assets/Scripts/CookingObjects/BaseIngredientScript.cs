@@ -64,6 +64,7 @@ public class BaseIngredientScript : MonoBehaviour
 
     [SerializeField]
     public float[] cookingTimes = new float[3] {0, 0, 0};
+    public float[] maxCookingTimes = new float[3] { 0, 0, 0 };
     // 0- stove, 1- cutting board, 2- Deep Fryer
 
     private void Awake()
